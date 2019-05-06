@@ -119,7 +119,7 @@ install(){
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
         PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep $PACK | cut -d' ' -f2 2>/dev/null)
         CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
-        CNAME=$(echo $NAME | sed "s/.pxz//" 2>/dev/null)
+        CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
         DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 2>/dev/null)
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
@@ -206,7 +206,7 @@ uninstall(){
     SEARCH=$(ls $DB_FOLDER | grep $PACK)
     if [ ! -z "$SEARCH" ]; then
 		NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2)
-        CNAME=$(echo $NAME | sed "s/.pxz//")
+        CNAME=$(echo $NAME | sed "s/.fxz//")
         DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 )
         echo "$SEARCH found"
         read -p "Is this ok? (y/n)" CHECK
@@ -241,7 +241,7 @@ supgrade(){
         mkdir /tmp/scripts  
         cd /tmp/scripts
         curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
-	curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-pxz"
+	curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         if [ $? -eq 0 ]; then
 		echo "making executable..."
 		chmod -R 1777 ./*
