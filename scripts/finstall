@@ -149,7 +149,7 @@ install(){
 							if [ -f "$DB_FOLDER/$EACH" ]; then
 								echo "Package already installed"
 							else
-                                pinstall install "$EACH" "yes"
+                                finstall install "$EACH" "yes"
                             fi
                         fi
                     done
@@ -241,6 +241,7 @@ supgrade(){
         mkdir /tmp/scripts  
         cd /tmp/scripts
         curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
+	curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-pxz"
         if [ $? -eq 0 ]; then
 		echo "making executable..."
 		chmod -R 1777 ./*
@@ -248,7 +249,7 @@ supgrade(){
 		cp -rf /tmp/scripts/* /root/my-applications/bin/
 		rm -rf /tmp/scripts
 		echo "Done"
-		exec rm -rf /tmp/pinstall-tmp
+		exec rm -rf /tmp/finstall-tmp
         fi
     else
         echo "No internet connection, 100% package loss or server offline"
@@ -281,9 +282,9 @@ case "$1" in
         uninstall "$2"
     ;;
     scripts-upgrade)
-        cp -rf /usr/sbin/pinstall /tmp/pinstall-tmp
-        chmod 1777 /tmp/pinstall-tmp
-        exec /tmp/pinstall-tmp supgrade-tmp
+        cp -rf /root/myapplications/finstall /tmp/finstall-tmp
+        chmod 1777 /tmp/finstall-tmp
+        exec /tmp/finstall-tmp supgrade-tmp
     ;;
     supgrade-tmp)
         supgrade
@@ -300,16 +301,16 @@ case "$1" in
     *)
     echo "This small script was created to handle software compiled and tested for frankenpup64
 
-Usage: pinstall {install|reinstall|uninstall|search|db-update|list|version}
+Usage: finstall {install|reinstall|uninstall|search|db-update|list|version}
 
 install:          Install a package.
-                    ex: pinstall install gimp
+                    ex: finstall install gimp
 reinstall:        Reinstalls a package.
 uninstall:        Uninstalls a package.
 search:           Search a package.
-                    ex: pinstall search gimp
+                    ex: finstall search gimp
 db-update:        Updates the package database.
-scripts-upgrade:  Updates pinstall script.
+scripts-upgrade:  Updates finstall script.
 list:             List all packages in database.
 version:          Prints script version
 "
