@@ -1,0 +1,316 @@
+#!/bin/sh
+
+## THIS NEEDS CLEANUP
+
+##########################################################################################
+# By Diego Cardenas "The Samedog" under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+# (www.gnu.org/licenses/old-licenses/gpl-2.0.html) e-mail: the.samedog[]gmail.com.
+# https://github.com/samedog/kundalinux
+##########################################################################################
+#
+# ALL OF MY CODE COMMENTS ARE NOT SAFE FOR WORK
+# THIS SCRIPT IS A SET OF HORRIBLE HACKS SO IT MAY WORK, MAY OPEN A VORTEX AND SEND YOU TO A
+# COMPLETELY DIFFERENT UNIVERSE, OR MAY NOT DO SHIT.
+#
+##########################################################################################
+
+#Changelog:
+# 24-06-2015: Changed scripts from git repo (bitbucket) to dropbox, i don't feel like packing
+#             git on the main sfs for a fucking couple of less than 50kb scripts because bitbucket raw
+#             view changes the url of the file on each commit.
+# 26-06-2015: Added package descriptions.
+# 26-06-2015: Changed from dropbox to github, since it has better way to handle files without
+#             conpromising the raw file url.
+# 30-06-2015: Added prompts on install and uninstall to avoid PEBKAC.
+# 03-07-2015: Added package database URL variable, fixed the place of the "y/n" prompt for package 
+#             uninstall.
+#             Removed *some* irony from code comments so they don't hurt feelings anymore ;^)
+# 13-07-2015: Renamed to fpackages.
+#             Version number changed to 0.2
+# 20-07-2015: - Added basic dep resolving
+#             - "install" option will not try to install a package if it's already installed, that's "reinstall"'s job. 
+#             - Version number changed to 0.3 (dep resolving)
+# 11-02-2016: - Renamed to kinstall
+#             - Version bumped to 0.3.1 (for me to track some minor shit)
+# 16-10-2017: - switched to curl
+#             - fixed some bad conditions
+#             - version 0.4
+# 05-05-2019: - Repurposed for frankenpup64, since frankenpup script was older.
+#             - Some code cleanup and variable fixing for better package handling.
+############################# actual code begins here, lol ######################################
+
+
+## some variables and shit
+   
+URL="www.dropbox.com"                                                                           #yup, this is my "hosting"
+URL2="www.google.com"																			# most reliable pin
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"   #package database url
+DB_FOLDER="/root/.fpackages"                                                                      #installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"                                                           #where the "database goes"
+VERSION="0.4"
+
+### function to ping google.com to check if we are (or not) connected to the internet
+
+ping_server(){
+    ping -c 1 $URL2 2> /dev/null
+    if [ $? -eq 0 ]; then
+        PING=$(ping -c 1 $URL | grep received | cut -d' ' -f7 2> /dev/null)
+        LOSS=${PING//%}
+        echo $LOSS
+    else
+        return 2
+    fi
+}
+
+
+### function to search a package
+search_package(){
+    SEARCH="$1"
+    if [ ! -f "DB_LOCATION" ]; then
+        db_download
+    fi
+    RESULT=$(cat $DB_LOCATION | grep $SEARCH)
+    if [ ! -z "$RESULT" ]; then
+        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1,3 | grep $SEARCH | cut -d'/' -f2 )
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $SEARCH | cut -d' ' -f1 | cut -d'/' -f2)
+        DEPS=$(cat "$DB_LOCATION" | grep $NAME | cut -d'>' -f4)
+        echo "Found:"
+        echo "$RESULT"
+        if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
+            echo "======================================"
+            echo "Depends on:"
+            echo "$DEPS"
+            echo "======================================"
+        fi
+        return 1
+    else
+        return 0
+    fi
+}
+
+### function to download and update the package list "database" ######################################
+db_download(){
+    CON=$(ping_server)
+    if [ $? -ne 2 ]; then   ## check if we are connected to the internet
+        if [ ! -d $DB_FOLDER ]; then            ## this "if" condition may be in a "just werks" state, haven't tested it too much.
+            mkdir $DB_FOLDER
+        fi
+        curl -L -o "$DB_LOCATION" "$DB_URL"
+            if [ $? -eq 0 ]; then
+                echo 'Package "database" upgraded successfully'
+            else
+                echo 'Something went wrong, error code: 1'
+            fi
+    else
+        echo "no internet connection or 100% package loss"
+        exit
+    fi
+}
+
+### function to install a package  ##################################################################
+install(){
+    PACK="$1"
+    NOASK="$2"
+    search_package "$PACK"
+    if [ $? -eq 0 ]; then
+        echo "No package \"$PACK\" found"
+    else
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
+        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep $PACK | cut -d' ' -f2 2>/dev/null)
+        CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
+        CNAME=$(echo $NAME | sed "s/.kxz//" 2>/dev/null)
+        DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 2>/dev/null)
+        ## is package installed?
+        if [ -f "$DB_FOLDER/$CNAME" ]; then
+            echo "Package already installed"
+            exit
+        fi
+        ## NOASK is the default dep resolver option
+        if [ ! -z "$NOASK" ]; then
+            CHECK="y"
+        else
+            ## if we are installing from the CLI this should be asked
+            read -p "Is this ok? (y/n)" CHECK
+        fi
+        if [ $CHECK == "y"  ] ;then
+            ## DEPS FIRST ===========================================
+            if [ ! -z "$DEPS" ]; then
+                count="${DEPS//[^ ]}"
+                count="${#count}"
+                echo "========================================================"
+                echo "Trying to resolve deps:"
+                echo "$count deps on database"
+                for (( c=2; c<=$count+1; c++)) ##we skip the blank field and count from that on
+                    do
+                        EACH=$(echo "$DEPS" | cut -d' ' -f$c)
+                        if [ ! -z "$EACH" ]; then
+                            echo "\"$EACH\""
+							if [ -f "$DB_FOLDER/$EACH" ]; then
+								echo "Package already installed"
+							else
+                                kinstall install "$EACH" "yes"
+                            fi
+                        fi
+                    done
+                echo "========================================================"
+            fi
+            ## end deps resolving ====================================
+            LOCATION="/tmp/$NAME"
+            echo "------------------------------------"
+            echo "Downloading package..."
+            echo "------------------------------------"
+            curl -L -o "$LOCATION" "http://$URL/$PURL"
+            
+            if [ $? -eq 0 ]; then
+            
+                cd /tmp
+                tar xf "$NAME"
+                if [ $? -eq 0 ]; then
+                    rm -rf "$NAME"
+                    echo "------------------------------------"
+                    echo "Looking for custom install script..."
+                    if [ -f /tmp/$CNAME/install ]; then
+                        echo "------------------------------------"
+                        echo "executing custom install script..."
+                        /tmp/$CNAME/install
+                        if [ $? -eq 0 ]; then
+                            rm -rf /tmp/$CNAME/install
+                            rm -rf /tmp/$CNAME
+                            echo "------------------------------------"
+                            echo "Done"
+                        else
+                            echo 'Something went wrong, error code: 4'
+                        fi
+                    else
+                        echo "" > "$DB_FOLDER/$CNAME"
+                        rm -rf /tmp/$CNAME
+                        echo "Done"
+                    fi
+                else
+                    echo 'Something went wrong, error code: 2'
+                fi
+            else
+                echo 'Something went wrong, error code: 3'
+            fi
+        else
+            echo "Nothing was done."
+        fi
+    fi
+}
+
+
+### function to "uninstall" a package  ######################################
+uninstall(){
+    PACK="$1"
+    SEARCH=$(ls $DB_FOLDER | grep $PACK)
+    if [ ! -z "$SEARCH" ]; then
+		NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2)
+        CNAME=$(echo $NAME | sed "s/.pxz//")
+        DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 )
+        echo "$SEARCH found"
+        read -p "Is this ok? (y/n)" CHECK
+        if [ $CHECK == "y" ];then
+            echo "Looking for uninstall script"
+            if [ -f "$DB_FOLDER/$CNAME" ]; then
+                echo "Uninstall script found, running..."
+                $DB_FOLDER/$CNAME
+            else
+                echo "No script found, skipping"
+            fi
+            echo "removing from installed database"
+            rm -rf $DB_FOLDER/$CNAME
+            echo "Done"
+        else
+            echo "Nothing was done."
+        fi
+    else
+        echo "No package \"$PACK\" found, are you sure it's installed?"
+    fi
+    
+    
+}
+
+### function to upgrade scripts, this is just a set of multiple wget and will get 'em regardless if they are up to date on the machine or not
+### too lazy to make a more complex scrilkakaljdlaks
+
+supgrade(){
+    ping_server
+    if [ $? -eq 0 ]; then
+        ### just in case shit fails
+        mkdir /tmp/scripts  
+        cd /tmp/scripts
+        curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
+        if [ $? -eq 0 ]; then
+		echo "making executable..."
+		chmod -R 1777 ./*
+		echo "Copying to my-applications..."
+		cp -rf /tmp/scripts/* /root/my-applications/bin/
+		rm -rf /tmp/scripts
+		echo "Done"
+		exec rm -rf /tmp/pinstall-tmp
+        fi
+    else
+        echo "No internet connection, 100% package loss or server offline"
+    fi
+}
+
+
+### initialization and shit
+case "$1" in
+    install)
+        install "$2" "$3"
+    ;;
+    reinstall)
+        uninstall "$2"
+        install "$2" "$3"
+    ;;
+    search)
+        search_package "$2"
+        if [ $? -eq 0 ]; then
+            echo "No package \"$2\" found"
+        else
+            exit
+        fi
+    ;;
+    db-update)
+        echo "updating package list..."
+        db_download
+    ;;
+    uninstall)
+        uninstall "$2"
+    ;;
+    scripts-upgrade)
+        cp -rf /usr/sbin/pinstall /tmp/pinstall-tmp
+        chmod 1777 /tmp/pinstall-tmp
+        exec /tmp/pinstall-tmp supgrade-tmp
+    ;;
+    supgrade-tmp)
+        supgrade
+    ;;
+    list)
+        if [ ! -f /root/.fpackages/.packages.txt ]; then
+            db_download
+        fi
+        echo "$(cat /root/.fpackages/.packages.txt | cut -d'>' -f 1,3)"
+    ;;
+    version)
+		echo "$VERSION"
+	;;
+    *)
+    echo "This small script was created to handle software compiled and tested for frankenpup64
+
+Usage: kinstall {install|reinstall|uninstall|search|db-update|list|version}
+
+install:          Install a package.
+                    ex: kinstall install gimp
+reinstall:        Reinstalls a package.
+uninstall:        Uninstalls a package.
+search:           Search a package.
+                    ex: kinstall search gimp
+db-update:        Updates the package database.
+scripts-upgrade:  Updates kinstall script.
+list:             List all packages in database.
+version:          Prints script version
+"
+    
+esac
