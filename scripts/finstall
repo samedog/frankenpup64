@@ -37,17 +37,18 @@
 #             - version 0.4
 # 05-05-2019: - Repurposed for frankenpup64, since frankenpup script was older.
 #             - Some code cleanup and variable fixing for better package handling.
+#             - Version bumped to 0.5 for obvious reasons
 ############################# actual code begins here, lol ######################################
 
 
 ## some variables and shit
    
-URL="www.dropbox.com"                                                                           #yup, this is my "hosting"
-URL2="www.google.com"																			# most reliable pin
-DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"   #package database url
-DB_FOLDER="/root/.fpackages"                                                                      #installed packages folder
-DB_LOCATION="$DB_FOLDER/packages.txt"                                                           #where the "database goes"
-VERSION="0.4"
+URL="www.dropbox.com"											# yup, this is my "hosting"
+URL2="www.google.com"											# most reliable ping
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"		# package database url
+DB_FOLDER="/var/.fpackages"										# installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"									# databse location on disk
+VERSION="0.5"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
 
@@ -288,10 +289,10 @@ case "$1" in
         supgrade
     ;;
     list)
-        if [ ! -f /root/.fpackages/.packages.txt ]; then
+        if [ ! -f "$DB_LOCATION" ]; then
             db_download
         fi
-        echo "$(cat /root/.fpackages/.packages.txt | cut -d'>' -f 1,3)"
+        echo "$(cat "$DB_LOCATION" | cut -d'>' -f 1,3)"
     ;;
     version)
 		echo "$VERSION"
