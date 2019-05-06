@@ -119,7 +119,7 @@ install(){
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
         PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep $PACK | cut -d' ' -f2 2>/dev/null)
         CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
-        CNAME=$(echo $NAME | sed "s/.kxz//" 2>/dev/null)
+        CNAME=$(echo $NAME | sed "s/.pxz//" 2>/dev/null)
         DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 2>/dev/null)
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
