@@ -4,5 +4,5 @@ size=$(du -sk $1 | cut -f 1)
 estimated=$(echo $size/50 | bc)
 echo "Estimated: [==================================================]"
 echo -n "Progess:   ["
-tar -c --record-size=1K --checkpoint="$estimated" --checkpoint-action="ttyout=>" -f - "$1" | xz -z - > "$1".pxz
+tar -c --record-size=1K --checkpoint="$estimated" --checkpoint-action="ttyout=>" -f - "$1" | xz -z - > "$1".fxz
 echo "]"
