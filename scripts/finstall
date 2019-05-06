@@ -282,7 +282,7 @@ case "$1" in
         uninstall "$2"
     ;;
     scripts-upgrade)
-        cp -rf /root/myapplications/finstall /tmp/finstall-tmp
+        cp -rf /root/my-applications/finstall /tmp/finstall-tmp
         chmod 1777 /tmp/finstall-tmp
         exec /tmp/finstall-tmp supgrade-tmp
     ;;
