@@ -149,7 +149,7 @@ install(){
 							if [ -f "$DB_FOLDER/$EACH" ]; then
 								echo "Package already installed"
 							else
-                                kinstall install "$EACH" "yes"
+                                pinstall install "$EACH" "yes"
                             fi
                         fi
                     done
@@ -300,16 +300,16 @@ case "$1" in
     *)
     echo "This small script was created to handle software compiled and tested for frankenpup64
 
-Usage: kinstall {install|reinstall|uninstall|search|db-update|list|version}
+Usage: pinstall {install|reinstall|uninstall|search|db-update|list|version}
 
 install:          Install a package.
-                    ex: kinstall install gimp
+                    ex: pinstall install gimp
 reinstall:        Reinstalls a package.
 uninstall:        Uninstalls a package.
 search:           Search a package.
-                    ex: kinstall search gimp
+                    ex: pinstall search gimp
 db-update:        Updates the package database.
-scripts-upgrade:  Updates kinstall script.
+scripts-upgrade:  Updates pinstall script.
 list:             List all packages in database.
 version:          Prints script version
 "
