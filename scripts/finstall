@@ -35,7 +35,7 @@
 # 16-10-2017: - switched to curl
 #             - fixed some bad conditions
 #             - version 0.4
-# 05-05-2019: - Repurposed from kundalinux to frankenpup64 since frankenpup (32) script was way older.
+# 05-05-2019: - Repurposed for frankenpup64, since frankenpup script was older.
 #             - Some code cleanup and variable fixing for better package handling.
 #             - Version bumped to 0.5 for obvious reasons
 ############################# actual code begins here, lol ######################################
@@ -96,12 +96,12 @@ db_download(){
         if [ ! -d $DB_FOLDER ]; then            ## this "if" condition may be in a "just werks" state, haven't tested it too much.
             mkdir $DB_FOLDER
         fi
-        curl -L -o "$DB_LOCATION" "$DB_URL"
-            if [ $? -eq 0 ]; then
-                echo 'Package "database" upgraded successfully'
-            else
-                echo 'Something went wrong, error code: 1'
-            fi
+		curl -# -L -o "$DB_LOCATION" "$DB_URL"
+        if [ $? -eq 0 ]; then
+           echo 'Package "database" upgraded successfully'
+        else
+            echo 'Something went wrong, error code: 1'
+        fi
     else
         echo "no internet connection or 100% package loss"
         exit
@@ -160,7 +160,7 @@ install(){
             echo "------------------------------------"
             echo "Downloading package..."
             echo "------------------------------------"
-            curl -L -o "$LOCATION" "http://$URL/$PURL"
+            curl -# -L -o "$LOCATION" "http://$URL/$PURL"
             
             if [ $? -eq 0 ]; then
             
@@ -240,8 +240,8 @@ supgrade(){
         ### just in case shit fails
         mkdir /tmp/scripts  
         cd /tmp/scripts
-        curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
-	curl -L -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+        curl -# -L -o "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
+		curl -# -L -o "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         if [ $? -eq 0 ]; then
 		echo "making executable..."
 		chmod -R 1777 ./*
