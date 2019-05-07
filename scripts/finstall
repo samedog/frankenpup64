@@ -20,19 +20,19 @@
 # 26-06-2015: - Changed from dropbox to github, since it has better way to handle files without
 #               compromising the raw file url.
 # 30-06-2015: - Added prompts on install and uninstall to avoid PEBKAC.
-# 03-07-2015: - Added package database URL variable, fixed the place of the "y/n" prompt for package 
+# 03-07-2015: - Added package database URL variable, fixed the placement of the "y/n" prompt for package 
 #               uninstall.
 #             - Removed *some* irony from code comments so they don't hurt feelings anymore ;^)
 # 13-07-2015: - Renamed to fpackages.
 #             - Version number changed to 0.2
 # 20-07-2015: - Added basic dep resolving
 #             - "install" option will not try to install a package if it's already installed, that's "reinstall"'s job. 
-#             - Version number changed to 0.3 (dep resolving)
+#             - Version bumped to to 0.3 (dep resolving)
 # 11-02-2016: - Renamed to kinstall
 #             - Version bumped to 0.3.1 (for me to track some minor shit)
 # 16-10-2017: - switched to curl
 #             - fixed some bad conditions
-#             - version 0.4
+#             - Version bumped to 0.4
 # 05-05-2019: - Repurposed for frankenpup64, since frankenpup script was older.
 #             - Some code cleanup and variable fixing for better package handling.
 #             - Version bumped to 0.5 for obvious reasons
