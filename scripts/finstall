@@ -43,11 +43,11 @@
 
 ## some variables and shit
    
-URL="www.dropbox.com"											# yup, this is my "hosting"
-URL2="www.google.com"											# most reliable ping
+URL="www.dropbox.com"																				# yup, this is my "hosting"
+URL2="www.google.com"																				# most reliable ping
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"		# package database url
-DB_FOLDER="/var/fpackages"										# installed packages folder
-DB_LOCATION="$DB_FOLDER/packages.txt"									# databse location on disk
+DB_FOLDER="/var/fpackages"																			# installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"																# databse location on disk
 VERSION="0.5"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
@@ -243,14 +243,14 @@ supgrade(){
         curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
 		curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         if [ $? -eq 0 ]; then
-		echo "making executable..."
-		chmod -R 1777 ./*
-		echo "Copying to my-applications..."
-		cp -rf /tmp/scripts/* /root/my-applications/bin/
-		rm -rf /tmp/scripts
-		echo "Done"
-		exec rm -rf /tmp/finstall-tmp
+			echo "making executable..."
+			chmod -R 1777 ./*
+			echo "Copying to my-applications..."
+			cp -rf /tmp/scripts/* /root/my-applications/bin/
+			echo "Done"
+			exec rm -rf /tmp/finstall-tmp
         fi
+        rm -rf /tmp/scripts
     else
         echo "No internet connection, 100% package loss or server offline"
     fi
