@@ -96,7 +96,7 @@ db_download(){
         if [ ! -d $DB_FOLDER ]; then            ## this "if" condition may be in a "just werks" state, haven't tested it too much.
             mkdir $DB_FOLDER
         fi
-		curl -# -L -o "$DB_LOCATION" "$DB_URL"
+		curl --progress-bar -L -o "$DB_LOCATION" "$DB_URL"
         if [ $? -eq 0 ]; then
            echo 'Package "database" upgraded successfully'
         else
@@ -160,7 +160,7 @@ install(){
             echo "------------------------------------"
             echo "Downloading package..."
             echo "------------------------------------"
-            curl -# -L -o "$LOCATION" "http://$URL/$PURL"
+            curl --progress-bar -L -o "$LOCATION" "http://$URL/$PURL"
             
             if [ $? -eq 0 ]; then
             
@@ -240,8 +240,8 @@ supgrade(){
         ### just in case shit fails
         mkdir /tmp/scripts  
         cd /tmp/scripts
-        curl -# -L -o "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
-		curl -# -L -o "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+        curl --progress-bar -L -o "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
+		curl --progress-bar -L -o "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         if [ $? -eq 0 ]; then
 		echo "making executable..."
 		chmod -R 1777 ./*
