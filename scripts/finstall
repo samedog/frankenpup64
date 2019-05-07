@@ -15,18 +15,18 @@
 ##########################################################################################
 
 #Changelog:
-# 24-06-2015: Changed scripts from git repo (bitbucket) to dropbox, i don't feel like packing
-#             git on the main sfs for a fucking couple of less than 50kb scripts because bitbucket raw
-#             view changes the url of the file on each commit.
-# 26-06-2015: Added package descriptions.
-# 26-06-2015: Changed from dropbox to github, since it has better way to handle files without
-#             conpromising the raw file url.
-# 30-06-2015: Added prompts on install and uninstall to avoid PEBKAC.
-# 03-07-2015: Added package database URL variable, fixed the place of the "y/n" prompt for package 
-#             uninstall.
-#             Removed *some* irony from code comments so they don't hurt feelings anymore ;^)
-# 13-07-2015: Renamed to fpackages.
-#             Version number changed to 0.2
+# 24-06-2015: - Moved scripts from bitbucket to dropbox, i don't feel like packing
+#               git on the main sfs for a fucking couple of less than 50kb scripts because bitbucket raw
+#               view changes the url of the file on each commit.
+# 26-06-2015: - Added package descriptions.
+# 26-06-2015: - Changed from dropbox to github, since it has better way to handle files without
+#               compromising the raw file url.
+# 30-06-2015: - Added prompts on install and uninstall to avoid PEBKAC.
+# 03-07-2015: - Added package database URL variable, fixed the place of the "y/n" prompt for package 
+#               uninstall.
+#             - Removed *some* irony from code comments so they don't hurt feelings anymore ;^)
+# 13-07-2015: - Renamed to fpackages.
+#             - Version number changed to 0.2
 # 20-07-2015: - Added basic dep resolving
 #             - "install" option will not try to install a package if it's already installed, that's "reinstall"'s job. 
 #             - Version number changed to 0.3 (dep resolving)
