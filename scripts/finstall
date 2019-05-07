@@ -150,7 +150,7 @@ install(){
                 count="${#count}"
                 echo "========================================================"
                 echo "Trying to resolve deps:"
-                echo "$count deps on database"
+                #echo "$count deps on database"
                 for (( c=2; c<=$count+1; c++)) ##we skip the blank field and count from that on
                     do
                         EACH=$(echo "$DEPS" | cut -d' ' -f$c)
@@ -218,11 +218,11 @@ install(){
 ### function to "uninstall" a package  ######################################
 uninstall(){
     PACK="$1"
-    SEARCH=$(ls $DB_FOLDER | grep $PACK)
+    SEARCH=$(ls $DB_FOLDER | grep -i $PACK)
     if [ ! -z "$SEARCH" ]; then
-		NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2)
+		NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2)
         CNAME=$(echo $NAME | sed "s/.fxz//")
-        DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 )
+        DEPS=$(cat $DB_LOCATION | grep -i $NAME | cut -d'>' -f4 )
         echo "$SEARCH found"
         read -p "Is this ok? (y/n)" CHECK
         if [ $CHECK == "y" ];then
@@ -279,7 +279,7 @@ case "$1" in
     ;;
     reinstall)
         uninstall "$2"
-        install "$2" "$3"
+        install "$2" "yes"
     ;;
     search)
         search_package "$2"
