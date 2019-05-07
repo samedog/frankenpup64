@@ -35,7 +35,7 @@
 # 16-10-2017: - switched to curl
 #             - fixed some bad conditions
 #             - version 0.4
-# 05-05-2019: - Repurposed for frankenpup64, since frankenpup script was older.
+# 05-05-2019: - Repurposed from kundalinux to frankenpup64 since frankenpup (32) script was way older.
 #             - Some code cleanup and variable fixing for better package handling.
 #             - Version bumped to 0.5 for obvious reasons
 ############################# actual code begins here, lol ######################################
