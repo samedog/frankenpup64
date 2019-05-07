@@ -1,2 +1,2 @@
 system/NVIDIA-driver-x86_64-418.56.fxz > s/wqd44qiiesk0s90/NVIDIA-driver-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.0.0+ > linux-kernel-5.0.0+
-system/nvidia-xrun.fxz > s/lzqjjvne2vst4cj/nvidia-xrun.fxz > "Nvidia xrun for laptops with discrete graphics" > NVIDIA-driver-x86_64-418.56
+system/nvidia-xrun.fxz > s/lzqjjvne2vst4cj/nvidia-xrun.fxz > "Nvidia xrun for laptops with discrete/integrated graphics (Intel/Nvidia)" > NVIDIA-driver-x86_64-418.56
