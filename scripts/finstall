@@ -156,9 +156,9 @@ install(){
                         EACH=$(echo "$DEPS" | cut -d' ' -f$c)
                         if [ ! -z "$EACH" ]; then
                             echo "\"$EACH\""
-							if [ -f "$DB_FOLDER/$EACH" ]; then
-								echo "Package already installed"
-							else
+				if [ -f "$DB_FOLDER/$EACH" ]; then
+					echo "Package already installed"
+				else
                                 finstall install "$EACH" "yes"
                             fi
                         fi
