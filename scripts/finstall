@@ -69,13 +69,13 @@ ping_server(){
 search_package(){
     SEARCH="$1"
     if [ ! -f "DB_LOCATION" ]; then
-        db_download
+        db_download 1
     fi
-    RESULT=$(cat $DB_LOCATION | grep $SEARCH)
+    RESULT=$(cat $DB_LOCATION | grep -i $SEARCH)
     if [ ! -z "$RESULT" ]; then
-        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1,3 | grep $SEARCH | cut -d'/' -f2 )
-        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $SEARCH | cut -d' ' -f1 | cut -d'/' -f2)
-        DEPS=$(cat "$DB_LOCATION" | grep $NAME | cut -d'>' -f4)
+        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1,3 | grep -i $SEARCH | cut -d'/' -f2 )
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $SEARCH | cut -d' ' -f1 | cut -d'/' -f2)
+        DEPS=$(cat "$DB_LOCATION" | grep -i $NAME | cut -d'>' -f4)
         echo "Found:"
         echo "$RESULT"
         if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
@@ -92,16 +92,26 @@ search_package(){
 
 ### function to download and update the package list "database" ######################################
 db_download(){
+	SILENT="$1"
     CON=$(ping_server)
     if [ $? -ne 2 ]; then   ## check if we are connected to the internet
         if [ ! -d $DB_FOLDER ]; then            ## this "if" condition may be in a "just werks" state, haven't tested it too much.
             mkdir $DB_FOLDER
         fi
-		curl -L --progress-bar -o "$DB_LOCATION" "$DB_URL"
-        if [ $? -eq 0 ]; then
-           echo 'Package "database" upgraded successfully'
+        if [ ! -z "$SILENT" ];then
+			curl -s -o "$DB_LOCATION" "$DB_URL"
+			if [ $? -eq 0 ]; then
+			   echo ''
+			else
+				echo 'Something went wrong, error code: 1'
+			fi
         else
-            echo 'Something went wrong, error code: 1'
+			curl -L --progress-bar -o "$DB_LOCATION" "$DB_URL"
+			if [ $? -eq 0 ]; then
+			   echo 'Package "database" upgraded successfully'
+			else
+				echo 'Something went wrong, error code: 1'
+			fi
         fi
     else
         echo "no internet connection or 100% package loss"
@@ -117,11 +127,11 @@ install(){
     if [ $? -eq 0 ]; then
         echo "No package \"$PACK\" found"
     else
-        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
-        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep $PACK | cut -d' ' -f2 2>/dev/null)
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
+        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep -i $PACK | cut -d' ' -f2 2>/dev/null)
         CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
         CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
-        DEPS=$(cat $DB_LOCATION | grep $NAME | cut -d'>' -f4 2>/dev/null)
+        DEPS=$(cat $DB_LOCATION | grep -i $NAME | cut -d'>' -f4 2>/dev/null)
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
             echo "Package already installed"
