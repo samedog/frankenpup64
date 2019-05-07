@@ -195,12 +195,12 @@ install(){
                     else
                         echo "" > "$DB_FOLDER/$CNAME"
                         rm -rf /tmp/$CNAME
-			pgrep -x "gedit" > /dev/null
-			if [ $? -eq 0 ]; then
-			    fixmenus
-			    jwm -reload
-                        fi
-			echo "Done"
+						pgrep -x "jwm" > /dev/null
+						if [ $? -eq 0 ]; then
+							fixmenus
+							jwm -reload
+									fi
+						echo "Done"
                     fi
                 else
                     echo 'Something went wrong, error code: 2'
