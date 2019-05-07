@@ -173,7 +173,7 @@ install(){
             curl -L --progress-bar -o "$LOCATION" "http://$URL/$PURL"
             
             if [ $? -eq 0 ]; then
-            
+				flag=$(pgrep -x "jwm")
                 cd /tmp
                 tar xf "$NAME"
                 if [ $? -eq 0 ]; then
@@ -188,6 +188,10 @@ install(){
                             rm -rf /tmp/$CNAME/install
                             rm -rf /tmp/$CNAME
                             echo "------------------------------------"
+                            if [ ! -z "$flag" ]; then
+                                fixmenus
+                                jwm -reload
+                            fi
                             echo "Done"
                         else
                             echo 'Something went wrong, error code: 4'
@@ -195,8 +199,10 @@ install(){
                     else
                         echo "" > "$DB_FOLDER/$CNAME"
                         rm -rf /tmp/$CNAME
-                        fixmenus
-                        jwm -reload
+                        if [ ! -z "$flag" ]; then
+                            fixmenus
+                            jwm -reload
+                        fi
                         echo "Done"
                     fi
                 else
