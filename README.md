@@ -11,6 +11,7 @@ Features;
 - .pet compatibility (wich is dangerous if the package comes from another puplet because everything was compiled with proper --libdir for multilib and some .pets are a shitfest of 64bits libs on /usr/lib or even worst /usr/local/lib). I ONLY allowed .pet compatibility for the sake of friends helping me compile and packaging software until I code a proper package creation system since right now it's just a script to create the .fxz from a folder.
 
 Links
+
 Test ISO:
 https://www.dropbox.com/s/433z4ecc9yq4vv8/frankenpup64-2.iso
 
