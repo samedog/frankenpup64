@@ -38,16 +38,17 @@
 #             - Version bumped to 0.5 for obvious reasons
 # 07-05-2019: - Added a condition for jwm to update menus
 #             - Grep -i for searching packages (REALLY)
+# 09-05-2019  - Changed package database to frankenpuplinux.com
 ############################# actual code begins here, lol ######################################
 
 
 ## some variables and shit
    
-URL="www.dropbox.com"                                                                                   # yup, this is my "hosting"
-URL2="www.google.com"                                                                                   # most reliable ping
-DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"         # package database url
-DB_FOLDER="/var/fpackages"                                                                              # installed packages folder
-DB_LOCATION="$DB_FOLDER/packages.txt"                                                                   # databse location on disk
+URL="www.frankenpuplinux.com"                                       # now with proper hosting
+URL2="www.google.com"                                               # most reliable ping
+DB_URL="https://www.frankenpuplinux.com/repo/packages.txt"          # package database url
+DB_FOLDER="/var/fpackages"                                          # installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"                               # databse location on disk
 VERSION="0.5"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
