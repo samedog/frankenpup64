@@ -39,6 +39,8 @@
 # 07-05-2019: - Added a condition for jwm to update menus
 #             - Grep -i for searching packages (REALLY)
 # 09-05-2019  - Changed package database to frankenpuplinux.com
+#             - Package database back to github (easier to maintain)
+#             - package repo will remain at frankenpuplinux.com instad of dropbox
 ############################# actual code begins here, lol ######################################
 
 
@@ -46,7 +48,7 @@
    
 URL="www.frankenpuplinux.com"                                       # now with proper hosting
 URL2="www.google.com"                                               # most reliable ping
-DB_URL="https://www.frankenpuplinux.com/repo/packages.txt"          # package database url
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"          # package database url
 DB_FOLDER="/var/fpackages"                                          # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                               # databse location on disk
 VERSION="0.5"
