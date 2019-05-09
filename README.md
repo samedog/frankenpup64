@@ -13,10 +13,10 @@ Features;
 Links
 
 Test ISO:
-https://www.dropbox.com/s/433z4ecc9yq4vv8/frankenpup64-2.iso
+https://www.frankenpuplinux.com/repo/iso/frankenpup64-2.iso
 
 Test devx
-https://www.dropbox.com/s/3ppy4807665ixfj/devx_franken64_2.sfs
+https://www.frankenpuplinux.com/repo/sfs/devx_franken64_2.sfs
 
 Test kernel_sources
-https://www.dropbox.com/s/eqq057skfmgu7cv/kernel_sources_franken64_2.sfs
+https://www.frankenpuplinux.com/repo/sfs/kernel_sources_franken64_2.sfs
