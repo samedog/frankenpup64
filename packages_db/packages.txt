@@ -1,3 +1,3 @@
-System/NVIDIA-driver-x86_64-418.56.fxz > repo/fxz/NVIDIA-driver-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.1.0 > linux-kernel-5.1.0
+System/NVIDIA-driver-multilib-x86_64-418.56.fxz > repo/fxz/NVIDIA-driver-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.1.0 , utilities and 32 & 64 bits libraries" > linux-kernel-5.1.0
 Utilities/nvidia-xrun.fxz > repo/fxz/nvidia-xrun.fxz > "Nvidia xrun for laptops with discrete/integrated graphics (Intel/Nvidia)" > NVIDIA-driver-x86_64-418.56
 Fun/Steam-client.fxz > repo/fxz/Steam-client.fxz > "Application for managing and playing games on Steam" > 
