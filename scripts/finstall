@@ -45,17 +45,20 @@
 #             - Now the script uses pcurl, a wrapper for multiple curl threads.
 #             - Some code cleanup.
 #             - Removed "if [ ! -d $DB_FOLDER ]" since it's not needed anymore (since a while really)
-#             - Added if [ -f /install ] to remove it if needed
-############################# actual code begins here, lol ######################################
+#             - Added "if [ -f /install ]" to remove it if needed
+#             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory ‘/tmp/scripts’: File exists"
+#               was getting on my nerves.
+#             - ping_server is now silent (it should have been silent since the beginning)
+################################# Code begins here #######################################
 
 
 ## some variables and shit
    
-URL="www.frankenpuplinux.com"                                       # now with proper hosting
-URL2="www.google.com"                                               # most reliable ping
-DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"          # package database url
-DB_FOLDER="/var/fpackages"                                          # installed packages folder
-DB_LOCATION="$DB_FOLDER/packages.txt"                               # databse location on disk
+URL="www.frankenpuplinux.com"                                                                        # now with proper hosting
+URL2="www.google.com"                                                                                # most reliable ping
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
+DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"                                                                # databse location on disk
 VERSION="0.5"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
@@ -86,10 +89,11 @@ search_package(){
         echo "Found:"
         echo "$RESULT"
         if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
-            echo "======================================"
+            echo "==========================================="
+            echo "Package: $NAME"
             echo "Depends on:"
             echo "$DEPS"
-            echo "======================================"
+            echo "==========================================="
         fi
         return 1
     else
@@ -110,7 +114,7 @@ db_download(){
         else
 			curl --progress-bar -o "$DB_LOCATION" "$DB_URL"
 			if [ $? -eq 0 ]; then
-			   echo 'Package "database" upgraded successfully'
+			    echo 'Package "database" upgraded successfully'
 			else
 				echo 'Something went wrong, error code: 1'
 			fi
@@ -151,7 +155,7 @@ install(){
             if [ ! -z "$DEPS" ]; then
                 count="${DEPS//[^ ]}"
                 count="${#count}"
-                echo "========================================================"
+                echo "============================================================="
                 echo "Trying to resolve deps:"
                 #echo "$count deps on database"
                 for (( c=2; c<=$count+1; c++)) ##we skip the blank field and count from that on
@@ -166,31 +170,30 @@ install(){
                             fi
                         fi
                     done
-                echo "========================================================"
+                echo "============================================================="
             fi
             ## end deps resolving ====================================
             LOCATION="/tmp/$NAME"
-            echo "------------------------------------"
+            echo "-----------------------------------------"
             echo "Downloading package..."
-            echo "------------------------------------"
+            echo "-----------------------------------------"
             pcurl "$LOCATION" "http://$URL/$PURL"
-            
             if [ $? -eq 0 ]; then
-		flag=$(pgrep -x "jwm")
+		    flag=$(pgrep -x "jwm")
                 cd /tmp
                 tar xf "$NAME"
                 if [ $? -eq 0 ]; then
                     rm -rf "$NAME"
-                    echo "------------------------------------"
+                    echo "-----------------------------------------"
                     echo "Looking for custom install script..."
                     if [ -f /tmp/$CNAME/install ]; then
-                        echo "------------------------------------"
+                        echo "-----------------------------------------"
                         echo "executing custom install script..."
                         /tmp/$CNAME/install
                         if [ $? -eq 0 ]; then
                             rm -rf /tmp/$CNAME/install
                             rm -rf /tmp/$CNAME
-                            echo "------------------------------------"
+                            echo "-----------------------------------------"
                             if [ ! -z "$flag" ]; then
                                 fixmenus
                                 jwm -reload
@@ -262,11 +265,13 @@ supdate(){
     ping_server
     if [ $? -eq 0 ]; then
         ### just in case shit fails
-        mkdir /tmp/scripts  
+        if [ ! -d /tmp/scripts ];then
+            mkdir /tmp/scripts
+        fi
         cd /tmp/scripts
         curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
-	curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
-	curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
+        curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+        curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
         if [ $? -eq 0 ]; then
 			echo "making executable..."
 			chmod -R 1777 ./*
