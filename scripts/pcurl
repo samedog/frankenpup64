@@ -110,6 +110,7 @@ do
 	fi
 	#echo "Start = ${START_SEG}"
 	#echo "End = ${END_SEG}"
+	echo -e "\n"
 	START_SEG=$((${END_SEG}+1))
 	END_SEG=$((${START_SEG}+${SEGMENT_SIZE}))
 done
