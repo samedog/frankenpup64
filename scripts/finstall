@@ -44,6 +44,8 @@
 # 15-05-2019  - Changes to functions names.
 #             - Now the script uses pcurl, a wrapper for multiple curl threads.
 #             - Some code cleanup.
+#             - Removed "if [ ! -d $DB_FOLDER ]" since it's not needed anymore (since a while really)
+#             - Added if [ -f /install ] to remove it if needed
 ############################# actual code begins here, lol ######################################
 
 
@@ -59,11 +61,11 @@ VERSION="0.5"
 ### function to ping google.com to check if we are (or not) connected to the internet
 
 ping_server(){
-    ping -c 1 $URL2 2> /dev/null
+    ping -c 1 $URL2 > /dev/null
     if [ $? -eq 0 ]; then
         PING=$(ping -c 1 $URL | grep received | cut -d' ' -f7 2> /dev/null)
         LOSS=${PING//%}
-        echo $LOSS
+        #echo $LOSS
     else
         return 2
     fi
@@ -100,9 +102,6 @@ db_download(){
 	SILENT="$1"
     CON=$(ping_server)
     if [ $? -ne 2 ]; then   ## check if we are connected to the internet
-        if [ ! -d $DB_FOLDER ]; then            ## this "if" condition may be in a "just werks" state, haven't tested it too much.
-            mkdir $DB_FOLDER
-        fi
         if [ ! -z "$SILENT" ];then
 			curl -s -o "$DB_LOCATION" "$DB_URL"
 			if [ $? != 0 ]; then
