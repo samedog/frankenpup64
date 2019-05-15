@@ -317,6 +317,7 @@ case "$1" in
             mkdir /tmp/scripts
         fi
         supdate
+	exec finstall finish
     ;;
     finish)
     #hope this works
