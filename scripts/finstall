@@ -317,7 +317,7 @@ case "$1" in
             mkdir /tmp/scripts
         fi
         supdate
-        rm -rf /tmp/scripts
+        exec rm -rf /tmp/scripts
     ;;
     list)
         if [ ! -f "$DB_LOCATION" ]; then
