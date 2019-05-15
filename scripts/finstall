@@ -312,7 +312,7 @@ case "$1" in
         chmod 1777 /tmp/finstall-tmp
         exec /tmp/finstall-tmp supdate-tmp
     ;;
-    supgrade-tmp)
+    supdate-tmp)
         supdate
     ;;
     list)
