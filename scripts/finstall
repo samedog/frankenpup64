@@ -258,7 +258,7 @@ uninstall(){
 ### function to upgrade scripts, this is just a set of multiple wget and will get 'em regardless if they are up to date on the machine or not
 ### too lazy to make a more complex scrilkakaljdlaks
 
-supgrade(){
+supdate(){
     ping_server
     if [ $? -eq 0 ]; then
         ### just in case shit fails
@@ -305,13 +305,13 @@ case "$1" in
     uninstall)
         uninstall "$2"
     ;;
-    scripts-upgrade)
+    script-update)
         cp -rf /root/my-applications/bin/finstall /tmp/finstall-tmp
         chmod 1777 /tmp/finstall-tmp
-        exec /tmp/finstall-tmp supgrade-tmp
+        exec /tmp/finstall-tmp supdate-tmp
     ;;
     supgrade-tmp)
-        supgrade
+        supdate
     ;;
     list)
         if [ ! -f "$DB_LOCATION" ]; then
@@ -325,7 +325,7 @@ case "$1" in
     *)
     echo "This small script was created to handle software compiled and tested for frankenpup64
 
-Usage: finstall {install|reinstall|uninstall|search|db-update|list|version}
+Usage: finstall {install|reinstall|uninstall|search|db-update|script-update|list|version}
 
 install:          Install a package.
                     ex: finstall install gimp
@@ -334,7 +334,7 @@ uninstall:        Uninstalls a package.
 search:           Search a package.
                     ex: finstall search gimp
 db-update:        Updates the package database.
-scripts-upgrade:  Updates finstall script.
+script-update:      Updates scripts (create fxz and finstall).
 list:             List all packages in database.
 version:          Prints script version
 "
