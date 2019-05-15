@@ -276,8 +276,6 @@ supdate(){
 			cp -rf /tmp/scripts/* /root/my-applications/bin/
 			echo "Done"
 			exec rm -rf /tmp/finstall-tmp
-			rm -rf /tmp/scripts/*
-			rm -rf /tmp/scripts
         fi
     else
         echo "No internet connection, 100% package loss or server offline"
@@ -319,6 +317,10 @@ case "$1" in
             mkdir /tmp/scripts
         fi
         supdate
+    ;;
+    finish)
+    #hope this works
+        exec rm -rf /tmp/scripts
     ;;
     list)
         if [ ! -f "$DB_LOCATION" ]; then
