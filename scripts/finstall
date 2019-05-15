@@ -280,7 +280,7 @@ supdate(){
 			echo "Done"
 			exec rm -rf /tmp/finstall-tmp
         fi
-        exec rm -rf /tmp/scripts
+	exec rm -rf /tmp/scripts
     else
         echo "No internet connection, 100% package loss or server offline"
     fi
