@@ -321,8 +321,8 @@ case "$1" in
     ;;
     finish)
     #hope this works
-        rm -rf /tmp/scripts/*
-        rm -rf /tmp/scripts
+        exec rm -rf /tmp/scripts/*
+        exec rm -rf /tmp/scripts
     ;;
     list)
         if [ ! -f "$DB_LOCATION" ]; then
