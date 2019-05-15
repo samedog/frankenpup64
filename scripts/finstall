@@ -317,11 +317,12 @@ case "$1" in
             mkdir /tmp/scripts
         fi
         supdate
-	exec finstall finish
+        exec /root/my-applications/bin/finstall finish
     ;;
     finish)
     #hope this works
-        exec rm -rf /tmp/scripts
+        rm -rf /tmp/scripts/*
+        rm -rf /tmp/scripts
     ;;
     list)
         if [ ! -f "$DB_LOCATION" ]; then
