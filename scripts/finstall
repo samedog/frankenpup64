@@ -266,7 +266,8 @@ supdate(){
         mkdir /tmp/scripts  
         cd /tmp/scripts
         curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
-		curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+	curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+	curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
         if [ $? -eq 0 ]; then
 			echo "making executable..."
 			chmod -R 1777 ./*
