@@ -101,14 +101,14 @@ db_download(){
             mkdir $DB_FOLDER
         fi
         if [ ! -z "$SILENT" ];then
-			curl -s -o "$DB_LOCATION" "$DB_URL"
+			pcurl -s -o "$DB_LOCATION" "$DB_URL"
 			if [ $? -eq 0 ]; then
 			   echo ''
 			else
 				echo 'Something went wrong, error code: 1'
 			fi
         else
-			curl -L --progress-bar -o "$DB_LOCATION" "$DB_URL"
+			pcurl -L --progress-bar -o "$DB_LOCATION" "$DB_URL"
 			if [ $? -eq 0 ]; then
 			   echo 'Package "database" upgraded successfully'
 			else
@@ -173,7 +173,7 @@ install(){
             echo "------------------------------------"
             echo "Downloading package..."
             echo "------------------------------------"
-            curl -L --progress-bar -o "$LOCATION" "http://$URL/$PURL"
+            pcurl -L --progress-bar -o "$LOCATION" "http://$URL/$PURL"
             
             if [ $? -eq 0 ]; then
 				flag=$(pgrep -x "jwm")
@@ -196,6 +196,9 @@ install(){
                                 jwm -reload
                             fi
                             echo "Done"
+			    if [ -f /install ]; then
+			    	rm -rf /install
+			    fi
                         else
                             echo 'Something went wrong, error code: 4'
                         fi
