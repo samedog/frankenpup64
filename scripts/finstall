@@ -22,25 +22,28 @@
 # 30-06-2015: - Added prompts on install and uninstall to avoid PEBKAC.
 # 03-07-2015: - Added package database URL variable, fixed the placement of the "y/n" prompt for package 
 #               uninstall.
-#             - Removed *some* irony from code comments so they don't hurt feelings anymore ;^)
+#             - Removed *some* irony from code comments so they don't hurt feelings anymore ;^).
 # 13-07-2015: - Renamed to fpackages.
-#             - Version number changed to 0.2
-# 20-07-2015: - Added basic dep resolving
+#             - Version number changed to 0.2.
+# 20-07-2015: - Added basic dep resolving.
 #             - "install" option will not try to install a package if it's already installed, that's "reinstall"'s job. 
-#             - Version bumped to to 0.3 (dep resolving)
-# 11-02-2016: - Renamed to kinstall
-#             - Version bumped to 0.3.1 (for me to track some minor shit)
-# 16-10-2017: - switched to curl
-#             - fixed some bad conditions
-#             - Version bumped to 0.4
+#             - Version bumped to to 0.3 (dep resolving).
+# 11-02-2016: - Renamed to kinstall.
+#             - Version bumped to 0.3.1 (for me to track some minor shit).
+# 16-10-2017: - switched to curl.
+#             - fixed some bad conditions.
+#             - Version bumped to 0.4.
 # 05-05-2019: - Repurposed for frankenpup64, since frankenpup (32) script was older.
 #             - Some code cleanup and variable fixing for better package handling.
-#             - Version bumped to 0.5 for obvious reasons
-# 07-05-2019: - Added a condition for jwm to update menus
-#             - Grep -i for searching packages (REALLY)
-# 09-05-2019  - Changed package database to frankenpuplinux.com
-#             - Package database back to github (easier to maintain)
-#             - package repo will remain at frankenpuplinux.com instad of dropbox
+#             - Version bumped to 0.5 for obvious reasons.
+# 07-05-2019: - Added a condition for jwm to update menus.
+#             - Grep -i for searching packages (REALLY).
+# 09-05-2019  - Changed package database to frankenpuplinux.com.
+#             - Package database back to github (easier to maintain).
+#             - package repo will remain at frankenpuplinux.com instad of dropbox.
+# 15-05-2019  - Changes to functions names.
+#             - Now the script uses pcurl, a wrapper for multiple curl threads.
+#             - Some code cleanup.
 ############################# actual code begins here, lol ######################################
 
 
@@ -101,14 +104,12 @@ db_download(){
             mkdir $DB_FOLDER
         fi
         if [ ! -z "$SILENT" ];then
-			pcurl -s -o "$DB_LOCATION" "$DB_URL"
-			if [ $? -eq 0 ]; then
-			   echo ''
-			else
+			curl -s -o "$DB_LOCATION" "$DB_URL"
+			if [ $? != 0 ]; then
 				echo 'Something went wrong, error code: 1'
 			fi
         else
-			pcurl -L --progress-bar -o "$DB_LOCATION" "$DB_URL"
+			curl --progress-bar -o "$DB_LOCATION" "$DB_URL"
 			if [ $? -eq 0 ]; then
 			   echo 'Package "database" upgraded successfully'
 			else
@@ -173,10 +174,10 @@ install(){
             echo "------------------------------------"
             echo "Downloading package..."
             echo "------------------------------------"
-            pcurl -L --progress-bar -o "$LOCATION" "http://$URL/$PURL"
+            pcurl "$LOCATION" "http://$URL/$PURL"
             
             if [ $? -eq 0 ]; then
-				flag=$(pgrep -x "jwm")
+		flag=$(pgrep -x "jwm")
                 cd /tmp
                 tar xf "$NAME"
                 if [ $? -eq 0 ]; then
@@ -310,7 +311,7 @@ case "$1" in
         chmod 1777 /tmp/finstall-tmp
         exec /tmp/finstall-tmp supdate-tmp
     ;;
-    supdate-tmp)
+    supgrade-tmp)
         supdate
     ;;
     list)
