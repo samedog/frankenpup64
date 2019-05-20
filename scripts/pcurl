@@ -13,7 +13,8 @@
 #             - package repo will remain at frankenpuplinux.com instad of dropbox
 #             - Added -L just in case we need to follow a redirect
 #             - "#TODO Add exit at this point if this previous step fails" is now done.
-############################# actual code begins here, lol ######################################
+# 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
+######################### actual code begins here, lol ######################################
 debug() { echo "DEBUG: $*" > /dev/null; }
 
 o=$1
@@ -102,15 +103,14 @@ for i in $(eval echo {1..${MAX_SEGMENTS}})
 do
 	if [ "$i" !=  "$MAX_SEGMENT" ]
 	then 
-		curl -L --progress-bar --range ${START_SEG}-${END_SEG} -o "$o".part${i} "$u" &
+		curl -H 'Cache-Control: no-cache' -L --progress-bar --range ${START_SEG}-${END_SEG} -o "$o".part${i} "$u" &
 		pids="$pids $!"
 	else
-		curl -L --progress-bar --range ${START_SEG}- -o "$o".part${i} "$u" &
+		curl -H 'Cache-Control: no-cache' -L --progress-bar --range ${START_SEG}- -o "$o".part${i} "$u" &
 		pids="$pids $!"
 	fi
 	#echo "Start = ${START_SEG}"
 	#echo "End = ${END_SEG}"
-	echo -e "\n"
 	START_SEG=$((${END_SEG}+1))
 	END_SEG=$((${START_SEG}+${SEGMENT_SIZE}))
 done
