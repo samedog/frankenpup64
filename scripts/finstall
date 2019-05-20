@@ -49,6 +49,7 @@
 #             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory ‘/tmp/scripts’: File exists"
 #               was getting on my nerves.
 #             - ping_server is now silent (it should have been silent since the beginning)
+# 20-05-2017  - Added -H 'Cache-Control: no-cache' to curl.
 ################################# Code begins here #######################################
 
 
@@ -107,12 +108,12 @@ db_download(){
     CON=$(ping_server)
     if [ $? -ne 2 ]; then   ## check if we are connected to the internet
         if [ ! -z "$SILENT" ];then
-			curl -s -o "$DB_LOCATION" "$DB_URL"
+			curl -H 'Cache-Control: no-cache' -s -o "$DB_LOCATION" "$DB_URL"
 			if [ $? != 0 ]; then
 				echo 'Something went wrong, error code: 1'
 			fi
         else
-			curl --progress-bar -o "$DB_LOCATION" "$DB_URL"
+			curl -H 'Cache-Control: no-cache' --progress-bar -o "$DB_LOCATION" "$DB_URL"
 			if [ $? -eq 0 ]; then
 			    echo 'Package "database" upgraded successfully'
 			else
@@ -266,9 +267,9 @@ supdate(){
     if [ $? -eq 0 ]; then
         ### just in case shit fails
         cd /tmp/scripts
-        curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
-        curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
-        curl -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
         if [ $? -eq 0 ]; then
 			echo "making executable..."
 			chmod -R 1777 ./*
