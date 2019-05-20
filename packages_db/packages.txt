@@ -3,4 +3,6 @@ System/Vulkan-Loader-multilib-1.1.107.fxz > repo/fxz/Vulkan-Loader-multilib-1.1.
 System/wayland-multilib-1.17.0.fxz > repo/fxz/wayland-multilib-1.17.0.fxz > "TWayland is a project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol. " >
 Utilities/nvidia-xrun.fxz > repo/fxz/nvidia-xrun.fxz > "Nvidia xrun for laptops with discrete/integrated graphics (Intel/Nvidia)" > NVIDIA-driver-multilib-x86_64-418.56.fxz > Vulkan-Loader-multilib-1.1.107
 Fun/Steam-client.fxz > repo/fxz/Steam-client.fxz > "Application for managing and playing games on Steam" > Python-3.7.3
+Fun/virtualbox-6.0.6-130049.fxz > repo/fxz/virtualbox-6.0.6-130049.fxz > "Genymotion personal edition for playing android games on linux" > virtualbox-6.0.6-130049
 System/Python-3.7.3.fxz > repo/fxz/Python-3.7.3.fxz > "The Python 3 package contains the Python development environment, useful for object-oriented programming. " >
+System/virtualbox-6.0.6-130049.fxz > repo/fxz/virtualbox-6.0.6-130049.fxz > "Oracle VM VirtualBox is a free and open-source hosted hypervisor for x86 virtualization," >
