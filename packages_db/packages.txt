@@ -12,3 +12,4 @@ Dev/Vulkan-Headers.fxz > repo/Vulkan-Headers.fxz > "Vulkan header files and API 
 System/vkd3d-multilib.fxz > repo/vkd3d-multilib.fxz > "Vkd3d is a 3D graphics library built on top of Vulkan. It has an API very
 similar, but not identical, to Direct3D 12" >
 Dev/vkd3d-multilib-DEV.fxz > repo/vkd3d-multilib-DEV.fxz > "Vkd3d header files" >
+System/wine-4.0.1-multilib.fxz > repo/wine-4.0.1-multilib.fxz > "Wine Is Not an Emulator is a free and open-source compatibility layer that aims to allow computer programs developed for Microsoft Windows to run on Unix-like operating systems" > vkd3d-multilib.fxz
