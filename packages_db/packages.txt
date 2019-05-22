@@ -7,3 +7,8 @@ System/Python-3.7.3.fxz > repo/fxz/Python-3.7.3.fxz > "The Python 3 package cont
 System/virtualbox-6.0.8-130520.fxz > repo/fxz/virtualbox-6.0.8-130520.fxz > "Oracle VM VirtualBox is a free and open-source hosted hypervisor for x86 virtualization," >
 ExtraSoftware/LibreOffice-6.2.4.2.fxz > repo/LibreOffice-6.2.4.2.fxz > "LibreOffice is a free and open-source office suite."
 Internet/Telegram-1.7.fxz > repo/Telegram-1.7.fxz > "Telegram is a cloud-based instant messaging and voice over IP service developed by Telegram Messenger LLP." >
+Dev/SPIRV-Headers.fxz > repo/Dev/SPIRV-Headers.fxz > "Machine-readable files for the SPIR-V Registry, SPIR-V is a binary intermediate language for representing graphical-shader stages and compute kernels for multiple Khronos API" >
+Dev/Vulkan-Headers.fxz > repo/Vulkan-Headers.fxz > "Vulkan header files and API registry" >
+System/vkd3d-multilib.fxz > repo/vkd3d-multilib.fxz > "Vkd3d is a 3D graphics library built on top of Vulkan. It has an API very
+similar, but not identical, to Direct3D 12" >
+Dev/vkd3d-multilib-DEV.fxz > repo/vkd3d-multilib-DEV.fxz > "Vkd3d header files" >
