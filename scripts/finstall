@@ -49,7 +49,9 @@
 #             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory ‘/tmp/scripts’: File exists"
 #               was getting on my nerves.
 #             - ping_server is now silent (it should have been silent since the beginning)
-# 20-05-2017  - Added -H 'Cache-Control: no-cache' to curl.
+# 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
+# 17-06-2019  - Fixed a stupid typo causing an infinite loop on some packages.
+#
 ################################# Code begins here #######################################
 
 
@@ -60,7 +62,7 @@ URL2="www.google.com"                                                           
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
 DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                                                                # databse location on disk
-VERSION="0.5"
+VERSION="0.5.1"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
 
@@ -138,7 +140,7 @@ install(){
         PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep -i $PACK | cut -d' ' -f2 2>/dev/null)
         CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
         CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
-        DEPS=$(cat $DB_LOCATION | grep -i $NAME | cut -d'>' -f4 2>/dev/null)
+        DEPS=$(cat $DB_LOCATION | grep -i $PURL | cut -d'>' -f4 2>/dev/null) 
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
             echo "Package already installed"
@@ -164,9 +166,9 @@ install(){
                         EACH=$(echo "$DEPS" | cut -d' ' -f$c)
                         if [ ! -z "$EACH" ]; then
                             echo "\"$EACH\""
-				if [ -f "$DB_FOLDER/$EACH" ]; then
-					echo "Package already installed"
-				else
+							if [ -f "$DB_FOLDER/$EACH" ]; then
+								echo "Package already installed"
+							else
                                 finstall install "$EACH" "yes"
                             fi
                         fi
@@ -317,6 +319,7 @@ case "$1" in
         if [ ! -d /tmp/scripts ];then
             mkdir /tmp/scripts
         fi
+        killall kill finstall
         supdate
         exec /root/my-applications/bin/finstall finish
     ;;
