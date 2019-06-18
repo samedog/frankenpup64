@@ -51,6 +51,7 @@
 #             - ping_server is now silent (it should have been silent since the beginning)
 # 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
 # 17-06-2019  - Fixed a stupid typo causing an infinite loop on some packages.
+#             - btw i started frankenpup on 17-06-2007 :D
 #
 ################################# Code begins here #######################################
 
