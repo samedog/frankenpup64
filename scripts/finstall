@@ -319,7 +319,7 @@ case "$1" in
         if [ ! -d /tmp/scripts ];then
             mkdir /tmp/scripts
         fi
-        killall kill finstall
+        killall kill finstall 2>/dev/null
         supdate
         exec /root/my-applications/bin/finstall finish
     ;;
