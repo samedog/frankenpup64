@@ -1,4 +1,4 @@
-System/NVIDIA-driver-multilib-x86_64-418.56.fxz > s/8hobe5ykviwg4cx/NVIDIA-driver-multilib-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.1.0, utilities and 32 & 64 bits libraries" > linux-kernel-5.1.0
+System/NVIDIA-driver-multilib-x86_64-418.56.fxz > s/8hobe5ykviwg4cx/NVIDIA-driver-multilib-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.1.0, utilities and 32 & 64 bits libraries" > linux-kernel-5.1.0 
 System/Vulkan-Loader-multilib-1.1.107.fxz > s/ha5jg6pe98oj24t/Vulkan-Loader-multilib-1.1.107.fxz > "The ICD loader is a library that is placed between a Vulkan application and any number of Vulkan drivers" > wayland-multilib-1.17.0
 System/wayland-multilib-1.17.0.fxz > s/04pjzlv7m57di6z/wayland-multilib-1.17.0.fxz > "TWayland is a project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol. " >
 Utilities/nvidia-xrun.fxz > s/8hobe5ykviwg4cx/NVIDIA-driver-multilib-x86_64-418.56.fxz > "Nvidia xrun for laptops with discrete/integrated graphics (Intel/Nvidia)" > NVIDIA-driver-multilib-x86_64-418.56.fxz Vulkan-Loader-multilib-1.1.107.fxz
