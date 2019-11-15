@@ -1,15 +1,13 @@
-System/NVIDIA-driver-multilib-x86_64-418.56.fxz > repo/fxz/NVIDIA-driver-multilib-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.1.0, utilities and 32 & 64 bits libraries" > linux-kernel-5.1.0
-System/Vulkan-Loader-multilib-1.1.107.fxz > repo/fxz/Vulkan-Loader-multilib-1.1.107.fxz > "The ICD loader is a library that is placed between a Vulkan application and any number of Vulkan drivers" > wayland-multilib-1.17.0
-System/wayland-multilib-1.17.0.fxz > repo/fxz/wayland-multilib-1.17.0.fxz > "TWayland is a project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol. " >
-Utilities/nvidia-xrun.fxz > repo/fxz/nvidia-xrun.fxz > "Nvidia xrun for laptops with discrete/integrated graphics (Intel/Nvidia)" > NVIDIA-driver-multilib-x86_64-418.56.fxz Vulkan-Loader-multilib-1.1.107.fxz
-Fun/Steam-client.fxz > repo/fxz/Steam-client.fxz > "Application for managing and playing games on Steam" > Python-3.7.3
-System/Python-3.7.3.fxz > repo/fxz/Python-3.7.3.fxz > "The Python 3 package contains the Python development environment, useful for object-oriented programming. " >
-System/virtualbox-6.0.8-130520.fxz > repo/fxz/virtualbox-6.0.8-130520.fxz > "Oracle VM VirtualBox is a free and open-source hosted hypervisor for x86 virtualization," >
-ExtraSoftware/LibreOffice-6.2.4.2.fxz > repo/fxz/LibreOffice-6.2.4.2.fxz > "LibreOffice is a free and open-source office suite."
-Internet/Telegram-1.7.fxz > repo/fxz/Telegram-1.7.fxz > "Telegram is a cloud-based instant messaging and voice over IP service developed by Telegram Messenger LLP." >
-Dev/SPIRV-Headers.fxz > repo/Dev/SPIRV-Headers.fxz > "Machine-readable files for the SPIR-V Registry, SPIR-V is a binary intermediate language for representing graphical-shader stages and compute kernels for multiple Khronos API" >
-Dev/Vulkan-Headers.fxz > repo/fxz/Vulkan-Headers.fxz > "Vulkan header files and API registry" >
-System/vkd3d-multilib.fxz > repo/fxz/vkd3d-multilib.fxz > "Vkd3d is a 3D graphics library built on top of Vulkan. It has an API very
-similar, but not identical, to Direct3D 12" >
-Dev/vkd3d-multilib-DEV.fxz > repo/fxz/vkd3d-multilib-DEV.fxz > "Vkd3d header files" >
-System/wine-4.0.1-multilib.fxz > repo/fxz/wine-4.0.1-multilib.fxz > "Wine Is Not an Emulator is a free and open-source compatibility layer that aims to allow computer programs developed for Microsoft Windows to run on Unix-like operating systems" > vkd3d-multilib.fxz
+System/NVIDIA-driver-multilib-x86_64-418.56.fxz > s/8hobe5ykviwg4cx/NVIDIA-driver-multilib-x86_64-418.56.fxz > "Nvidia Drivers for linux kernel 5.1.0, utilities and 32 & 64 bits libraries" > linux-kernel-5.1.0
+System/Vulkan-Loader-multilib-1.1.107.fxz > s/ha5jg6pe98oj24t/Vulkan-Loader-multilib-1.1.107.fxz > "The ICD loader is a library that is placed between a Vulkan application and any number of Vulkan drivers" > wayland-multilib-1.17.0
+System/wayland-multilib-1.17.0.fxz > s/04pjzlv7m57di6z/wayland-multilib-1.17.0.fxz > "TWayland is a project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol. " >
+Utilities/nvidia-xrun.fxz > s/8hobe5ykviwg4cx/NVIDIA-driver-multilib-x86_64-418.56.fxz > "Nvidia xrun for laptops with discrete/integrated graphics (Intel/Nvidia)" > NVIDIA-driver-multilib-x86_64-418.56.fxz Vulkan-Loader-multilib-1.1.107.fxz
+Fun/Steam-client.fxz > s/egazbc9wlmsb67w/Steam-client.fxz > "Application for managing and playing games on Steam" > Python-3.7.3
+System/Python-3.7.3.fxz > s/fejv5lclfumu50v/Python-3.7.3.fxz > "The Python 3 package contains the Python development environment, useful for object-oriented programming. " >
+ExtraSoftware/LibreOffice-6.2.4.2.fxz > https://www.dropbox.com/s/v98cb0jl77lf59d/LibreOffice-6.2.4.2.fxz > "LibreOffice is a free and open-source office suite."
+Internet/Telegram-1.7.fxz > s/v98cb0jl77lf59d/LibreOffice-6.2.4.2.fxz > "Telegram is a cloud-based instant messaging and voice over IP service developed by Telegram Messenger LLP." >
+Dev/SPIRV-Headers.fxz > s/2z8f68x3yw4k85l/SPIRV-Headers.fxz > "Machine-readable files for the SPIR-V Registry, SPIR-V is a binary intermediate language for representing graphical-shader stages and compute kernels for multiple Khronos API" >
+Dev/Vulkan-Headers.fxz > s/x157b40qa6z9zyn/Vulkan-Headers.fxz > "Vulkan header files and API registry" >
+System/vkd3d-multilib.fxz > s/r03ejxbukm3cixn/vkd3d-multilib.fxz > "Vkd3d is a 3D graphics library built on top of Vulkan. It has an API very similar, but not identical, to Direct3D 12" >
+Dev/vkd3d-multilib-DEV.fxz > s/1qsmzg7o9z5xbmy/vkd3d-multilib-DEV.fxz > "Vkd3d header files" >
+System/wine-4.0.1-multilib.fxz > s/n6tm7fk3bcup75q/wine-4.0.1-multilib.fxz > "Wine Is Not an Emulator is a free and open-source compatibility layer that aims to allow computer programs developed for Microsoft Windows to run on Unix-like operating systems" > vkd3d-multilib.fxz
