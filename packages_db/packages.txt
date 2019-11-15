@@ -5,7 +5,7 @@ Utilities/nvidia-xrun.fxz > s/kdiqli0dikxtg3i/nvidia-xrun.fxz?dl=0 > "Nvidia xru
 Fun/Steam-client.fxz > s/egazbc9wlmsb67w/Steam-client.fxz > "Application for managing and playing games on Steam" > Python-3.7.3
 System/Python-3.7.3.fxz > s/fejv5lclfumu50v/Python-3.7.3.fxz > "The Python 3 package contains the Python development environment, useful for object-oriented programming. " >
 ExtraSoftware/LibreOffice-6.2.4.2.fxz > s/v98cb0jl77lf59d/LibreOffice-6.2.4.2.fxz > "LibreOffice is a free and open-source office suite."
-Internet/Telegram-1.7.fxz > s/v98cb0jl77lf59d/LibreOffice-6.2.4.2.fxz > "Telegram is a cloud-based instant messaging and voice over IP service developed by Telegram Messenger LLP." >
+Internet/Telegram-1.7.fxz > s/uks4tambimf72q8/Telegram-1.7.fxz > "Telegram is a cloud-based instant messaging and voice over IP service developed by Telegram Messenger LLP." >
 Dev/SPIRV-Headers.fxz > s/2z8f68x3yw4k85l/SPIRV-Headers.fxz > "Machine-readable files for the SPIR-V Registry, SPIR-V is a binary intermediate language for representing graphical-shader stages and compute kernels for multiple Khronos API" >
 Dev/Vulkan-Headers.fxz > s/x157b40qa6z9zyn/Vulkan-Headers.fxz > "Vulkan header files and API registry" >
 System/vkd3d-multilib.fxz > s/r03ejxbukm3cixn/vkd3d-multilib.fxz > "Vkd3d is a 3D graphics library built on top of Vulkan. It has an API very similar, but not identical, to Direct3D 12" >
