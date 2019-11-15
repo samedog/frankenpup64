@@ -52,13 +52,14 @@
 # 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
 # 17-06-2019  - Fixed a stupid typo causing an infinite loop on some packages.
 #             - btw i started frankenpup on 17-06-2007 :D
+# 15-11-2019  - Back to dropbox, becuse i forgot to pay for the hosting and got deleted (yes, i'm THAT stupid)
 #
 ################################# Code begins here #######################################
 
 
 ## some variables and shit
    
-URL="www.frankenpuplinux.com"                                                                        # now with proper hosting
+URL="www.dropbox.com"                                                                        # now with proper hosting
 URL2="www.google.com"                                                                                # most reliable ping
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
 DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
