@@ -53,7 +53,7 @@
 # 17-06-2019  - Fixed a stupid typo causing an infinite loop on some packages.
 #             - btw i started frankenpup on 17-06-2007 :D
 # 15-11-2019  - Back to dropbox, becuse i forgot to pay for the hosting and got deleted (yes, i'm THAT stupid)
-#
+# 17-11-2019  - Now you can install local downloaded packages.
 ################################# Code begins here #######################################
 
 
@@ -64,7 +64,7 @@ URL2="www.google.com"                                                           
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
 DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                                                                # databse location on disk
-VERSION="0.5.1"
+VERSION="0.5.2"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
 
@@ -83,7 +83,12 @@ ping_server(){
 ### function to search a package
 search_package(){
     SEARCH="$1"
-    if [ ! -f "DB_LOCATION" ]; then
+    if [ -f "$SEARCH" ];then
+    	echo "-----------------------------------------"
+		echo "Local package install..."
+		echo "-----------------------------------------"
+		return 3
+	elif [ ! -f "DB_LOCATION" ]; then
         db_download 1
     fi
     RESULT=$(cat $DB_LOCATION | grep -i $SEARCH)
@@ -130,12 +135,67 @@ db_download(){
     fi
 }
 
-### function to install a package  ##################################################################
+### function to install a package or local pakage ##################################################################
 install(){
     PACK="$1"
     NOASK="$2"
+    LOCAL_INSTALL=0
     search_package "$PACK"
-    if [ $? -eq 0 ]; then
+    if [ $? -eq 3 ]; then
+        CHNAME=$(echo $PACK | cut -d'-' -f1 2>/dev/null)
+        CNAME=$(echo $PACK | sed "s/.fxz//" 2>/dev/null)
+        
+        ## is package installed?
+        if [ -f "$DB_FOLDER/$CNAME" ]; then
+            echo "Package already installed"
+            exit
+        fi
+        
+		LOCATION="/tmp/$NAME"
+		echo "-----------------------------------------"
+		echo "Installing package..."
+		echo "-----------------------------------------"
+		cp -rf $PACK /tmp/$PACK
+		flag=$(pgrep -x "jwm")
+		cd /tmp
+		tar xf "$PACK"
+		if [ $? -eq 0 ]; then
+			rm -rf "$PACK"
+			echo "-----------------------------------------"
+			echo "Looking for custom install script..."
+			if [ -f /tmp/$CNAME/install ]; then
+				echo "-----------------------------------------"
+				echo "executing custom install script..."
+				/tmp/$CNAME/install
+				if [ $? -eq 0 ]; then
+					rm -rf /tmp/$CNAME/install
+					rm -rf /tmp/$CNAME
+					echo "-----------------------------------------"
+					if [ ! -z "$flag" ]; then
+						fixmenus
+						jwm -reload
+					fi
+					echo "Done"
+		if [ -f /install ]; then
+			rm -rf /install
+		fi
+				else
+					echo 'Something went wrong, error code: 4'
+				fi
+			else
+				echo "" > "$DB_FOLDER/$CNAME"
+				rm -rf /tmp/$CNAME
+				if [ ! -z "$flag" ]; then
+					fixmenus
+					jwm -reload
+				fi
+				echo "Done"
+			fi
+		else
+			echo 'Something went wrong, error code: 2'
+		fi
+
+    elif [ $? -eq 0 ]; then
         echo "No package \"$PACK\" found"
     else
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
@@ -143,11 +203,13 @@ install(){
         CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
         CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
         DEPS=$(cat $DB_LOCATION | grep -i $PURL | cut -d'>' -f4 2>/dev/null) 
+
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
             echo "Package already installed"
             exit
         fi
+        
         ## NOASK is the default dep resolver option
         if [ ! -z "$NOASK" ]; then
             CHECK="y"
@@ -345,7 +407,7 @@ case "$1" in
 Usage: finstall {install|reinstall|uninstall|search|db-update|script-update|list|version}
 
 install:          Install a package.
-                    ex: finstall install gimp
+                    ex: finstall install gimp or finstall install gimp.txz for a local package
 reinstall:        Reinstalls a package.
 uninstall:        Uninstalls a package.
 search:           Search a package.
