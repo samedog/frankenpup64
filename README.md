@@ -10,12 +10,9 @@ Features;
 - cli package manager for .fxz (primitive but functional with some kind of dep resolving based on a package database)
 - .pet compatibility (wich is dangerous if the package comes from another puplet because everything was compiled with proper --libdir for multilib and some .pets are a shitfest of 64bits libs on /usr/lib or even worst /usr/local/lib). I ONLY allowed .pet compatibility for the sake of friends helping me compile and packaging software until I code a proper package creation system since right now it's just a script to create the .fxz from a folder.
 
-Current ver. : 1.0
+Current ver. : 1.3
 
-Links
+Link
 
 ISO:
-https://www.frankenpuplinux.com/repo/iso/frankenpup64-1.0.iso
-
-devx
-https://www.frankenpuplinux.com/repo/sfs/devx_franken64_1.0.sfs
+http://www.frankenpuplinux.com
