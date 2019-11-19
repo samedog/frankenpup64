@@ -19,6 +19,7 @@
 #
 # 18-11-2019: - First version can dowload and apply new files/deltas to running system
 #               regardless of PUPMODE (see below)
+# 18-11-2019: - Path and LD_LIBRARY_PATH redeclare
 ##########################################################################################
 
 VERSION="0.1.0"
@@ -101,6 +102,8 @@ process_sfs(){
 	fi
 	## we are gonna check every folder one by one (for now) to avoid any stupid problems
 	if [ -d /deltafs ];then
+		PATH_ORIG=$PATH
+		LD_PATH_ORIG=$LD_LIBRARY_PATH
 		if [ -d /deltafs/processed/usr/bin ];then
 			echo "extending PATH to /deltafs/processed/usr/bin..."
 			PATH=/deltafs/processed/usr/bin:$PATH
@@ -139,6 +142,8 @@ process_sfs(){
 		echo "Applying changes to main system"
 
 		/deltafs/processed/apply_changes
+		PATH=$PATH_ORIG
+		LD_LIBRARY_PATH=$LD_PATH_ORIG
 	fi
 	
 	cd /
