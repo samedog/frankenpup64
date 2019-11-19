@@ -18,8 +18,11 @@
 # the initrd if needed.
 #
 # 18-11-2019: - First version can dowload and apply new files/deltas to running system
-#               regardless of PUPMODE (see below)
-# 18-11-2019: - Path and LD_LIBRARY_PATH redeclare
+#               regardless of PUPMODE (see below).
+#             - Path and LD_LIBRARY_PATH redeclare.
+#             - Support for "extra_steps" file.
+#             - Ask user for confirmation before doing anything.
+#
 ##########################################################################################
 
 VERSION="0.1.0"
@@ -62,8 +65,14 @@ check_updates(){
 	echo "System is running Frankenpup: " $VER " on a " $retval
 	wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/update_index -O /tmp/update_index --no-cache --no-cookies 2>/dev/null
 	UPD_FILE=$(cat /tmp/update_index)
-	update_enumerate_process $UPD_FILE 
-	rm -rf /tmp/update_index
+	echo "i'm gonna try to update the system, this may take a while"
+    read -p "Is this ok? (y/n)" CHECK
+    if [ $CHECK == "y"  ] ;then
+		update_enumerate_process $UPD_FILE 
+		rm -rf /tmp/update_index
+	else
+		echo "Nothing was done."
+	fi
 }
 
 function update_enumerate_process() {
@@ -79,6 +88,7 @@ echo "Checking for updates..."
 			echo "missing update: $val"
 			echo "processing..."
 			echo "downloading update $val_name"
+			
 			process_sfs $val_url $val_name
 		fi
 	done
@@ -145,14 +155,23 @@ process_sfs(){
 		PATH=$PATH_ORIG
 		LD_LIBRARY_PATH=$LD_PATH_ORIG
 	fi
+	echo "Running extra steps..."
+	$MNT_NAME/extra_steps
 	
 	cd /
+	echo "unounting $MNT_NAME ..."
 	umount $MNT_NAME
+	echo "deleting $MNT_NAME ..."
 	rm -rf $MNT_NAME
+	echo "deleting $TMP_NAME ..."
 	rm -rf $TMP_NAME
+	echo "deleting /deltafs ..."
 	rm -rf /deltafs
+	echo "deleting /tmp_fs ..."
 	rm -rf /tmp_fs
+	echo "deleting /apply_changes ..."
 	rm -rf /apply_changes
+	echo "DONE!"
 }
 
 check_new_files(){
