@@ -54,17 +54,20 @@
 #             - btw i started frankenpup on 17-06-2007 :D
 # 15-11-2019  - Back to dropbox, becuse i forgot to pay for the hosting and got deleted (yes, i'm THAT stupid)
 # 17-11-2019  - Now you can install local downloaded packages.
+# 18-11-2019  - Added rolling release capabilities by the rrelease script (experimental)
+#             - Version bumped to 0.6
+#
 ################################# Code begins here #######################################
 
 
 ## some variables and shit
    
-URL="www.dropbox.com"                                                                        # now with proper hosting
+URL="www.dropbox.com"                                                                                # back to dropbox
 URL2="www.google.com"                                                                                # most reliable ping
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
 DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                                                                # databse location on disk
-VERSION="0.5.2"
+VERSION="0.6.0"
 
 ### function to ping google.com to check if we are (or not) connected to the internet
 
@@ -336,6 +339,8 @@ supdate(){
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/rreleases"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/night-mode-switch"
         if [ $? -eq 0 ]; then
 			echo "making executable..."
 			chmod -R 1777 ./*
@@ -348,7 +353,9 @@ supdate(){
         echo "No internet connection, 100% package loss or server offline"
     fi
 }
-
+rolling_release(){
+	rreleases
+}
 
 ### initialization and shit
 case "$1" in
@@ -366,6 +373,9 @@ case "$1" in
         else
             exit
         fi
+    ;;
+    upgrade)
+		rolling_release
     ;;
     db-update)
         echo "updating package list..."
@@ -404,11 +414,12 @@ case "$1" in
     *)
     echo "This small script was created to handle software compiled and tested for frankenpup64
 
-Usage: finstall {install|reinstall|uninstall|search|db-update|script-update|list|version}
+Usage: finstall {install|reinstall|upgrade|uninstall|search|db-update|script-update|list|version}
 
 install:          Install a package.
                     ex: finstall install gimp or finstall install gimp.txz for a local package
 reinstall:        Reinstalls a package.
+upgrade:          Install system updates.
 uninstall:        Uninstalls a package.
 search:           Search a package.
                     ex: finstall search gimp
