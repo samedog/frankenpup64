@@ -395,6 +395,7 @@ case "$1" in
         fi
         killall kill finstall 2>/dev/null
         supdate
+	supdate
         exec /root/my-applications/bin/finstall finish
     ;;
     finish)
