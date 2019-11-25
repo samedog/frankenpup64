@@ -17,16 +17,17 @@
 # them on the next versions to be able to patch live usb or frugal install SFS files and
 # the initrd if needed.
 #
-# 18-11-2019: - First version can dowload and apply new files/deltas to running system
+# 18-11-2019  - First version can dowload and apply new files/deltas to running system
 #               regardless of PUPMODE (see below).
 #             - Path and LD_LIBRARY_PATH redeclare.
 #             - Support for "extra_steps" file.
 #             - Ask user for confirmation before doing anything.
+# 24-11-2019  - First PROPER rolling release implementation.
 #
 ##########################################################################################
 
-VERSION="0.1.0"
-
+VERSION="0.2.0"
+RETURN_ARRAY=""
 VER=$(cat /etc/DISTRO_SPECS | grep "DISTRO_VERSION" | cut -d'=' -f2)
 
 function check_pupmode(){
@@ -63,20 +64,63 @@ function check_pupmode(){
 check_updates(){
 	check_pupmode
 	echo "System is running Frankenpup: " $VER " on a " $retval
-	wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/update_index -O /tmp/update_index --no-cache --no-cookies 2>/dev/null
-	UPD_FILE=$(cat /tmp/update_index)
 	echo "i'm gonna try to update the system, this may take a while"
     read -p "Is this ok? (y/n)" CHECK
     if [ $CHECK == "y"  ] ;then
-		update_enumerate_process $UPD_FILE 
-		rm -rf /tmp/update_index
+		echo "getting update index..."
+		#uncomment later
+		#wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/rrlease_index -O /tmp/rrlease_index --no-cache --no-cookies 2>/dev/null 
+		UPD_FILE=$(cat /tmp/rrlease_index)
+		update_enumerate_process $UPD_FILE
+		NAMES=$RETURN_ARRAY		
+		#check_updates_packages
+		# uncomment later
+		#rm -rf /tmp/rrlease_index
+		for val in $NAMES
+			do
+				if [ -f "$val" ];then
+					LIST=$(cat "$val")
+					ARCH=0
+						for line in $LIST
+							do
+								val_name=$(echo $line | rev | cut -d'/' -f1 | rev)
+								val_name=${val_name::-4}
+								COUNT=$(echo $val_name | grep -o "-" | wc -l)
+								COUNT="$(($COUNT + 1))"
+								NAME=""
+								#echo "=========================================="
+								for (( c=1; c<=$COUNT; c++))
+									do
+										VERS_FIND=$(echo $val_name | cut -d'-' -f $c)
+										if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+											PKG_VERSION=$VERS_FIND
+										fi
+										if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+											NAME+=$VERS_FIND
+										fi 
+										if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
+											ARCH=32
+										elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
+											ARCH=64
+										fi
+									done
+								echo "package $NAME | VERSION: $PKG_VERSION | ARCH: $ARCH"
+								UPDATE_PKG="$NAME|$PKG_VERSION|$ARCH"
+								ARCH=0
+								check_installed $UPDATE_PKG
+							done
+					
+					echo "deleting temporal pacakges list"
+					#rm -rf $val undelete
+				fi
+			done
 	else
 		echo "Nothing was done."
 	fi
 }
-
 function update_enumerate_process() {
-echo "Checking for updates..."
+  echo "Checking for updates..."
+  NAMES=()
   for val in "$@"
 	do
 		val_url=$(echo $val | cut -d">" -f2)
@@ -87,91 +131,76 @@ echo "Checking for updates..."
 		if [ $val2 -gt $ver2 ];then
 			echo "missing update: $val"
 			echo "processing..."
-			echo "downloading update $val_name"
-			
-			process_sfs $val_url $val_name
+			echo "downloading update index for $val_name"
+			PKGS_FILE="/tmp/$val.txt"
+			wget $val_url -O $PKGS_FILE --no-cache --no-cookies 2>/dev/null
 		fi
+		NAMES+=("$PKGS_FILE")
 	done
+	RETURN_ARRAY=$NAMES
 }
 
-process_sfs(){
-	MNT_NAME="/mnt/$2"
-	TMP_NAME="/tmp/$2"
-	curl -H 'Cache-Control: no-cache' -L --progress-bar -o $TMP_NAME "$1"
-	echo "Mounting squashfs..."
-	mkdir $MNT_NAME
-	mount -t squashfs $TMP_NAME $MNT_NAME
-	cd $MNT_NAME
-	echo "Checking for new files..."
-	check_new_files
-	echo "Checking for delta files..."
-	check_deltas
-	echo "Unmounting and cleaning temporal files"
-	if [ -d /tmp_fs ];then
-		cp -rf /tmp_fs/* /
-	fi
-	## we are gonna check every folder one by one (for now) to avoid any stupid problems
-	if [ -d /deltafs ];then
-		PATH_ORIG=$PATH
-		LD_PATH_ORIG=$LD_LIBRARY_PATH
-		if [ -d /deltafs/processed/usr/bin ];then
-			echo "extending PATH to /deltafs/processed/usr/bin..."
-			PATH=/deltafs/processed/usr/bin:$PATH
-		fi
-		if [ -d /deltafs/processed/usr/sbin ];then
-			echo "extending PATH to /deltafs/processed/usr/sbin..."
-			PATH=/deltafs/processed/usr/sbin:$PATH
-		fi
-		if [ -d /deltafs/processed/sbin ];then
-			echo "extending PATH to /deltafs/processed/sbin..."
-			PATH=/deltafs/processed/sbin:$PATH
-		fi
-		if [ -d /deltafs/processed/bin ];then
-			echo "extending PATH to /deltafs/processed/bin..."
-			PATH=/deltafs/processed/bin:$PATH
-		fi
-		## end common binary checks
-		if [ -d /deltafs/processed/usr/lib ];then
-			echo "extending LD_LIBRARY_PATH to /deltafs/processed/usr/lib..."
-			LD_LIBRARY_PATH=/deltafs/processed/usr/lib:$LD_LIBRARY_PATH
-		fi
-		if [ -d /deltafs/processed/usr/lib64 ];then
-			echo "extending LD_LIBRARY_PATH to /deltafs/processed/usr/lib64..."
-			LD_LIBRARY_PATH=/deltafs/processed/usr/lib64:$LD_LIBRARY_PATH
-		fi
-		if [ -d /deltafs/processed/lib64 ];then
-			echo "extending LD_LIBRARY_PATH to /deltafs/processed/lib64..."
-			LD_LIBRARY_PATH=/deltafs/processed/lib64:$LD_LIBRARY_PATH
-		fi
-		if [ -d /deltafs/processed/lib ];then
-			echo "extending LD_LIBRARY_PATH to /deltafs/processed/lib..."
-			LD_LIBRARY_PATH=/deltafs/processed/lib:$LD_LIBRARY_PATH
-		fi
-		## end common lib checks
-		
-		echo "Applying changes to main system"
 
-		/deltafs/processed/apply_changes
-		PATH=$PATH_ORIG
-		LD_LIBRARY_PATH=$LD_PATH_ORIG
-	fi
-	echo "Running extra steps..."
-	$MNT_NAME/extra_steps
+check_installed(){
+	echo "checking installed packages"
+	cd /var/fpackages
+	INSATLLED_PACKAGES=()
+	INSTALLED=$(find . -type f | sed "s|^\./||")
+	ARCH=0
+	PACKAGE_COUNT=0
+	for INST in $INSTALLED
+		do
+			#echo $INST
+			#we count how many "-" the filename has
+			COUNT=$(echo $INST | grep -o "-" | wc -l)
+			COUNT="$(($COUNT + 1))"
+			#echo "=========================================="
+			for (( c=1; c<=$COUNT; c++))
+				do
+					VERS_FIND=$(echo $INST | cut -d'-' -f $c)
+					if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+						PKG_VERSION=$VERS_FIND
+					fi
+					if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+						NAME+=$VERS_FIND
+					fi 
+					if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
+						ARCH=32
+					elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
+						ARCH=64
+					fi
+					######################
+					UPD_NAME=$(echo $1 | cut -d'|' -f1 )
+					UPD_VERS=$(echo $1 | cut -d'|' -f2 )
+					UPD_ARCH=$(echo $1 | cut -d'|' -f3 )
+					
+					#echo "checking if $UPD_NAME is installed"
+					if [[ $NAME == $UPD_NAME ]] && [[ $ARCH == $UPD_ARCH ]];then
+						echo "found package $NAME"
+						#echo "checking versions"
+						vercomp $UPD_VERS $PKG_VERSION
+						case $? in
+							0) op='=';;
+							1) op='>';;
+							2) op='<';;
+						esac
+						if [ $op == ">" ];then
+							echo "package $UPD_NAME $UPD_VERS is an update to $NAME $PKG_VERSION"
+						fi
+						return
+					fi
+					
+					######################
+					
+				done
+			#echo "package $INST | VERSION: $PKG_VERSION | ARCH: $ARCH"
+			ARCH=0
+			NAME=""
+			#INSATLLED_PACKAGES[$PACKAGE_COUNT]="$INST|$PKG_VERSION|$ARCH"
+			#((PACKAGE_COUNT+=1))
+		done
 	
-	cd /
-	echo "unounting $MNT_NAME ..."
-	umount $MNT_NAME
-	echo "deleting $MNT_NAME ..."
-	rm -rf $MNT_NAME
-	echo "deleting $TMP_NAME ..."
-	rm -rf $TMP_NAME
-	echo "deleting /deltafs ..."
-	rm -rf /deltafs
-	echo "deleting /tmp_fs ..."
-	rm -rf /tmp_fs
-	echo "deleting /apply_changes ..."
-	rm -rf /apply_changes
-	echo "DONE!"
+	#echo "$PACKAGE_COUNT packages installed, checking for updates..."
 }
 
 check_new_files(){
@@ -194,6 +223,38 @@ check_deltas(){
 }
 make_backups(){
 	return
+}
+
+vercomp () {
+	#####THANKS STACKOVERFLOW!!!
+    if [[ $1 == $2 ]]
+    then
+        return 0
+    fi
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+    do
+        ver1[i]=0
+    done
+    for ((i=0; i<${#ver1[@]}; i++))
+    do
+        if [[ -z ${ver2[i]} ]]
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+        if ((10#${ver1[i]} > 10#${ver2[i]}))
+        then
+            return 1
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]}))
+        then
+            return 2
+        fi
+    done
+    return 0
 }
 
 check_updates
