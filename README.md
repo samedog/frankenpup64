@@ -6,7 +6,7 @@ Features;
 
 - 64bits mutilib system out of the box.
 - Wine + vulkan + dxvk available the repo.
-- Steam's Proton compatible (needs Python3, available on the repo)
+- Steam Proton compatible (needs Python3, available on the repo)
 - Pseudo rolling release system
 - Flatpak support (with 1.3.1 update)
 - Slackware-14.2 comptible (kinda... with alienbob's repos, oficial repos could be dangerous)
