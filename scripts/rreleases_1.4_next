@@ -31,202 +31,202 @@ RETURN_ARRAY=""
 VER=$(cat /etc/DISTRO_SPECS | grep "DISTRO_VERSION" | cut -d'=' -f2)
 
 function check_pupmode(){
-    #Pupmode	
-	#PUPMODE 02 : full install
-	#PUPMODE 03 : full install, flash drive
-	#PUPMODE 05 : first boot [or pfix=ram]
-	#PUPMODE 06 : pup_save is a partition
-	#PUPMODE 07 : ditto, but flash drive
-	#PUPMODE 12 : normal running puppy
-	#PUPMODE 13 : ditto, but flash drive
-	#PUPMODE 77 : multisession cd/dvd [13+64]
-	PUP_MODE=$(cat /etc/rc.d/PUPSTATE | grep PUPMODE | cut -d'=' -f2)
-	if [ $PUP_MODE -eq "2" ];then
-		retval="FULL INSTALL"
-	elif [ $PUP_MODE -eq "3" ];then
-		retval="FULL INSTALL ON FLASH DRIVE"
-	elif [ $PUP_MODE -eq "5" ];then
-		retval="FIRST BOOT OR pfix=ram"
-	elif [ $PUP_MODE -eq "6" ];then
-		retval="PUP_SAVE ON A PARTITION"
-	elif [ $PUP_MODE -eq "7" ];then
-		retval="PUP_SAVE ON A FLASH DRIVE"
-	elif [ $PUP_MODE -eq "12" ];then
-		retval="FRUGAL"
-	elif [ $PUP_MODE -eq "13" ];then
-		retval="FRUGAL ON FLASH DRIVE"
-	elif [ $PUP_MODE -eq "77" ];then
-		retval="MULTISESSION CD/DVD"
-	fi
-	
+    #Pupmode    
+    #PUPMODE 02 : full install
+    #PUPMODE 03 : full install, flash drive
+    #PUPMODE 05 : first boot [or pfix=ram]
+    #PUPMODE 06 : pup_save is a partition
+    #PUPMODE 07 : ditto, but flash drive
+    #PUPMODE 12 : normal running puppy
+    #PUPMODE 13 : ditto, but flash drive
+    #PUPMODE 77 : multisession cd/dvd [13+64]
+    PUP_MODE=$(cat /etc/rc.d/PUPSTATE | grep PUPMODE | cut -d'=' -f2)
+    if [ $PUP_MODE -eq "2" ];then
+        retval="FULL INSTALL"
+    elif [ $PUP_MODE -eq "3" ];then
+        retval="FULL INSTALL ON FLASH DRIVE"
+    elif [ $PUP_MODE -eq "5" ];then
+        retval="FIRST BOOT OR pfix=ram"
+    elif [ $PUP_MODE -eq "6" ];then
+        retval="PUP_SAVE ON A PARTITION"
+    elif [ $PUP_MODE -eq "7" ];then
+        retval="PUP_SAVE ON A FLASH DRIVE"
+    elif [ $PUP_MODE -eq "12" ];then
+        retval="FRUGAL"
+    elif [ $PUP_MODE -eq "13" ];then
+        retval="FRUGAL ON FLASH DRIVE"
+    elif [ $PUP_MODE -eq "77" ];then
+        retval="MULTISESSION CD/DVD"
+    fi
+    
 }
 
 check_updates(){
-	check_pupmode
-	echo "System is running Frankenpup: " $VER " on a " $retval
-	echo "i'm gonna try to update the system, this may take a while"
+    check_pupmode
+    echo "System is running Frankenpup: " $VER " on a " $retval
+    echo "i'm gonna try to update the system, this may take a while"
     read -p "Is this ok? (y/n)" CHECK
     if [ $CHECK == "y"  ] ;then
-		echo "getting update index..."
-		#uncomment later
-		#wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/rrlease_index -O /tmp/rrlease_index --no-cache --no-cookies 2>/dev/null 
-		UPD_FILE=$(cat /tmp/rrlease_index)
-		update_enumerate_process $UPD_FILE
-		NAMES=$RETURN_ARRAY		
-		#check_updates_packages
-		# uncomment later
-		#rm -rf /tmp/rrlease_index
-		for val in $NAMES
-			do
-				if [ -f "$val" ];then
-					LIST=$(cat "$val")
-					ARCH=0
-						for line in $LIST
-							do
-								val_name=$(echo $line | rev | cut -d'/' -f1 | rev)
-								val_name=${val_name::-4}
-								COUNT=$(echo $val_name | grep -o "-" | wc -l)
-								COUNT="$(($COUNT + 1))"
-								NAME=""
-								#echo "=========================================="
-								for (( c=1; c<=$COUNT; c++))
-									do
-										VERS_FIND=$(echo $val_name | cut -d'-' -f $c)
-										if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-											PKG_VERSION=$VERS_FIND
-										fi
-										if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-											NAME+=$VERS_FIND
-										fi 
-										if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
-											ARCH=32
-										elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
-											ARCH=64
-										fi
-									done
-								echo "package $NAME | VERSION: $PKG_VERSION | ARCH: $ARCH"
-								UPDATE_PKG="$NAME|$PKG_VERSION|$ARCH"
-								ARCH=0
-								check_installed $UPDATE_PKG
-							done
-					
-					echo "deleting temporal pacakges list"
-					#rm -rf $val undelete
-				fi
-			done
-	else
-		echo "Nothing was done."
-	fi
+        echo "getting update index..."
+        #uncomment later
+        #wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/rrlease_index -O /tmp/rrlease_index --no-cache --no-cookies 2>/dev/null 
+        UPD_FILE=$(cat /tmp/rrlease_index)
+        update_enumerate_process $UPD_FILE
+        NAMES=$RETURN_ARRAY     
+        #check_updates_packages
+        # uncomment later
+        #rm -rf /tmp/rrlease_index
+        for val in $NAMES
+            do
+                if [ -f "$val" ];then
+                    LIST=$(cat "$val")
+                    ARCH=0
+                        for line in $LIST
+                            do
+                                val_name=$(echo $line | rev | cut -d'/' -f1 | rev)
+                                val_name=${val_name::-4}
+                                COUNT=$(echo $val_name | grep -o "-" | wc -l)
+                                COUNT="$(($COUNT + 1))"
+                                NAME=""
+                                #echo "=========================================="
+                                for (( c=1; c<=$COUNT; c++))
+                                    do
+                                        VERS_FIND=$(echo $val_name | cut -d'-' -f $c)
+                                        if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+                                            PKG_VERSION=$VERS_FIND
+                                        fi
+                                        if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+                                            NAME+=$VERS_FIND
+                                        fi 
+                                        if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
+                                            ARCH=32
+                                        elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
+                                            ARCH=64
+                                        fi
+                                    done
+                                echo "package $NAME | VERSION: $PKG_VERSION | ARCH: $ARCH"
+                                UPDATE_PKG="$NAME|$PKG_VERSION|$ARCH"
+                                ARCH=0
+                                check_installed $UPDATE_PKG
+                            done
+                    
+                    echo "deleting temporal pacakges list"
+                    #rm -rf $val undelete
+                fi
+            done
+    else
+        echo "Nothing was done."
+    fi
 }
 function update_enumerate_process() {
   echo "Checking for updates..."
   NAMES=()
   for val in "$@"
-	do
-		val_url=$(echo $val | cut -d">" -f2)
-		val_name=$(echo $val_url | rev | cut -d'/' -f1 | rev)
-		val=$(echo $val | cut -d">" -f1)
-		ver2="${VER//.}"
-		val2="${val//.}"
-		if [ $val2 -gt $ver2 ];then
-			echo "missing update: $val"
-			echo "processing..."
-			echo "downloading update index for $val_name"
-			PKGS_FILE="/tmp/$val.txt"
-			wget $val_url -O $PKGS_FILE --no-cache --no-cookies 2>/dev/null
-		fi
-		NAMES+=("$PKGS_FILE")
-	done
-	RETURN_ARRAY=$NAMES
+    do
+        val_url=$(echo $val | cut -d">" -f2)
+        val_name=$(echo $val_url | rev | cut -d'/' -f1 | rev)
+        val=$(echo $val | cut -d">" -f1)
+        ver2="${VER//.}"
+        val2="${val//.}"
+        if [ $val2 -gt $ver2 ];then
+            echo "missing update: $val"
+            echo "processing..."
+            echo "downloading update index for $val_name"
+            PKGS_FILE="/tmp/$val.txt"
+            wget $val_url -O $PKGS_FILE --no-cache --no-cookies 2>/dev/null
+        fi
+        NAMES+=("$PKGS_FILE")
+    done
+    RETURN_ARRAY=$NAMES
 }
 
 
 check_installed(){
-	echo "checking installed packages"
-	cd /var/fpackages
-	INSATLLED_PACKAGES=()
-	INSTALLED=$(find . -type f | sed "s|^\./||")
-	ARCH=0
-	PACKAGE_COUNT=0
-	for INST in $INSTALLED
-		do
-			#echo $INST
-			#we count how many "-" the filename has
-			COUNT=$(echo $INST | grep -o "-" | wc -l)
-			COUNT="$(($COUNT + 1))"
-			#echo "=========================================="
-			for (( c=1; c<=$COUNT; c++))
-				do
-					VERS_FIND=$(echo $INST | cut -d'-' -f $c)
-					if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-						PKG_VERSION=$VERS_FIND
-					fi
-					if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-						NAME+=$VERS_FIND
-					fi 
-					if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
-						ARCH=32
-					elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
-						ARCH=64
-					fi
-					######################
-					UPD_NAME=$(echo $1 | cut -d'|' -f1 )
-					UPD_VERS=$(echo $1 | cut -d'|' -f2 )
-					UPD_ARCH=$(echo $1 | cut -d'|' -f3 )
-					
-					#echo "checking if $UPD_NAME is installed"
-					if [[ $NAME == $UPD_NAME ]] && [[ $ARCH == $UPD_ARCH ]];then
-						echo "found package $NAME"
-						#echo "checking versions"
-						vercomp $UPD_VERS $PKG_VERSION
-						case $? in
-							0) op='=';;
-							1) op='>';;
-							2) op='<';;
-						esac
-						if [ $op == ">" ];then
-							echo "package $UPD_NAME $UPD_VERS is an update to $NAME $PKG_VERSION"
-						fi
-						return
-					fi
-					
-					######################
-					
-				done
-			#echo "package $INST | VERSION: $PKG_VERSION | ARCH: $ARCH"
-			ARCH=0
-			NAME=""
-			#INSATLLED_PACKAGES[$PACKAGE_COUNT]="$INST|$PKG_VERSION|$ARCH"
-			#((PACKAGE_COUNT+=1))
-		done
-	
-	#echo "$PACKAGE_COUNT packages installed, checking for updates..."
+    echo "checking installed packages"
+    cd /var/fpackages
+    INSATLLED_PACKAGES=()
+    INSTALLED=$(find . -type f | sed "s|^\./||")
+    ARCH=0
+    PACKAGE_COUNT=0
+    for INST in $INSTALLED
+        do
+            #echo $INST
+            #we count how many "-" the filename has
+            COUNT=$(echo $INST | grep -o "-" | wc -l)
+            COUNT="$(($COUNT + 1))"
+            #echo "=========================================="
+            for (( c=1; c<=$COUNT; c++))
+                do
+                    VERS_FIND=$(echo $INST | cut -d'-' -f $c)
+                    if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+                        PKG_VERSION=$VERS_FIND
+                    fi
+                    if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
+                        NAME+=$VERS_FIND
+                    fi 
+                    if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
+                        ARCH=32
+                    elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
+                        ARCH=64
+                    fi
+                    ######################
+                    UPD_NAME=$(echo $1 | cut -d'|' -f1 )
+                    UPD_VERS=$(echo $1 | cut -d'|' -f2 )
+                    UPD_ARCH=$(echo $1 | cut -d'|' -f3 )
+                    
+                    #echo "checking if $UPD_NAME is installed"
+                    if [[ $NAME == $UPD_NAME ]] && [[ $ARCH == $UPD_ARCH ]];then
+                        echo "found package $NAME"
+                        #echo "checking versions"
+                        vercomp $UPD_VERS $PKG_VERSION
+                        case $? in
+                            0) op='=';;
+                            1) op='>';;
+                            2) op='<';;
+                        esac
+                        if [ $op == ">" ];then
+                            echo "package $UPD_NAME $UPD_VERS is an update to $NAME $PKG_VERSION"
+                        fi
+                        return
+                    fi
+                    
+                    ######################
+                    
+                done
+            #echo "package $INST | VERSION: $PKG_VERSION | ARCH: $ARCH"
+            ARCH=0
+            NAME=""
+            #INSATLLED_PACKAGES[$PACKAGE_COUNT]="$INST|$PKG_VERSION|$ARCH"
+            #((PACKAGE_COUNT+=1))
+        done
+    
+    #echo "$PACKAGE_COUNT packages installed, checking for updates..."
 }
 
 check_new_files(){
-	if [ -d "new-files" ];then
-		echo "New files found, processing"
-		mkdir /tmp_fs
-		cp -rf  ./new-files/* /tmp_fs
-		echo "done processing new files"
-	fi 
+    if [ -d "new-files" ];then
+        echo "New files found, processing"
+        mkdir /tmp_fs
+        cp -rf  ./new-files/* /tmp_fs
+        echo "done processing new files"
+    fi 
 }
 check_deltas(){
-	if [ -d "delta-files" ];then
-		echo "Delta files found, processing"
-		mkdir /deltafs
-		cp -rf ./delta-files/* /deltafs
-		cd /deltafs
-		/deltafs/process_deltas
-		echo "done processing new files"
-	fi 
+    if [ -d "delta-files" ];then
+        echo "Delta files found, processing"
+        mkdir /deltafs
+        cp -rf ./delta-files/* /deltafs
+        cd /deltafs
+        /deltafs/process_deltas
+        echo "done processing new files"
+    fi 
 }
 make_backups(){
-	return
+    return
 }
 
 vercomp () {
-	#####THANKS STACKOVERFLOW!!!
+    #####THANKS STACKOVERFLOW!!!
     if [[ $1 == $2 ]]
     then
         return 0
