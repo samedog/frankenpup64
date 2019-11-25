@@ -6,256 +6,428 @@
 ##########################################################################################
 #
 # ALL OF MY CODE COMMENTS ARE NOT SAFE FOR WORK
-# THIS SCRIPT IS BAD, AND I SHOULD FEEL BAD ABOUT IT, IT'S JUST SOME HALF-ASS "IFS" AND 
-# "ELSES" PUT IN A WAY THEY "KINDA" WORK MOST OF THE REAL WORK IS DONE BY THE SCRIPTS 
-# IN THE SFS UPDATES
+# THIS SCRIPT IS A SET OF HORRIBLE HACKS, IT MIGHT WORK, MIGHT OPEN A VORTEX AND SEND YOU TO A
+# COMPLETELY DIFFERENT UNIVERSE, OR MIGHT NOT DO SHIT.
 #
 ##########################################################################################
+
+#Changelog:
+# 24-06-2015: - Moved scripts from bitbucket to dropbox, i don't feel like packing
+#               git on the main sfs for a fucking couple of less than 50kb scripts because bitbucket raw
+#               view changes the url of the file on each commit.
+# 26-06-2015: - Added package descriptions.
+# 26-06-2015: - Changed from dropbox to github, since it has better way to handle files without
+#               compromising the raw file url.
+# 30-06-2015: - Added prompts on install and uninstall to avoid PEBKAC.
+# 03-07-2015: - Added package database URL variable, fixed the placement of the "y/n" prompt for package
+#               uninstall.
+#             - Removed *some* irony from code comments so they don't hurt feelings anymore ;^).
+# 13-07-2015: - Renamed to fpackages.
+#             - Version number changed to 0.2.
+# 20-07-2015: - Added basic dep resolving.
+#             - "install" option will not try to install a package if it's already installed, that's "reinstall"'s job.
+#             - Version bumped to to 0.3 (dep resolving).
+# 11-02-2016: - Renamed to kinstall.
+#             - Version bumped to 0.3.1 (for me to track some minor shit).
+# 16-10-2017: - switched to curl.
+#             - fixed some bad conditions.
+#             - Version bumped to 0.4.
+# 05-05-2019: - Repurposed for frankenpup64, since frankenpup (32) script was older.
+#             - Some code cleanup and variable fixing for better package handling.
+#             - Version bumped to 0.5 for obvious reasons.
+# 07-05-2019: - Added a condition for jwm to update menus.
+#             - Grep -i for searching packages (REALLY).
+# 09-05-2019  - Changed package database to frankenpuplinux.com.
+#             - Package database back to github (easier to maintain).
+#             - package repo will remain at frankenpuplinux.com instad of dropbox.
+# 15-05-2019  - Changes to functions names.
+#             - Now the script uses pcurl, a wrapper for multiple curl threads.
+#             - Some code cleanup.
+#             - Removed "if [ ! -d $DB_FOLDER ]" since it's not needed anymore (since a while really)
+#             - Added "if [ -f /install ]" to remove it if needed
+#             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory â€˜/tmp/scriptsâ€™: File exists"
+#               was getting on my nerves.
+#             - ping_server is now silent (it should have been silent since the beginning)
+# 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
+# 17-06-2019  - Fixed a stupid typo causing an infinite loop on some packages.
+#             - btw i started frankenpup on 17-06-2007 :D
+# 15-11-2019  - Back to dropbox, becuse i forgot to pay for the hosting and got deleted (yes, i'm THAT stupid)
+# 17-11-2019  - Now you can install local downloaded packages.
+# 18-11-2019  - Added rolling release capabilities by the rrelease script (experimental)
+#             - Version bumped to 0.6
+# 24-11-2019  - Options changed to letters instead of full words to make it easier to use.
 #
-# This system is in a very pimitive status, it "just works" for now, i'm planning to add
-# better support for frugal installs and live versions but first i gotta make sure the 
-# critical parts of it work, the PUPMODES for now are only for reference and i'll use 
-# them on the next versions to be able to patch live usb or frugal install SFS files and
-# the initrd if needed.
-#
-# 18-11-2019  - First version can dowload and apply new files/deltas to running system
-#               regardless of PUPMODE (see below).
-#             - Path and LD_LIBRARY_PATH redeclare.
-#             - Support for "extra_steps" file.
-#             - Ask user for confirmation before doing anything.
-# 24-11-2019  - First PROPER rolling release implementation.
-#             - Each package install script will carry advanced procedures if needed
-##########################################################################################
+################################# Code begins here #######################################
 
-VERSION="0.2.0"
-RETURN_ARRAY=""
-VER=$(cat /etc/DISTRO_SPECS | grep "DISTRO_VERSION" | cut -d'=' -f2)
 
-function check_pupmode(){
-    #Pupmode    
-    #PUPMODE 02 : full install
-    #PUPMODE 03 : full install, flash drive
-    #PUPMODE 05 : first boot [or pfix=ram]
-    #PUPMODE 06 : pup_save is a partition
-    #PUPMODE 07 : ditto, but flash drive
-    #PUPMODE 12 : normal running puppy
-    #PUPMODE 13 : ditto, but flash drive
-    #PUPMODE 77 : multisession cd/dvd [13+64]
-    PUP_MODE=$(cat /etc/rc.d/PUPSTATE | grep PUPMODE | cut -d'=' -f2)
-    if [ $PUP_MODE -eq "2" ];then
-        retval="FULL INSTALL"
-    elif [ $PUP_MODE -eq "3" ];then
-        retval="FULL INSTALL ON FLASH DRIVE"
-    elif [ $PUP_MODE -eq "5" ];then
-        retval="FIRST BOOT OR pfix=ram"
-    elif [ $PUP_MODE -eq "6" ];then
-        retval="PUP_SAVE ON A PARTITION"
-    elif [ $PUP_MODE -eq "7" ];then
-        retval="PUP_SAVE ON A FLASH DRIVE"
-    elif [ $PUP_MODE -eq "12" ];then
-        retval="FRUGAL"
-    elif [ $PUP_MODE -eq "13" ];then
-        retval="FRUGAL ON FLASH DRIVE"
-    elif [ $PUP_MODE -eq "77" ];then
-        retval="MULTISESSION CD/DVD"
-    fi
-    
-}
+## some variables and shit
 
-check_updates(){
-    check_pupmode
-    echo "System is running Frankenpup: " $VER " on a " $retval
-    echo "i'm gonna try to update the system, this may take a while"
-    read -p "Is this ok? (y/n)" CHECK
-    if [ $CHECK == "y"  ] ;then
-        echo "getting update index..."
-        #uncomment later
-        wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/rrlease_index -O /tmp/rrlease_index --no-cache --no-cookies 2>/dev/null 
-        UPD_FILE=$(cat /tmp/rrlease_index)
-        update_enumerate_process $UPD_FILE
-        NAMES=$RETURN_ARRAY     
-        #check_updates_packages
-        # uncomment later
-        rm -rf /tmp/rrlease_index
-        for val in $NAMES
-            do
-                if [ -f "$val" ];then
-                    LIST=$(cat "$val")
-                    ARCH=0
-                        for line in $LIST
-                            do
-                                val_name=$(echo $line | rev | cut -d'/' -f1 | rev)
-                                val_name=${val_name::-4}
-                                COUNT=$(echo $val_name | grep -o "-" | wc -l)
-                                COUNT="$(($COUNT + 1))"
-                                NAME=""
-                                #echo "=========================================="
-                                for (( c=1; c<=$COUNT; c++))
-                                    do
-                                        VERS_FIND=$(echo $val_name | cut -d'-' -f $c)
-                                        if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-                                            PKG_VERSION=$VERS_FIND
-                                        fi
-                                        if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-                                            NAME+=$VERS_FIND
-                                        fi 
-                                        if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
-                                            ARCH=32
-                                        elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
-                                            ARCH=64
-                                        fi
-                                    done
-                                echo "package $NAME | VERSION: $PKG_VERSION | ARCH: $ARCH"
-                                UPDATE_PKG="$NAME|$PKG_VERSION|$ARCH|$line"
-                                ARCH=0
-                                check_installed $UPDATE_PKG
-                            done
-                    
-                    echo "removing temporal pacakges list"
-                    #rm -rf $val undelete
-                fi
-            done
-        if [ -d /tmp/rreleases ];then
-            rm -rf  /tmp/rreleases
-        fi
+URL="www.dropbox.com"                                                                                # back to dropbox
+URL2="www.google.com"                                                                                # most reliable ping
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
+DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"                                                                # databse location on disk
+VERSION="0.6.1"
+
+### function to ping google.com to check if we are (or not) connected to the internet
+
+ping_server(){
+    ping -c 1 $URL2 > /dev/null
+    if [ $? -eq 0 ]; then
+        PING=$(ping -c 1 $URL | grep received | cut -d' ' -f7 2> /dev/null)
+        LOSS=${PING//%}
+        #echo $LOSS
     else
-        echo "Nothing was done."
+        return 2
     fi
 }
-function update_enumerate_process() {
-  echo "Checking for updates..."
-  NAMES=()
-  for val in "$@"
-    do
-        val_url=$(echo $val | cut -d">" -f2)
-        val_name=$(echo $val_url | rev | cut -d'/' -f1 | rev)
-        val=$(echo $val | cut -d">" -f1)
-        ver2="${VER//.}"
-        val2="${val//.}"
-        if [ $val2 -gt $ver2 ];then
-            echo "missing update: $val"
-            echo "processing..."
-            echo "downloading update index for $val_name"
-            PKGS_FILE="/tmp/$val.txt"
-            wget $val_url -O $PKGS_FILE --no-cache --no-cookies 2>/dev/null
+
+
+### function to search a package
+search_package(){
+    SEARCH="$1"
+    if [ -f "$SEARCH" ];then
+        echo "-----------------------------------------"
+        echo "Local package install..."
+        echo "-----------------------------------------"
+        return 3
+    elif [ ! -f "DB_LOCATION" ]; then
+        db_download 1
+    fi
+    RESULT=$(cat $DB_LOCATION | grep -i $SEARCH)
+    if [ ! -z "$RESULT" ]; then
+        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1,3 | grep -i $SEARCH | cut -d'/' -f2 )
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $SEARCH | cut -d' ' -f1 | cut -d'/' -f2)
+        DEPS=$(cat "$DB_LOCATION" | grep -i $NAME | cut -d'>' -f4)
+        echo "Found:"
+        echo "$RESULT"
+        if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
+            echo "==========================================="
+            echo "Package: $NAME"
+            echo "Depends on:"
+            echo "$DEPS"
+            echo "==========================================="
         fi
-        NAMES+=("$PKGS_FILE")
-    done
-    RETURN_ARRAY=$NAMES
-}
-
-
-check_installed(){
-    echo "checking installed packages"
-    ###########################################################
-    UPD_NAME=$(echo $1 | cut -d'|' -f1 )
-    UPD_VERS=$(echo $1 | cut -d'|' -f2 )
-    UPD_ARCH=$(echo $1 | cut -d'|' -f3 )
-    UPD_URL=$(echo $1 | cut -d'|' -f4 )
-    UPD_EXT=$(echo $UPD_URL | rev | cut -d'/' -f1 | rev)
-    UPD_NO_EXT=${UPD_EXT::-4}
-    if [ -f "/var/fpackages/$UPD_NO_EXT" ];then
-        echo "package $UPD_NO_EXT already installed, skipping"
-        return
-    fi
-    ###########################################################
-    cd /var/fpackages
-    INSATLLED_PACKAGES=()
-    INSTALLED=$(find . -type f | sed "s|^\./||")
-    ARCH=0
-    PACKAGE_COUNT=0
-
-    for INST in $INSTALLED
-        do
-            #echo $INST
-
-            #we count how many "-" the filename has
-            COUNT=$(echo $INST | grep -o "-" | wc -l)
-            COUNT="$(($COUNT + 1))"
-            #echo "=========================================="
-            for (( c=1; c<=$COUNT; c++))
-                do
-                    VERS_FIND=$(echo $INST | cut -d'-' -f $c)
-                    if [[ $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-                        PKG_VERSION=$VERS_FIND
-                    fi
-                    if [[ ! $VERS_FIND == *"."* ]] && [[ ! $VERS_FIND == *"x86"* ]] && [[ ! $VERS_FIND == *"compat32"* ]] && [[ ! $VERS_FIND == *"slack"* ]];then
-                        NAME+=$VERS_FIND
-                    fi 
-                    if [[ $VERS_FIND == *"compat32"* ]] && [ $ARCH -ne 64 ];then
-                        ARCH=32
-                    elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
-                        ARCH=64
-                    fi
-
-                    if [[ $NAME == $UPD_NAME ]] && [[ $ARCH == $UPD_ARCH ]];then
-                        echo "found package $NAME"
-                        #echo "checking versions"
-                        vercomp $UPD_VERS $PKG_VERSION
-                        case $? in
-                            0) op='=';;
-                            1) op='>';;
-                            2) op='<';;
-                        esac
-                        if [ $op == ">" ];then
-                            echo "package $UPD_NAME $UPD_VERS is an update to $NAME $PKG_VERSION processing..."
-                            if [ ! -d /tmp/rreleases ];then
-                                mkdir /tmp/rreleases
-                            fi
-                            echo "downloading package"
-                            wget $UPD_URL -P /tmp/rreleases/ --no-cache --no-cookies --quiet 
-                            echo "installing"
-                            cd /tmp/rreleases
-                            finstall i $UPD_EXT "yes" 
-                            cd /
-                        fi
-                        return
-                    fi
-                    
-                    ######################
-                    
-                done
-            #echo "package $INST | VERSION: $PKG_VERSION | ARCH: $ARCH"
-            ARCH=0
-            NAME=""
-            #INSATLLED_PACKAGES[$PACKAGE_COUNT]="$INST|$PKG_VERSION|$ARCH"
-            #((PACKAGE_COUNT+=1))
-        done
-    
-    #echo "$PACKAGE_COUNT packages installed, checking for updates..."
-}
-
-
-vercomp () {
-    #####THANKS STACKOVERFLOW!!!
-    if [[ $1 == $2 ]]
-    then
+        return 1
+    else
         return 0
     fi
-    local IFS=.
-    local i ver1=($1) ver2=($2)
-    # fill empty fields in ver1 with zeros
-    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
-    do
-        ver1[i]=0
-    done
-    for ((i=0; i<${#ver1[@]}; i++))
-    do
-        if [[ -z ${ver2[i]} ]]
-        then
-            # fill empty fields in ver2 with zeros
-            ver2[i]=0
-        fi
-        if ((10#${ver1[i]} > 10#${ver2[i]}))
-        then
-            return 1
-        fi
-        if ((10#${ver1[i]} < 10#${ver2[i]}))
-        then
-            return 2
-        fi
-    done
-    return 0
 }
 
-check_updates
+### function to download and update the package list "database" ######################################
+db_download(){
+    SILENT="$1"
+    CON=$(ping_server)
+    if [ $? -ne 2 ]; then   ## check if we are connected to the internet
+        if [ ! -z "$SILENT" ];then
+            curl -H 'Cache-Control: no-cache' -s -o "$DB_LOCATION" "$DB_URL"
+            if [ $? != 0 ]; then
+                echo 'Something went wrong, error code: 1'
+            fi
+        else
+            curl -H 'Cache-Control: no-cache' --progress-bar -o "$DB_LOCATION" "$DB_URL"
+            if [ $? -eq 0 ]; then
+                echo 'Package "database" upgraded successfully'
+            else
+                echo 'Something went wrong, error code: 1'
+            fi
+        fi
+    else
+        echo "no internet connection or 100% package loss"
+        exit
+    fi
+}
+
+### function to install a package or local pakage ##################################################################
+install(){
+    PACK="$1"
+    NOASK="$2"
+    LOCAL_INSTALL=0
+    search_package "$PACK"
+    if [ $? -eq 3 ]; then
+        CHNAME=$(echo $PACK | cut -d'-' -f1 2>/dev/null)
+        CNAME=$(echo $PACK | sed "s/.fxz//" 2>/dev/null)
+
+        ## is package installed?
+        if [ -f "$DB_FOLDER/$CNAME" ]; then
+            echo "Package already installed"
+            exit
+        fi
+
+        LOCATION="/tmp/$NAME"
+        echo "-----------------------------------------"
+        echo "Installing package..."
+        echo "-----------------------------------------"
+        cp -rf $PACK /tmp/$PACK
+        flag=$(pgrep -x "jwm")
+        cd /tmp
+        tar xf "$PACK"
+        if [ $? -eq 0 ]; then
+            rm -rf "$PACK"
+            echo "-----------------------------------------"
+            echo "Looking for custom install script..."
+            if [ -f /tmp/$CNAME/install ]; then
+                echo "-----------------------------------------"
+                echo "executing custom install script..."
+                /tmp/$CNAME/install
+                if [ $? -eq 0 ]; then
+                    rm -rf /tmp/$CNAME/install
+                    rm -rf /tmp/$CNAME
+                    echo "-----------------------------------------"
+                    if [ ! -z "$flag" ]; then
+                        fixmenus
+                        jwm -reload
+                    fi
+                    echo "Done"
+                    if [ -f /install ]; then
+                        rm -rf /install
+                    fi
+                else
+                    echo 'Something went wrong, error code: 4'
+                fi
+            else
+                echo "" > "$DB_FOLDER/$CNAME"
+                rm -rf /tmp/$CNAME
+                if [ ! -z "$flag" ]; then
+                    fixmenus
+                    jwm -reload
+                fi
+                echo "Done"
+            fi
+        else
+            echo 'Something went wrong, error code: 2'
+        fi
+
+    elif [ $? -eq 0 ]; then
+        echo "No package \"$PACK\" found"
+    else
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
+        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep -i $PACK | cut -d' ' -f2 2>/dev/null)
+        CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
+        CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
+        DEPS=$(cat $DB_LOCATION | grep -i $PURL | cut -d'>' -f4 2>/dev/null)
+
+        ## is package installed?
+        if [ -f "$DB_FOLDER/$CNAME" ]; then
+            echo "Package already installed"
+            exit
+        fi
+
+        ## NOASK is the default dep resolver option
+        if [ ! -z "$NOASK" ]; then
+            CHECK="y"
+        else
+            ## if we are installing from the CLI this should be asked
+            read -p "Is this ok? (y/n)" CHECK
+        fi
+        if [ $CHECK == "y"  ] ;then
+            ## DEPS FIRST ===========================================
+            if [ ! -z "$DEPS" ]; then
+                count="${DEPS//[^ ]}"
+                count="${#count}"
+                echo "============================================================="
+                echo "Trying to resolve deps:"
+                #echo "$count deps on database"
+                for (( c=2; c<=$count+1; c++)) ##we skip the blank field and count from that on
+                    do
+                        EACH=$(echo "$DEPS" | cut -d' ' -f$c)
+                        if [ ! -z "$EACH" ]; then
+                            echo "\"$EACH\""
+                            if [ -f "$DB_FOLDER/$EACH" ]; then
+                                echo "Package already installed"
+                            else
+                                finstall i "$EACH" "yes"
+                            fi
+                        fi
+                    done
+                echo "============================================================="
+            fi
+            ## end deps resolving ====================================
+            LOCATION="/tmp/$NAME"
+            echo "-----------------------------------------"
+            echo "Downloading package..."
+            echo "-----------------------------------------"
+            pcurl "$LOCATION" "http://$URL/$PURL"
+            if [ $? -eq 0 ]; then
+            flag=$(pgrep -x "jwm")
+                cd /tmp
+                tar xf "$NAME"
+                if [ $? -eq 0 ]; then
+                    rm -rf "$NAME"
+                    echo "-----------------------------------------"
+                    echo "Looking for custom install script..."
+                    if [ -f /tmp/$CNAME/install ]; then
+                        echo "-----------------------------------------"
+                        echo "executing custom install script..."
+                        /tmp/$CNAME/install
+                        if [ $? -eq 0 ]; then
+                            rm -rf /tmp/$CNAME/install
+                            rm -rf /tmp/$CNAME
+                            echo "-----------------------------------------"
+                            if [ ! -z "$flag" ]; then
+                                fixmenus
+                                jwm -reload
+                            fi
+                            echo "Done"
+                            if [ -f /install ]; then
+                                rm -rf /install
+                            fi
+                        else
+                            echo 'Something went wrong, error code: 4'
+                        fi
+                    else
+                        echo "" > "$DB_FOLDER/$CNAME"
+                        rm -rf /tmp/$CNAME
+                        if [ ! -z "$flag" ]; then
+                            fixmenus
+                            jwm -reload
+                        fi
+                        echo "Done"
+                    fi
+                else
+                    echo 'Something went wrong, error code: 2'
+                fi
+            else
+                echo 'Something went wrong, error code: 3'
+            fi
+        else
+            echo "Nothing was done."
+        fi
+    fi
+}
+
+
+### function to "uninstall" a package  ######################################
+uninstall(){
+    PACK="$1"
+    SEARCH=$(ls $DB_FOLDER | grep -i $PACK)
+    if [ ! -z "$SEARCH" ]; then
+        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2)
+        CNAME=$(echo $NAME | sed "s/.fxz//")
+        DEPS=$(cat $DB_LOCATION | grep -i $NAME | cut -d'>' -f4 )
+        echo "$SEARCH found"
+        read -p "Is this ok? (y/n)" CHECK
+        if [ $CHECK == "y" ];then
+            echo "Looking for uninstall script"
+            if [ -f "$DB_FOLDER/$CNAME" ]; then
+                echo "Uninstall script found, running..."
+                $DB_FOLDER/$CNAME
+            else
+                echo "No script found, skipping"
+            fi
+            echo "removing from installed database"
+            rm -rf $DB_FOLDER/$CNAME
+            echo "Done"
+        else
+            echo "Nothing was done."
+        fi
+    else
+        echo "No package \"$PACK\" found, are you sure it's installed?"
+    fi
+
+
+}
+
+### function to upgrade scripts, this is just a set of multiple wget and will get 'em regardless if they are up to date on the machine or not
+### too lazy to make a more complex scrilkakaljdlaks
+
+supdate(){
+    ping_server
+    if [ $? -eq 0 ]; then
+        ### just in case shit fails
+        cd /tmp/scripts
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/rreleases"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/night-mode-switch"
+        if [ $? -eq 0 ]; then
+            echo "making executable..."
+            chmod -R 1777 ./*
+            echo "Copying to my-applications..."
+            cp -rf /tmp/scripts/* /root/my-applications/bin/
+            echo "Done"
+            exec rm -rf /tmp/finstall-tmp
+        fi
+    else
+        echo "No internet connection, 100% package loss or server offline"
+    fi
+}
+rolling_release(){
+    rreleases
+}
+
+### initialization and shit
+case "$1" in
+    i)
+        install "$2" "$3"
+    ;;
+    ri)
+        uninstall "$2"
+        install "$2" "yes"
+    ;;
+    s)
+        search_package "$2"
+        if [ $? -eq 0 ]; then
+            echo "No package \"$2\" found"
+        else
+            exit
+        fi
+    ;;
+    u)
+        rolling_release
+    ;;
+    dbu)
+        echo "updating package list..."
+        db_download
+    ;;
+    uninstall)
+        uninstall "$2"
+    ;;
+    su)
+        cp -rf /root/my-applications/bin/finstall /tmp/finstall-tmp
+        chmod 1777 /tmp/finstall-tmp
+        exec /tmp/finstall-tmp supdate-tmp
+    ;;
+    supdate-tmp)
+        if [ ! -d /tmp/scripts ];then
+            mkdir /tmp/scripts
+        fi
+        killall kill finstall 2>/dev/null
+        supdate
+        /root/my-applications/bin/finstall finish
+        supdate
+    ;;
+    finish)
+    #hope this works
+        rm -rf /tmp/scripts/*
+        rm -rf /tmp/scripts
+    ;;
+    l)
+        if [ ! -f "$DB_LOCATION" ]; then
+            db_download
+        fi
+        echo "$(cat "$DB_LOCATION" | cut -d'>' -f 1,3)"
+    ;;
+    v)
+    echo "$VERSION"
+    ;;
+    *)
+    echo "This small script was created to handle software compiled and tested for frankenpup64
+
+Usage: finstall {i|ri|u|ui|s|dbu|su|l|v}
+
+i:          Install a package.
+               ex: finstall i gimp or finstall i gimp.txz for a local package
+ri:        Reinstalls a package.
+u:         Install system updates.
+ui:        Uninstalls a package.
+s:         Search a package.
+               ex: finstall search gimp
+dbu:       Updates the package database.
+su:        Updates frankenpup scripts.
+l:         List all packages in database.
+v:         Prints script version
+"
+
+esac
