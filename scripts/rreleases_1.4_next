@@ -9,6 +9,7 @@
 # THIS SCRIPT IS BAD, AND I SHOULD FEEL BAD ABOUT IT, IT'S JUST SOME HALF-ASS "IFS" AND 
 # "ELSES" PUT IN A WAY THEY "KINDA" WORK MOST OF THE REAL WORK IS DONE BY THE SCRIPTS 
 # IN THE SFS UPDATES
+#
 ##########################################################################################
 #
 # This system is in a very pimitive status, it "just works" for now, i'm planning to add
@@ -23,7 +24,7 @@
 #             - Support for "extra_steps" file.
 #             - Ask user for confirmation before doing anything.
 # 24-11-2019  - First PROPER rolling release implementation.
-#
+#             - Each package install script will carry advanced procedures if needed
 ##########################################################################################
 
 VERSION="0.2.0"
@@ -69,13 +70,13 @@ check_updates(){
     if [ $CHECK == "y"  ] ;then
         echo "getting update index..."
         #uncomment later
-        #wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/rrlease_index -O /tmp/rrlease_index --no-cache --no-cookies 2>/dev/null 
+        wget https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/rrlease_index -O /tmp/rrlease_index --no-cache --no-cookies 2>/dev/null 
         UPD_FILE=$(cat /tmp/rrlease_index)
         update_enumerate_process $UPD_FILE
         NAMES=$RETURN_ARRAY     
         #check_updates_packages
         # uncomment later
-        #rm -rf /tmp/rrlease_index
+        rm -rf /tmp/rrlease_index
         for val in $NAMES
             do
                 if [ -f "$val" ];then
@@ -105,15 +106,18 @@ check_updates(){
                                         fi
                                     done
                                 echo "package $NAME | VERSION: $PKG_VERSION | ARCH: $ARCH"
-                                UPDATE_PKG="$NAME|$PKG_VERSION|$ARCH"
+                                UPDATE_PKG="$NAME|$PKG_VERSION|$ARCH|$line"
                                 ARCH=0
                                 check_installed $UPDATE_PKG
                             done
                     
-                    echo "deleting temporal pacakges list"
+                    echo "removing temporal pacakges list"
                     #rm -rf $val undelete
                 fi
             done
+        if [ -d /tmp/rreleases ];then
+            rm -rf  /tmp/rreleases
+        fi
     else
         echo "Nothing was done."
     fi
@@ -143,14 +147,28 @@ function update_enumerate_process() {
 
 check_installed(){
     echo "checking installed packages"
+    ###########################################################
+    UPD_NAME=$(echo $1 | cut -d'|' -f1 )
+    UPD_VERS=$(echo $1 | cut -d'|' -f2 )
+    UPD_ARCH=$(echo $1 | cut -d'|' -f3 )
+    UPD_URL=$(echo $1 | cut -d'|' -f4 )
+    UPD_EXT=$(echo $UPD_URL | rev | cut -d'/' -f1 | rev)
+    UPD_NO_EXT=${UPD_EXT::-4}
+    if [ -f "/var/fpackages/$UPD_NO_EXT" ];then
+        echo "package $UPD_NO_EXT already installed, skipping"
+        return
+    fi
+    ###########################################################
     cd /var/fpackages
     INSATLLED_PACKAGES=()
     INSTALLED=$(find . -type f | sed "s|^\./||")
     ARCH=0
     PACKAGE_COUNT=0
+
     for INST in $INSTALLED
         do
             #echo $INST
+
             #we count how many "-" the filename has
             COUNT=$(echo $INST | grep -o "-" | wc -l)
             COUNT="$(($COUNT + 1))"
@@ -169,12 +187,7 @@ check_installed(){
                     elif [[ $VERS_FIND == *"x86_64"* ]]  && [ $ARCH -ne 32 ];then
                         ARCH=64
                     fi
-                    ######################
-                    UPD_NAME=$(echo $1 | cut -d'|' -f1 )
-                    UPD_VERS=$(echo $1 | cut -d'|' -f2 )
-                    UPD_ARCH=$(echo $1 | cut -d'|' -f3 )
-                    
-                    #echo "checking if $UPD_NAME is installed"
+
                     if [[ $NAME == $UPD_NAME ]] && [[ $ARCH == $UPD_ARCH ]];then
                         echo "found package $NAME"
                         #echo "checking versions"
@@ -185,7 +198,16 @@ check_installed(){
                             2) op='<';;
                         esac
                         if [ $op == ">" ];then
-                            echo "package $UPD_NAME $UPD_VERS is an update to $NAME $PKG_VERSION"
+                            echo "package $UPD_NAME $UPD_VERS is an update to $NAME $PKG_VERSION processing..."
+                            if [ ! -d /tmp/rreleases ];then
+                                mkdir /tmp/rreleases
+                            fi
+                            echo "downloading package"
+                            wget $UPD_URL -P /tmp/rreleases/ --no-cache --no-cookies --quiet 
+                            echo "installing"
+                            cd /tmp/rreleases
+                            finstall i $UPD_EXT "yes" 
+                            cd /
                         fi
                         return
                     fi
@@ -203,27 +225,6 @@ check_installed(){
     #echo "$PACKAGE_COUNT packages installed, checking for updates..."
 }
 
-check_new_files(){
-    if [ -d "new-files" ];then
-        echo "New files found, processing"
-        mkdir /tmp_fs
-        cp -rf  ./new-files/* /tmp_fs
-        echo "done processing new files"
-    fi 
-}
-check_deltas(){
-    if [ -d "delta-files" ];then
-        echo "Delta files found, processing"
-        mkdir /deltafs
-        cp -rf ./delta-files/* /deltafs
-        cd /deltafs
-        /deltafs/process_deltas
-        echo "done processing new files"
-    fi 
-}
-make_backups(){
-    return
-}
 
 vercomp () {
     #####THANKS STACKOVERFLOW!!!
