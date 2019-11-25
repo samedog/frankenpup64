@@ -56,6 +56,7 @@
 # 18-11-2019  - Added rolling release capabilities by the rrelease script (experimental)
 #             - Version bumped to 0.6
 # 24-11-2019  - Options changed to letters instead of full words to make it easier to use.
+# 25-11-2019  - Fixed reinstall function
 #
 ################################# Code begins here #######################################
 
@@ -300,7 +301,8 @@ install(){
 ### function to "uninstall" a package  ######################################
 uninstall(){
     PACK="$1"
-    SEARCH=$(ls $DB_FOLDER | grep -i $PACK)
+    PACK_NAME=$(echo $PACK | sed "s/.fxz//" 2>/dev/null)
+    SEARCH=$(ls $DB_FOLDER | grep -i $PACK_NAME)
     if [ ! -z "$SEARCH" ]; then
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2)
         CNAME=$(echo $NAME | sed "s/.fxz//")
