@@ -1,4 +1,4 @@
-# frankenpup64
+# frankenpupLinux
 
 Frankenpup is a 64bits multilib system based on puppylinux or "puplet" created with gaming in mind.
 
