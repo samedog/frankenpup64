@@ -45,7 +45,7 @@
 #             - Some code cleanup.
 #             - Removed "if [ ! -d $DB_FOLDER ]" since it's not needed anymore (since a while really)
 #             - Added "if [ -f /install ]" to remove it if needed
-#             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory "/tmp/scripts": File exists"
+#             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory â€˜/tmp/scriptsâ€™: File exists"
 #               was getting on my nerves.
 #             - ping_server is now silent (it should have been silent since the beginning)
 # 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
@@ -341,7 +341,7 @@ supdate(){
         curl -H 'Cache-Control: no-cache' -L --progress-bar -o "finstall" "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall-1.4_next"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
-        curl -H 'Cache-Control: no-cache' -L --progress-bar -o "rrleases" "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/rreleases-1.4_next"
+        curl -H 'Cache-Control: no-cache' -L --progress-bar -o "rreleases" "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/rreleases-1.4_next"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/night-mode-switch"
         if [ $? -eq 0 ]; then
             echo "making executable..."
