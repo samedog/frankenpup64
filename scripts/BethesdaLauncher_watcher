@@ -1,0 +1,52 @@
+#!/bin/sh
+##########################################################################################
+# By Diego Cardenas "The Samedog" under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+# (www.gnu.org/licenses/old-licenses/gpl-2.0.html) e-mail: the.samedog[]gmail.com.
+# https://github.com/samedog/frankenpup64
+##########################################################################################
+# Small "fix" script to help the Bethesda Launcher handle stuff on linux.
+# Just place this file on the same folder the Bethesda Launcher .exe is and
+# it will take care of the .alt and .tmp files the bethesda launcher can't
+# due to *something* in wine "locking" the files to the launcher, allowing to install and 
+# update games.
+# the amount of mental gymnastics used to make this shit actually work was brutal
+###########################################################################################
+DIRECTOR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIRECTORY="$(echo $DIRECTOR | sed 's/ /\\ /g')"
+######################## Some general exports for all dxvk games
+#export DXVK_HUD=devinfo,fps
+export MESA_GL_VERSION_OVERRIDE=4.4COMPAT
+export PULSE_LATENCY_MSEC=60
+export __GL_SHADER_DISK_CACHE=1
+export __GL_THREADED_OPTIMIZATIONS=1
+export __GL_SHADER_DISK_CACHE_PATH="$DIRECTOR"
+#################################################################################
+WINEDEBUG=-all wine "$DIRECTOR"/BethesdaNetLauncher.exe &
+
+function detector(){
+
+    cd "$DIRECTOR"
+    FOUND=$(find . -type f -name "*.dch.tmp" | sed "s|^\./||")
+    for TMP in $FOUND
+        do
+            NO_TMP=$(echo $TMP | sed 's/\.tmp//g')
+            cp -rf $NO_TMP $NO_TMP."alt"  >/dev/null 2>&1          # mv will crash the launcher
+            sleep 3                                                # Controlling the file timer here reduced the crashes
+                                                                   # the launcher *has* to register and try to move the .alt files
+            mv $TMP $NO_TMP >/dev/null 2>&1                        # This seems to work for now, after the .alt files are dealt with 
+                                                                   # the .tmp files are "unlocked" and the launcher won't crash on
+                                                                   # an obscure md5 mismatch
+        done
+    FOUND=""
+}
+
+function iloop(){
+    while :
+        do
+            sleep 5 # lower than this and the launcher won't register the new files and WILL crash
+            detector               
+        done
+}
+
+iloop
+
