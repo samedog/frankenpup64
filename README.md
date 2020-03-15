@@ -14,7 +14,7 @@ Features;
 - Cli package manager for .fxz (primitive but functional with some kind of dep resolving based on a package database)
 
 Current base version : 1.3
-Current rolling release version : 1.3.1 (update with finstall)
+Current rolling release version : 1.3.2 (update with finstall)
 
 Link
 
