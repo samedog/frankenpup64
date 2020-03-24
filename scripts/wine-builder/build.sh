@@ -262,8 +262,6 @@ build_wine(){
 		--with-x \
 		--with-vkd3d \
 		--enable-win64
-	make -j"$threads" && make -j"$threads" install
-
 	cd ../build32
 	../configure \
 		--prefix=/usr \
@@ -271,7 +269,11 @@ build_wine(){
 		--with-vkd3d \
 		--libdir=/usr/lib \
 		--with-wine64="$DIRECTORY/wine_prepare/build64"
-	make -j"$threads"  && make -j"$threads" install
+	make -j"$threads"
+	cd ../build64
+	make install
+	cd ../build32
+	make install
 
 }
 
