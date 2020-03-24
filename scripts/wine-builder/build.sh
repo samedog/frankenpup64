@@ -154,7 +154,7 @@ patches() {
 	$( find ./wine-tkg-git/wine-tkg-patches/ -type f -not -path "*hotfixes*" -not -path "*esync*" -not -path "*legacy*" -exec cp -n {} ./wine-tkg-git \; ) 
 	cd ./wine-staging
 	patch -Np1 < ../wine-tkg-git/CSMT-toggle.patch && cd ..
-	patch -Np1 < ./wine-tkg-git/fsync-staging.patch
+	#patch -Np1 < ./wine-tkg-git/fsync-staging.patch
 }
 
 
