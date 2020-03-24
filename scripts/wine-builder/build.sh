@@ -21,10 +21,29 @@ process_repos() {
 		cd ..
 	fi
 	
+	if [ ! -d "PKGBUILDS" ];then
+		mkdir ./PKGBUILDS
+		cd ./PKGBUILDS
+		git init
+		git remote add -f origin https://github.com/Tk-Glitch/PKGBUILDS
+		git config core.sparseCheckout true
+		echo "wine-tkg-git/wine-tkg-patches/" >> .git/info/sparse-checkout
+		git pull origin master
+		cd ..
+	else
+		cd ./PKGBUILDS
+		git reset --hard HEAD
+    git clean -xdf
+		echo "wine-tkg-git/wine-tkg-patches/" >> .git/info/sparse-checkout
+		git pull origin master
+		cd ..
+	fi
 	if [ ! -d "SPIRV-Headers" ];then
 		git clone git://github.com/KhronosGroup/SPIRV-Headers
 	else
 		cd ./SPIRV-Headers
+		git reset --hard HEAD
+    git clean -xdf
 		git pull origin master
 		cd ..
 	fi
@@ -33,6 +52,8 @@ process_repos() {
 		git clone https://github.com/KhronosGroup/SPIRV-Tools
 	else
 		cd ./SPIRV-Tools
+		git reset --hard HEAD
+    git clean -xdf
 		git pull origin master
 		cd ..
 	fi
@@ -41,6 +62,8 @@ process_repos() {
 		git clone https://github.com/wine-staging/wine-staging
 	else
 		cd ./wine-staging
+		git reset --hard HEAD
+		git clean -xdf
 		git pull origin master
 		cd ..
 	fi
@@ -49,6 +72,8 @@ process_repos() {
 		git clone git://github.com/KhronosGroup/Vulkan-Headers
 	else
 		cd ./Vulkan-Headers
+		git reset --hard HEAD
+    git clean -xdf
 		git pull origin master
 		cd ..
 	fi
@@ -57,6 +82,8 @@ process_repos() {
 		git clone git://github.com/doitsujin/vkd3d
 	else
 		cd ./vkd3d
+		git reset --hard HEAD
+    git clean -xdf
 		git pull origin master
 		cd ..
 	fi
@@ -65,7 +92,9 @@ process_repos() {
 		git clone git://source.winehq.org/git/wine.git
 	else
 		cd ./wine
-		git pull origin master
+		git clean -fxd
+		git pull --force
+		git reset --hard HEAD
 		cd ..
 	fi
 	
@@ -76,13 +105,13 @@ process_repos() {
 		git remote add -f origin git://github.com/GloriousEggroll/proton-ge-custom
 		git config core.sparseCheckout true
 		echo "game-patches-testing/" >> .git/info/sparse-checkout
-		echo "wine-staging/" >> .git/info/sparse-checkout
 		git pull origin proton-ge-5
 		cd ..
 	else
 		cd ./proton-ge-custom/
+		git reset --hard HEAD
+    git clean -xdf
 		echo "game-patches-testing/" >> .git/info/sparse-checkout
-		echo "wine-staging/" >> .git/info/sparse-checkout
 		git pull origin proton-ge-5
 		cd ..
 	fi
@@ -92,6 +121,7 @@ prepare(){
 
 	cp -rf ./wine ./wine_prepare
 	cp -rf ./wine-staging ./wine_prepare/wine-staging
+	cp -rf ./PKGBUILDS/wine-tkg-git ./wine_prepare/wine-tkg-git
 	cp -rf ./proton-ge-custom/game-patches-testing/ ./wine_prepare/game-patches-testing
 	cp -rf ./vkd3d ./wine_prepare/vkd3d
 	cp -rf ./SPIRV-Headers ./wine_prepare/SPIRV-Headers
@@ -103,15 +133,31 @@ prepare(){
 patches() {
 
 	cd ./game-patches-testing
+	sed -i 's/cd \.\.//g' protonprep.sh
+	sed -i 's/cd dxvk//g' protonprep.sh
+	sed -i 's/cd vkd3d//g' protonprep.sh
+	sed -i 's/cd wine//g' protonprep.sh
 	sed -i 's/git checkout lsteamclient//g' protonprep.sh
 	sed -i 's/cd lsteamclient//g' protonprep.sh
 	sed -i 's+patch -Np1 < ../game-patches-testing/proton-hotfixes/steamclient-disable_SteamController007_if_no_controller.patch++g' protonprep.sh
+    sed -i 's/git clean -xdf//g' protonprep.sh
+    sed -i 's+patch -Np1 < \.\./game-patches-testing/dxvk-patches/valve-dxvk-avoid-spamming-log-with-requests-for-IWineD3D11Texture2D.patch++g' protonprep.sh
+    sed -i 's+patch -Np1 < \.\./game-patches-testing/dxvk-patches/proton-add_new_dxvk_config_library.patch++g' protonprep.sh
+    sed -i 's+\.\./wine-staging/patches/patchinstall.sh+wine-staging/patches/patchinstall.sh+g' protonprep.sh
+	sed -i 's+patch -Np1 < \.\./+patch -Np1 < +g' protonprep.sh
+    sed -i 's/git reset --hard HEAD//g' protonprep.sh
+    sed -i 's/git clean -xdf//g' protonprep.sh
 	sed -i '39d' protonprep.sh
 	cd ..
-	./game-patches-testing/protonprep.sh
-	./wine-staging/patches/patchinstall.sh DESTDIR="$DIRECTORY/wine_prepare/" --all
 
+	./game-patches-testing/protonprep.sh
+	$( find ./wine-tkg-git/wine-tkg-patches/ -type f -not -path "*hotfixes*" -not -path "*esync*" -not -path "*legacy*" -exec cp -n {} ./wine-tkg-git \; ) 
+	cd ./wine-staging
+	patch -Np1 < ../wine-tkg-git/CSMT-toggle.patch && cd ..
+	patch -Np1 < ./wine-tkg-git/fsync-staging.patch
 }
+
+
 
 build_headers() {
 	##
@@ -168,7 +214,6 @@ build_vulkan(){
 		-DCMAKE_CXX_FLAGS="-m32" \
 		-DCMAKE_C_FLAGS="-m32" ..
 	make -j"$threads"
-	
 	make install
 	cd ../build64
 	cmake -DCMAKE_BUILD_TYPE=Release \
@@ -193,15 +238,14 @@ build_vkd3d(){
 	export LD_LIBRARY_PATH="/usr/local/lib:/lib:/usr/lib:$LD_LIBRARY_PATH"
 	O_PKG_CONFIG_PATH="$PKG_CONFIG_PATH"
 	export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
-	i386 ../configure --prefix=/usr --libdir=/lib --with-spirv-tools
+	i386 ../configure --prefix=/usr --libdir=/usr/lib --with-spirv-tools
 	i386 make -j"$threads"
-	i386 make install
-	
+	make install
 	cd ../build64
 	export PATH="$O_PATH"
 	export LD_LIBRARY_PATH="$O_LD_LIBRARY_PATH"
 	export PKG_CONFIG_PATH="$O_PKG_CONFIG_PATH"
-	../configure --prefix=/usr --libdir=/lib64 --with-spirv-tools
+	../configure --prefix=/usr --libdir=/usr/lib64 --with-spirv-tools
 	make -j"$threads"
 	make install
 	cd ../..
