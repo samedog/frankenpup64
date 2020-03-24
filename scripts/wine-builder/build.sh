@@ -108,8 +108,8 @@ patches() {
 	sed -i 's+patch -Np1 < ../game-patches-testing/proton-hotfixes/steamclient-disable_SteamController007_if_no_controller.patch++g' protonprep.sh
 	sed -i '39d' protonprep.sh
 	cd ..
-	#./game-patches-testing/protonprep.sh
-	#./wine-staging/patches/patchinstall.sh DESTDIR="$DIRECTORY/wine_prepare/" --all
+	./game-patches-testing/protonprep.sh
+	./wine-staging/patches/patchinstall.sh DESTDIR="$DIRECTORY/wine_prepare/" --all
 
 }
 
