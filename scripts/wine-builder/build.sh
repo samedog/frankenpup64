@@ -154,7 +154,7 @@ index 1c528ef7419..87792f4fbc9 100644
      DWORD i, len = MultiByteToWideChar( CP_UNIXCP, 0, name, -1, NULL, 0 );
      LPWSTR backslash;
 ' > revert.patch
-    patch -Np1 < ./revert.patch && cd ..
+    patch -Np1 < ./revert.patch
     #####
 }
 
