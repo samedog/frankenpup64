@@ -28,6 +28,7 @@
 #include <drm/drm_dp_helper.h>
 #include <drm/i915_drm.h>
 
+#include "display/intel_display.h"
 #include "display/intel_gmbus.h"
 
 #include "i915_drv.h"
@@ -1352,16 +1353,13 @@ static const u8 cnp_ddc_pin_map[] = {
 static const u8 icp_ddc_pin_map[] = {
 	[ICL_DDC_BUS_DDI_A] = GMBUS_PIN_1_BXT,
 	[ICL_DDC_BUS_DDI_B] = GMBUS_PIN_2_BXT,
+	[TGL_DDC_BUS_DDI_C] = GMBUS_PIN_3_BXT,
 	[ICL_DDC_BUS_PORT_1] = GMBUS_PIN_9_TC1_ICP,
 	[ICL_DDC_BUS_PORT_2] = GMBUS_PIN_10_TC2_ICP,
 	[ICL_DDC_BUS_PORT_3] = GMBUS_PIN_11_TC3_ICP,
 	[ICL_DDC_BUS_PORT_4] = GMBUS_PIN_12_TC4_ICP,
-};
-
-static const u8 mcc_ddc_pin_map[] = {
-	[MCC_DDC_BUS_DDI_A] = GMBUS_PIN_1_BXT,
-	[MCC_DDC_BUS_DDI_B] = GMBUS_PIN_2_BXT,
-	[MCC_DDC_BUS_DDI_C] = GMBUS_PIN_9_TC1_ICP,
+	[TGL_DDC_BUS_PORT_5] = GMBUS_PIN_13_TC5_TGP,
+	[TGL_DDC_BUS_PORT_6] = GMBUS_PIN_14_TC6_TGP,
 };
 
 static u8 map_ddc_pin(struct drm_i915_private *dev_priv, u8 vbt_pin)
@@ -1369,10 +1367,7 @@ static u8 map_ddc_pin(struct drm_i915_private *dev_priv, u8 vbt_pin)
 	const u8 *ddc_pin_map;
 	int n_entries;
 
-	if (HAS_PCH_MCC(dev_priv)) {
-		ddc_pin_map = mcc_ddc_pin_map;
-		n_entries = ARRAY_SIZE(mcc_ddc_pin_map);
-	} else if (HAS_PCH_ICP(dev_priv)) {
+	if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP) {
 		ddc_pin_map = icp_ddc_pin_map;
 		n_entries = ARRAY_SIZE(icp_ddc_pin_map);
 	} else if (HAS_PCH_CNP(dev_priv)) {
@@ -1404,6 +1399,7 @@ static enum port dvo_port_to_port(u8 dvo_port)
 		[PORT_D] = { DVO_PORT_HDMID, DVO_PORT_DPD, -1},
 		[PORT_E] = { DVO_PORT_CRT, DVO_PORT_HDMIE, DVO_PORT_DPE},
 		[PORT_F] = { DVO_PORT_HDMIF, DVO_PORT_DPF, -1},
+		[PORT_G] = { DVO_PORT_HDMIG, DVO_PORT_DPG, -1},
 	};
 	enum port port;
 	int i;
@@ -1630,7 +1626,7 @@ parse_general_definitions(struct drm_i915_private *dev_priv,
 		expected_size = 37;
 	} else if (bdb->version <= 215) {
 		expected_size = 38;
-	} else if (bdb->version <= 216) {
+	} else if (bdb->version <= 229) {
 		expected_size = 39;
 	} else {
 		expected_size = sizeof(*child);
@@ -1677,6 +1673,9 @@ parse_general_definitions(struct drm_i915_private *dev_priv,
 		child = child_device_ptr(defs, i);
 		if (!child->device_type)
 			continue;
+
+		DRM_DEBUG_KMS("Found VBT child device with type 0x%x\n",
+			      child->device_type);
 
 		/*
 		 * Copy as much as we know (sizeof) and is available
@@ -1740,12 +1739,13 @@ init_vbt_missing_defaults(struct drm_i915_private *dev_priv)
 	for (port = PORT_A; port < I915_MAX_PORTS; port++) {
 		struct ddi_vbt_port_info *info =
 			&dev_priv->vbt.ddi_port_info[port];
+		enum phy phy = intel_port_to_phy(dev_priv, port);
 
 		/*
 		 * VBT has the TypeC mode (native,TBT/USB) and we don't want
 		 * to detect it.
 		 */
-		if (intel_port_is_tc(dev_priv, port))
+		if (intel_phy_is_tc(dev_priv, phy))
 			continue;
 
 		info->supports_dvi = (port != PORT_A && port != PORT_E);
@@ -1844,7 +1844,7 @@ void intel_bios_init(struct drm_i915_private *dev_priv)
 	const struct bdb_header *bdb;
 	u8 __iomem *bios = NULL;
 
-	if (!HAS_DISPLAY(dev_priv)) {
+	if (!HAS_DISPLAY(dev_priv) || !INTEL_DISPLAY_ENABLED(dev_priv)) {
 		DRM_DEBUG_KMS("Skipping VBT init due to disabled display.\n");
 		return;
 	}
@@ -1898,10 +1898,10 @@ out:
 }
 
 /**
- * intel_bios_cleanup - Free any resources allocated by intel_bios_init()
+ * intel_bios_driver_remove - Free any resources allocated by intel_bios_init()
  * @dev_priv: i915 device instance
  */
-void intel_bios_cleanup(struct drm_i915_private *dev_priv)
+void intel_bios_driver_remove(struct drm_i915_private *dev_priv)
 {
 	kfree(dev_priv->vbt.child_dev);
 	dev_priv->vbt.child_dev = NULL;
@@ -2258,6 +2258,9 @@ enum aux_ch intel_bios_port_aux_ch(struct drm_i915_private *dev_priv,
 		break;
 	case DP_AUX_F:
 		aux_ch = AUX_CH_F;
+		break;
+	case DP_AUX_G:
+		aux_ch = AUX_CH_G;
 		break;
 	default:
 		MISSING_CASE(info->alternate_aux_channel);

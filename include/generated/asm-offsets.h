@@ -28,8 +28,7 @@
 #define saved_context_cr2 208 /* offsetof(struct saved_context, cr2) */
 #define saved_context_cr3 216 /* offsetof(struct saved_context, cr3) */
 #define saved_context_cr4 224 /* offsetof(struct saved_context, cr4) */
-#define saved_context_cr8 232 /* offsetof(struct saved_context, cr8) */
-#define saved_context_gdt_desc 275 /* offsetof(struct saved_context, gdt_desc) */
+#define saved_context_gdt_desc 267 /* offsetof(struct saved_context, gdt_desc) */
 
 #define TSS_ist 36 /* offsetof(struct tss_struct, x86_tss.ist) */
 #define DB_STACK_OFFSET 8192 /* offsetof(struct cea_exception_stacks, DB_stack) - offsetof(struct cea_exception_stacks, DB1_stack) */
@@ -41,12 +40,12 @@
 #define __NR_syscall_compat_max 435 /* sizeof(syscalls_ia32) - 1 */
 #define IA32_NR_syscalls 436 /* sizeof(syscalls_ia32) */
 
-#define TASK_threadsp 2200 /* offsetof(struct task_struct, thread.sp) */
+#define TASK_threadsp 2328 /* offsetof(struct task_struct, thread.sp) */
 #define TASK_stack_canary 1048 /* offsetof(struct task_struct, stack_canary) */
 
-#define TASK_addr_limit 2328 /* offsetof(struct task_struct, thread.addr_limit) */
+#define TASK_addr_limit 2448 /* offsetof(struct task_struct, thread.addr_limit) */
 
-#define crypto_tfm_ctx_offset 64 /* offsetof(struct crypto_tfm, __crt_ctx) */
+#define crypto_tfm_ctx_offset 48 /* offsetof(struct crypto_tfm, __crt_ctx) */
 
 #define pbe_address 0 /* offsetof(struct pbe, address) */
 #define pbe_orig_address 8 /* offsetof(struct pbe, orig_address) */

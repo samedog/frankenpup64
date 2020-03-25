@@ -500,9 +500,10 @@ void caam_drv_ctx_rel(struct caam_drv_ctx *drv_ctx)
 }
 EXPORT_SYMBOL(caam_drv_ctx_rel);
 
-void caam_qi_shutdown(struct device *qidev)
+static void caam_qi_shutdown(void *data)
 {
 	int i;
+	struct device *qidev = data;
 	struct caam_qi_priv *priv = &qipriv;
 	const cpumask_t *cpus = qman_affine_cpus();
 
@@ -577,8 +578,9 @@ static enum qman_cb_dqrr_result caam_rsp_fq_dqrr_cb(struct qman_portal *p,
 
 		if (ssrc != JRSTA_SSRC_CCB_ERROR ||
 		    err_id != JRSTA_CCBERR_ERRID_ICVCHK)
-			dev_err(qidev, "Error: %#x in CAAM response FD\n",
-				status);
+			dev_err_ratelimited(qidev,
+					    "Error: %#x in CAAM response FD\n",
+					    status);
 	}
 
 	if (unlikely(qm_fd_get_format(fd) != qm_fd_compound)) {
@@ -760,7 +762,10 @@ int caam_qi_init(struct platform_device *caam_pdev)
 			    &times_congested, &caam_fops_u64_ro);
 #endif
 
-	ctrlpriv->qi_init = 1;
+	err = devm_add_action_or_reset(qidev, caam_qi_shutdown, ctrlpriv);
+	if (err)
+		return err;
+
 	dev_info(qidev, "Linux CAAM Queue I/F driver initialised\n");
 	return 0;
 }

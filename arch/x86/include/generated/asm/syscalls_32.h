@@ -516,7 +516,7 @@ __SYSCALL_I386(111, __ia32_sys_vhangup, )
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(113, sys_vm86old, )
 #else
-__SYSCALL_I386(113, sys_ni_syscall, )
+__SYSCALL_I386(113, __ia32_sys_ni_syscall, )
 #endif
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(114, sys_wait4, )
@@ -546,7 +546,7 @@ __SYSCALL_I386(118, __ia32_sys_fsync, )
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(119, sys_sigreturn, )
 #else
-__SYSCALL_I386(119, sys32_sigreturn, )
+__SYSCALL_I386(119, __ia32_compat_sys_sigreturn, )
 #endif
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(120, sys_clone, )
@@ -766,7 +766,7 @@ __SYSCALL_I386(165, __ia32_sys_getresuid16, )
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(166, sys_vm86, )
 #else
-__SYSCALL_I386(166, sys_ni_syscall, )
+__SYSCALL_I386(166, __ia32_sys_ni_syscall, )
 #endif
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(168, sys_poll, )
@@ -791,7 +791,7 @@ __SYSCALL_I386(172, __ia32_sys_prctl, )
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(173, sys_rt_sigreturn, )
 #else
-__SYSCALL_I386(173, sys32_rt_sigreturn, )
+__SYSCALL_I386(173, __ia32_compat_sys_rt_sigreturn, )
 #endif
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(174, sys_rt_sigaction, )
@@ -801,7 +801,7 @@ __SYSCALL_I386(174, __ia32_compat_sys_rt_sigaction, )
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(175, sys_rt_sigprocmask, )
 #else
-__SYSCALL_I386(175, __ia32_sys_rt_sigprocmask, )
+__SYSCALL_I386(175, __ia32_compat_sys_rt_sigprocmask, )
 #endif
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(176, sys_rt_sigpending, )
@@ -821,7 +821,7 @@ __SYSCALL_I386(178, __ia32_compat_sys_rt_sigqueueinfo, )
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(179, sys_rt_sigsuspend, )
 #else
-__SYSCALL_I386(179, __ia32_sys_rt_sigsuspend, )
+__SYSCALL_I386(179, __ia32_compat_sys_rt_sigsuspend, )
 #endif
 #ifdef CONFIG_X86_32
 __SYSCALL_I386(180, sys_pread64, )
