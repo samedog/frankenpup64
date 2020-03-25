@@ -7,6 +7,7 @@
 ##########################################################################################
 #
 # 24-03-2020:	-first release
+#				- wine-tkg-git not needed sice GE already has the patches
 ##########################################################################################
 
 DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -21,23 +22,6 @@ process_repos() {
 		cd ..
 	fi
 	
-	if [ ! -d "PKGBUILDS" ];then
-		mkdir ./PKGBUILDS
-		cd ./PKGBUILDS
-		git init
-		git remote add -f origin https://github.com/Tk-Glitch/PKGBUILDS
-		git config core.sparseCheckout true
-		echo "wine-tkg-git/wine-tkg-patches/" >> .git/info/sparse-checkout
-		git pull origin master
-		cd ..
-	else
-		cd ./PKGBUILDS
-		git reset --hard HEAD
-    git clean -xdf
-		echo "wine-tkg-git/wine-tkg-patches/" >> .git/info/sparse-checkout
-		git pull origin master
-		cd ..
-	fi
 	if [ ! -d "SPIRV-Headers" ];then
 		git clone git://github.com/KhronosGroup/SPIRV-Headers
 	else
@@ -121,7 +105,6 @@ prepare(){
 
 	cp -rf ./wine ./wine_prepare
 	cp -rf ./wine-staging ./wine_prepare/wine-staging
-	cp -rf ./PKGBUILDS/wine-tkg-git ./wine_prepare/wine-tkg-git
 	cp -rf ./proton-ge-custom/game-patches-testing/ ./wine_prepare/game-patches-testing
 	cp -rf ./vkd3d ./wine_prepare/vkd3d
 	cp -rf ./SPIRV-Headers ./wine_prepare/SPIRV-Headers
@@ -151,10 +134,28 @@ patches() {
 	cd ..
 
 	./game-patches-testing/protonprep.sh
-	$( find ./wine-tkg-git/wine-tkg-patches/ -type f -not -path "*hotfixes*" -not -path "*esync*" -not -path "*legacy*" -exec cp -n {} ./wine-tkg-git \; ) 
-	cd ./wine-staging
-	patch -Np1 < ../wine-tkg-git/CSMT-toggle.patch && cd ..
-	#patch -Np1 < ./wine-tkg-git/fsync-staging.patch
+	### revert the steamuser patch
+	echo 'NOPE
+
+---
+ dlls/advapi32/advapi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dlls/advapi32/advapi.c b/dlls/advapi32/advapi.c
+index 1c528ef7419..87792f4fbc9 100644
+--- a/dlls/advapi32/advapi.c
++++ b/dlls/advapi32/advapi.c
+@@ -84,7 +84,7 @@ GetUserNameA( LPSTR lpszName, LPDWORD lpSize )
+ BOOL WINAPI
+ GetUserNameW( LPWSTR lpszName, LPDWORD lpSize )
+ {
+-    const char *name = "steamuser"/*wine_get_user_name()*/;
++    const char *name = wine_get_user_name();
+     DWORD i, len = MultiByteToWideChar( CP_UNIXCP, 0, name, -1, NULL, 0 );
+     LPWSTR backslash;
+' > revert.patch
+	patch -Np1 < ./revert.patch && cd ..
+	#####
 }
 
 
