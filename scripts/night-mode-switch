@@ -9,14 +9,17 @@
 # it's a non-auto night mode switch because **WHY ON EARTH** should i use a
 # fucking gps location to change the screen gamma, Jesus fucking Christ on a pogo stick
 # 18-11-2019: - First release
-#
+# 15-04-2020: - Added primitive hardware backlight detection
 ##########################################################################################
 
 if [ ! -f /tmp/day.l ];then
 	echo "1" > /tmp/day.l
 fi
-
+BACKL_NAME=$(ls /sys/class/backlight/)
+BACKL_DEVICE="/sys/class/backlight/$BACKL_NAME/brightness"
+MAX_B=$(cat /sys/class/backlight/$BACKL_NAME/max_brightness)
 SCREENS=$(xrandr | grep "$DISPLAY1 connected" | cut -d' ' -f1)
+
 
 function switch() {
 	DAY_L=$(head -1 /tmp/day.l)
@@ -25,14 +28,26 @@ function switch() {
 			if [ $DAY_L -eq 0 ];then
 				xrandr --output "$val" --gamma 1:1:1 --brightness 1
 				echo "Setting: xrandr --output $val --gamma 1:1:1 --brightness 1"
+				if [ -f "$BACKL_DEVICE" ];then
+					echo $MAX_B > $BACKL_DEVICE
+				fi
 				echo "1" > /tmp/day.l
 			else
 				xrandr --output "$val" --gamma 1:0.8:0.5 --brightness 0.5
 				echo "Setting: xrandr --output $val --gamma 1:0.8:0.5 --brightness 0.5"
+				if [ -f "$BACKL_DEVICE" ];then
+					b_percentage $MAX_B 50
+					echo $RET > $BACKL_DEVICE
+				fi
 				echo "0" > /tmp/day.l
 			fi
 		done
 }
+
+function b_percentage(){
+	RET=$(expr $1 \* $2 / 100)
+}
+
 
 switch "$SCREENS"
 
