@@ -1,0 +1,749 @@
+#!/bin/bash
+#101023 wcpufreq TazOC lhpup.org GPL v3 or any later version
+#Based on pcpufreq 002 by Iguleder 2010-10-15 Supports up to 10 cores
+#Some content from https://wiki.archlinux.org/index.php/Cpufrequtils
+#portions from cpu_freq GUI Trio Tjandradjaja - GPL 2009
+#101023 TazOC Added select frequency range, remove driver, help, feedback & status panels and multi-user support
+#101027 TazOC Name changed to wcpufreq. Account for etc/init.d/start_cpu_freq (recent Woof script) when detecting driver. Display current core speeds. up_threshold selection for ondemand governor. Suggest to avoid using p4-clockmod and advise if no acpi or BIOS released <2007.
+#101201 Set default up_threshold to 80%
+#110414 Bugfix: Ignore mperf module and detect current driver by scanning /proc/modules.
+#110507 Woof/fido-friendly updates; use /etc/init.d/wcpufreq instead of script in ~/Startup
+#110908 Account for scaling drivers built-in to kernel instead of compiled modules
+#130208 BK: 'cpufreq' modules directory path wrong.
+#170921 Add support from radky/PupSysInfo for kernel 4.13 (Marv)
+#23-04-20 samedog: added support for intel_pstate and iX processors
+
+export LANG=C
+. /etc/DISTRO_SPECS
+export APPTITLE="$DISTRO_NAME CPU Frequency Scaling Tool"
+export APPNAME="wcpufreq" # for Xdialog icon /usr/share/icons/wcpufreq.png #101027
+export APPVERSION="0.9" #130208
+ICON="/usr/share/icons/$APPNAME.png"
+SWF_ICON="/usr/share/icons/swf.png" #101027
+CURRENT_DRIVER_FILE="/sys/devices/system/cpu/cpu0/cpufreq/scaling_driver"
+AVAIL_GOV_FILE="/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors"
+CURRENT_GOV_FILE="/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
+UP_THRESHOLD_FILE="/sys/devices/system/cpu/cpufreq/ondemand/up_threshold" #101027
+
+if [ -f "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies" ];then
+	AVAIL_FREQ_FILE="/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies"
+else
+	AVAIL_FREQ_FILE="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
+	MAX_FREQ_ABS=1
+fi
+
+if [ -f "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq" ];then
+	CURRENT_FREQ="/sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq"
+elif [ -f "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq" ];then
+	CURRENT_FREQ="/sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq"
+fi
+
+export START_SCALING_FILE="/etc/init.d/wcpufreq" #110507
+export START_TRIO_FILE="${HOME}/Startup/start_cpu_freq" #110507
+export START_WOOF_FILE="/etc/init.d/start_cpu_freq" #101027
+
+CURRDIR="`pwd`" #130208
+ 
+if [ "`whoami`" != "root" ]; then #101023 allow wheel group members to run as root
+ if [ `which groups` ] && [ "`which sudo`" -a "`groups "$USER" | grep 'wheel'`" ]; then #110507
+  sudo "${0}" ${@} &
+  exit 0 # End script
+ else
+  if [ -z "`which sudo`" ]; then #110507
+   xmessage "Please run wcpufreq as root." & #110507
+  else
+   sudo -A "${0}" ${@} & #110507
+  exit 0 # End script
+  fi
+ fi
+fi
+
+CpuSpeedFunc() #101027
+{
+
+sleep .3
+CORE_PLURAL=""
+KERNEL_VER=$(uname -r | cut -f1,2 -d'.')  #170921
+	if ((`bc <<< "$KERNEL_VER>=4.13"`)); then
+	 CPU_INFO_SPEED=$(sed 's/...$//' $CURRENT_FREQ)
+	else
+     CPU_INFO_SPEED="`cat /proc/cpuinfo | grep 'MHz' | awk '{print $4}' | cut -f 1 -d '.'`"
+    fi
+CORE=0; CPU_CORES=`echo "$CPU_INFO_SPEED" | wc -l`
+[ $CPU_CORES -gt 1 ] && CORE_PLURAL="s"
+CPU_SPEED="Core "
+for ONE_CORE in $CPU_INFO_SPEED; do
+ CPU_SPEED="$CPU_SPEED$CORE: $ONE_CORE  "
+ CORE=$(expr $CORE + 1)
+done
+
+}
+
+trim() # a function that removes all spaces from the head and back of strings
+{
+  temp="$1"
+  while [ true ]; do
+
+    case "$temp" in
+  
+      " "*)
+        temp=${temp#" "}
+        ;;
+      
+      *" ")
+        temp=${temp%" "}
+        ;;
+      
+      *)
+        break
+        ;;
+   
+    esac
+  
+  done
+  echo $temp
+}
+
+DisableOtherScalingFunc() #110507
+{
+  rm -f "${HOME}/Startup/cpu-frequency-scaling.sh"
+  rm -f "${HOME}/.kde/Autostart/cpu-frequency-scaling.sh"
+  rm -f "/home/spot/Startup/cpu-frequency-scaling.sh"
+  rm -f "/home/spot/.kde/Autostart/cpu-frequency-scaling.sh"
+  rm -f "/etc/skel/Startup/cpu-frequency-scaling.sh"
+  rm -f "/etc/skel/.kde/Autostart/cpu-frequency-scaling.sh"
+  [ -f "$START_WOOF_FILE" ] && chmod 644 "$START_WOOF_FILE"
+  [ -f "$START_TRIO_FILE" ] && chmod 644 "$START_TRIO_FILE"
+
+  RC_MODULE="" # Extract module names from each modprobe in rc.local
+  RC_MODULES="`grep modprobe /etc/rc.d/rc.local | tr -s ' ' | grep -Ev '^[ ]*#' | awk '{print $2}' | tr '\n' ' '`"
+  if [ -n "$RC_MODULES" ]; then
+   for ONE_MODULE in $RC_MODULES; do
+    [ -n "`echo "$MODULE_LIST" | grep "$ONE_MODULE"`" ] && RC_MODULE="$ONE_MODULE" && break
+   done
+   if [ -n "$RC_MODULE" ]; then # found wcpufreq code in rc.local, so remove it
+    NEW_RC_LOCAL="`cat /etc/rc.d/rc.local | grep -v -e "${RC_MODULE}\|cpufreq" | sed '/cd\ \/sys\/devices\/system/,/done/d'`"
+    echo -e "$NEW_RC_LOCAL" > /etc/rc.d/rc.local
+   fi
+  fi
+
+ }
+ export -f DisableOtherScalingFunc
+
+export CPU_DRIVER="" #101027
+export nl='
+'
+#101201 Check for first run, need later for default up_threshold
+if [ -s /etc/wcpufreqdriver ]; then #110507
+ [ -s "$UP_THRESHOLD_FILE" ] && CURRENT_UP="`cat "$UP_THRESHOLD_FILE"`"
+else
+ FIRST_RUN="YES"
+fi
+
+#101027 freq scaling is unlikely to be supported on older computers...
+[ ! -d /proc/acpi ] && NO_ACPI="ACPI was not detected. "
+BIOS_DATE="`dmidecode -s "bios-release-date"`"
+[ `echo "$BIOS_DATE" | cut -f 3 -d '/'` -lt 2007 ] && BIOS="BIOS was released prior to 2007. "
+
+# the kernel version
+kernelVersion=`uname -r`
+
+# get the first cpu
+processor=`cat /proc/cpuinfo | grep "model name" | head -1`
+
+# get rid of "model name:"
+processor=${processor##*:}
+
+#get rid of the frequency at the end
+processor=${processor%%@*}  
+
+# get rid of the spaces
+processor=`trim "$processor"`
+
+setDriver() # a function that loads a cpufreq driver
+{
+	
+  CPU_DRIVER=${CPU_DRIVER%%" "*} 
+  modprobe $CPU_DRIVER
+  if [ $? -eq 0 ] ; then #101023 If successful, make driver persistent
+   echo -n "$CPU_DRIVER" > /etc/wcpufreqdriver
+   #export CPU_DRIVER #101027 #110507
+  fi
+	
+}
+
+export -f setDriver
+
+if [ ! -s "$CURRENT_DRIVER_FILE" ] || [ -z "`head -1 "$CURRENT_DRIVER_FILE"`" ]; then #110908
+
+ #130208 fix path...
+ #cd /lib/modules/$kernelVersion/kernel/arch/*/kernel/cpu/cpufreq
+ CPUFREQPATH="$(find /lib/modules/${kernelVersion}/kernel -type d -name cpufreq | head -n 1)"
+ [ "$CPUFREQPATH" = "" ] && exit 1 #precaution.
+ cd $CPUFREQPATH
+  
+ export cpuDrivers="<item>acpi-cpufreq (generic driver for many computers)</item>"
+
+ MODULE_LIST="acpi-cpufreq" #101023 
+
+ for i in `ls -1 | grep -v acpi-cpufreq`; do
+  
+  # filter the module name
+  moduleName=`basename $i .ko`
+  
+  [ -n "`echo $moduleName | grep mperf`" ] && continue #110414 this is a dependency, not a primary module
+  
+  MODULE_LIST="$MODULE_LIST $moduleName" #101023 might need this further down...
+  
+  # get the module description
+  moduleDescription=`modinfo $moduleName | grep description`
+  
+  # get rid of "description:"
+  moduleDescription=${moduleDescription##*:}
+  
+  # get rid of spaces
+  moduleDescription=`trim "$moduleDescription"`
+  
+  cpuDrivers="$cpuDrivers<item>$moduleName (${moduleDescription%.})</item>"
+    
+ done
+ export MODULE_LIST
+
+ # Check for upgrade from earlier wcpufreq #110507
+ if [ -x "${HOME}/Startup/cpu-frequency-scaling.sh" ]; then
+  echo -e "#!/bin/busybox ash\n\n[ \"\$1\" = \"stop\" ] && exit" > "$START_SCALING_FILE"
+  cat "${HOME}/Startup/cpu-frequency-scaling.sh" | grep -v '##\|/bin/busybox' >> "$START_SCALING_FILE"
+  chmod 755 "$START_SCALING_FILE"
+  [ $? -eq 0 ] && DisableOtherScalingFunc
+ fi
+
+ #101027 Want to know if there is an active cpufreq module. Let's just try removing each one in MODULE_LIST with rmmod and test for 'in use'. #110414 No, scan /proc/modules later
+ #MODULE_REMOVED=""; MAYBE_MODULE=""
+ 
+ #for ONE_MODULE in $MODULE_LIST; do
+ # RMMOD_RESULT="`rmmod "$ONE_MODULE" 2>&1`"
+ # if [ "`echo "$RMMOD_RESULT" | grep 'in use'`" ]; then # ex: ERROR: Module acpi-cpufreq is in use
+ #  MAYBE_MODULE="$ONE_MODULE" && break # found active module
+ # elif [ "$RMMOD_RESULT" = "" ]; then # module removed (not likely but just in case)
+ #  MODULE_REMOVED="${nl}(Prior module '$ONE_MODULE' is removed, it can be reloaded.)${nl}"
+ #  MAYBE_MODULE="$ONE_MODULE" && break 
+ # else MODULE_REMOVED="" # ex: ERROR: Module acpi_cpu_freq does not exist in /proc/modules
+ # fi
+ #done
+
+ MODULE_REMOVED=""; CURR_MODULE="" #101027 
+
+ CpuSpeedFunc ##101027 function call
+
+ #101027 Advise of possible problems with no acpi or BIOS <2007
+ if [ "$NO_ACPI" -o "$BIOS" ]; then
+  Xdialog --title "$APPTITLE $APPVERSION" --wmclass $APPNAME \
+         --icon "/usr/local/lib/X11/pixmaps/info.xpm" --ok-label " Next " --cancel-label " Cancel " --left \
+         --yesno "\n $processor detected. \n\n Current speed$CORE_PLURAL (MHz): $CPU_SPEED\n\n BIOS release date: $BIOS_DATE \n\n
+ ----> $NO_ACPI$BIOS \n\n It appears that CPU Frequency Scaling may not work on \n this machine. You can click 'Next' to continue, however \n if any problems arise, you can cancel before continuing \n or disable Frequency Scaling by clicking 'Remove' on the \n appropriate panel. \n" 0 0
+  RET=$?
+  case $RET in
+   0) # Pressed Next
+     ;;
+
+   1) exit # End script 
+     ;;
+
+   255) exit # Box closed
+     ;;
+   esac
+  fi
+
+
+ export driverWindow="	
+<window title=\"$APPTITLE $APPVERSION\">
+ <vbox>
+  <frame  Select Driver >
+
+   <vbox>
+
+    <text use-markup=\"true\" wrap=\"false\"><label>\"${nl}First, select a driver appropriate for your processor, which is: ${nl}${nl}$processor${nl}${nl}Current speed$CORE_PLURAL (MHz): $CPU_SPEED${nl}$MODULE_REMOVED${nl}The generic 'acpi-cpufreq' should suffice for many computers. ${nl}'p4-clockmod' is reported to be ineffective on some machines, ${nl}so that driver should be avoided.${nl}${nl}Once a matching driver is loaded, you will be able to select a ${nl}frequency scaling scheme. ${nl}\"</label></text>
+
+    <combobox width-request=\"620\"> 
+      <variable>CPU_DRIVER</variable>
+      $cpuDrivers
+    </combobox>
+    
+   </vbox>
+    
+  </frame>
+  <frame  Set Driver >
+   <vbox>
+    
+    <hbox>
+   
+      <button>
+        <input file icon=\"gtk-apply\"></input>
+        <label>Apply</label>
+	    <action>setDriver</action>
+	    <action>EXIT:EXIT</action>
+      </button>
+  
+      <button>
+        <input file icon=\"gtk-cancel\"></input>
+        <label>Cancel</label>
+      </button>
+
+    </hbox>
+
+   </vbox>
+
+  </frame>
+ </vbox>
+</window>"
+
+ while [ ! -f $AVAIL_GOV_FILE ]; do
+ #while [ ! -s /etc/wcpufreqdriver ]; do
+  #DIALOG_RES="`gtkdialog3 -c -p driverWindow`"
+  
+  exitMode=`gtkdialog3 -c -p driverWindow | grep EXIT`
+
+  case "$exitMode" in
+  
+    "EXIT=\"Cancel\""|"EXIT=\"abort\"") #101023
+    
+      exit
+      ;;
+      
+  esac
+
+ done
+
+ #110507 Scan /proc/modules for active cpufreq kernel module
+ for ONE_MODULE in $MODULE_LIST; do
+
+  ONE_MOD_PROC=`echo $ONE_MODULE | sed 's/-/_/g'` # convert '-' chars to '_'
+  CURR_MODULE="`grep "^$ONE_MOD_PROC" /proc/modules | cut -f1 -d' ' | sed 's/_/-/g'`"
+  [ -n "$CURR_MODULE" ] && break 
+ 
+ done
+
+ #xmessage "$CURR_MODULE,$CPU_DRIVER" ###
+ [ -n "$CURR_MODULE" ] && CPU_DRIVER="$CURR_MODULE"
+ [ -n "$CPU_DRIVER" ] && echo -n "$CPU_DRIVER" > /etc/wcpufreqdriver
+
+ if [ -z "$CPU_DRIVER" ]; then #101027
+  #101023 Want to display active cpufreq module, but may need some detective work in case it was loaded by means other than this script...
+  if [ -f $AVAIL_GOV_FILE ]; then # a module must be loaded; which one?
+ 
+   # $CPU_DRIVER not persistent in above while loop, try /etc/wcpufreqdriver
+   # first check if that file is empty (skipping 'modprobe' as a precaution)
+   [ -s /etc/pcpufreqdriver ] && [ "`cat /etc/pcpufreqdriver | sed s'%modprobe%%g' | awk '{print $1}' | tr -d '\n'`" = "" ] && rm -f /etc/pcpufreqdriver
+   [ -s /etc/wcpufreqdriver ] && [ "`cat /etc/wcpufreqdriver | sed s'%modprobe%%g' | awk '{print $1}' | tr -d '\n'`" = "" ] && rm -f /etc/wcpufreqdriver #101027
+   
+   if [ -x "$START_WOOF_FILE" ]; then #101027
+    MAYBE_MODULE="acpi-cpufreq"
+ 
+   elif [ -s /etc/wcpufreqdriver ]; then #101027
+    MAYBE_MODULE="`cat /etc/wcpufreqdriver | sed s'%modprobe%%g' | awk '{print $1}' | tr -d '\n'`"
+ 
+   elif [ -s /etc/pcpufreqdriver ]; then
+    MAYBE_MODULE="`cat /etc/pcpufreqdriver | sed s'%modprobe%%g' | awk '{print $1}' | tr -d '\n'`"
+   
+   elif [ -f "$START_TRIO_FILE" ]; then # Maybe Trio's cpu_freq loaded the module?
+    TRIO_MODULES="`grep 'modprobe' "$START_TRIO_FILE" | tr -s ' ' | grep -Ev '^#' | grep -Ev '^ #' | awk '{print $2}' | tr '\n' ' '`"
+    for ONE_MODULE in $TRIO_MODULES; do
+     [ "`echo "$MODULE_LIST" | grep "$ONE_MODULE"`" ] && MAYBE_MODULE="$ONE_MODULE" && break
+    done
+   
+   else # Must be loading in /etc/rc.d/rc.local or elsewhere
+    RC_MODULES="`grep 'modprobe' "/etc/rc.d/rc.local" | tr -s ' ' | grep -Ev '^#' | grep -Ev '^ #' | awk '{print $2}' | tr '\n' ' '`"
+    for ONE_MODULE in $RC_MODULES; do
+     [ "`echo "$MODULE_LIST" | grep "$ONE_MODULE"`" ] && MAYBE_MODULE="$ONE_MODULE" && break
+    done
+   fi
+  
+  fi
+   
+  if [ -n "$MAYBE_MODULE" ]; then
+   # Verify that it's in our available module list
+   if [ "`echo "$MODULE_LIST" | grep "$MAYBE_MODULE"`" ]; then
+    CPU_DRIVER="$MAYBE_MODULE"
+   else
+    CPU_DRIVER="unknown" # Leave it up to the user (see HELP below...)
+   fi
+  else
+   CPU_DRIVER="unknown" 
+  fi
+  echo -n "$CPU_DRIVER" > /etc/wcpufreqdriver #101027
+
+ fi 
+  
+else #110908
+ CPU_DRIVER="`head -1 "$CURRENT_DRIVER_FILE"`"
+ echo -n "$CPU_DRIVER" > /etc/wcpufreqdriver
+ MODULE_LIST="$CPU_DRIVER"; MODULE_LIST_1="$CPU_DRIVER"
+fi   
+  
+#xmessage "$CURR_MODULE,$CPU_DRIVER" ###
+if [ "$CPU_DRIVER" != "" ]; then
+  if [ `echo -n "$MODULE_LIST" | wc -w` -gt 1 ]; then #110908
+   MODULE_LIST_1="`echo $MODULE_LIST | cut -f -6 -d' ' | sed s'% %   %g'` \n"
+   MODULE_LIST_2="`echo $MODULE_LIST | cut -f 7-11 -d' ' | sed s'% %   %g'` \n"
+   MODULE_LIST_3="`echo $MODULE_LIST | cut -f 12- -d' ' | sed s'% %   %g'`"
+  fi
+  if [ "$CPU_DRIVER" != "unknown" ]; then
+   ClickHelp="\n\n Please click 'Next' to select a governor. "
+   DriverHelp=": '$CPU_DRIVER'"; MODPROBE="$CPU_DRIVER"
+  else
+   ClickHelp="\n\n ----> Please click 'Help'. "
+   MODPROBE="<module name>"
+  fi
+  
+  HELP="\nThe CPU scaling driver is a kernel module, specific to the CPU architecture for which it was written. \nIf a driver is indicated${DriverHelp}, please click 'Next' to select a scaling scheme (governor).  \n__________________________________________________________________________ \n\nIf the driver indicated is 'unknown', a module is already loaded but could not be determined \nby this application. It should be this or one of these: \n\n$MODULE_LIST_1$MODULE_LIST_2$MODULE_LIST_3 \n\nIf you know which it is, edit '/etc/wcpufreqdriver' accordingly and restart this application. \n\nOtherwise, choose 'Remove', reboot and restart CPU Frequency Scaling Tool to choose \na driver. Do the same if you've moved the current pupsave file from a different computer \nso that the correct driver can be selected. If you've edited '/etc/rc.d/rc.local' so that \none of the above modules is loading, you may need to remove the line  \n'modprobe $MODPROBE' from that file before rebooting. \n"
+
+  CpuSpeedFunc ## function call #101027
+  scalingGovernor="`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor`" #101027
+  
+  #101023 Feedback and option to remove module
+  Xdialog --title "$APPTITLE $APPVERSION" --wmclass $APPNAME --help "$HELP" \
+          --icon "$ICON" --ok-label " Next " --cancel-label " Remove " --left \
+          --yesno "\n $processor \n\n
+ Current speed$CORE_PLURAL (MHz): $CPU_SPEED\n\n 
+ Scaling driver: '$CPU_DRIVER'  governor: '$scalingGovernor' $ClickHelp\n\n
+ To use another driver (if you're using a save file from a \n
+ different computer) or disable Frequency Scaling, click \n 'Remove', then reboot your machine. \n" 0 0
+ RET=$?
+  case $RET in
+  0) # Pressed Next
+     ;;
+
+  1) # Pressed Remove
+     [ -f /etc/wcpufreqdriver ] && rm -f /etc/wcpufreqdriver # Remove driver #101027
+     [ -f /etc/pcpufreqdriver ] && rm -f /etc/pcpufreqdriver # Remove driver
+     DisableOtherScalingFunc #110507
+     echo "#!/bin/busybox ash" > "$START_SCALING_FILE" #110507
+     chmod 644 "$START_SCALING_FILE" #101027 #110507
+     exit # End script 
+     ;;
+
+  255) exit # Box closed
+     ;;
+  esac
+
+fi
+
+#101023 Set up available Max and Min Frequencies
+
+FREQ_LIST="`cat $AVAIL_FREQ_FILE`" 
+
+if [ $MAX_FREQ_ABS -eq 1 ];then
+	FREQ_MAX="$FREQ_MAX`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq | awk '{print "<item>"$1"</item>"}'`"
+else
+	for i in $FREQ_LIST
+	do
+	 FREQ_MAX="$FREQ_MAX`echo "$i " | awk '{print "<item>"$1"</item>"}'`"
+	done
+fi
+
+
+for i in $FREQ_LIST
+do
+ FREQ_MIN_LIST="`echo "$i "`$FREQ_MIN_LIST"
+done
+#FREQ_MIN_SORTED="`echo "$FREQ_MIN_LIST" | sort -n`"
+
+for i in $FREQ_MIN_LIST
+do
+ FREQ_MIN="$FREQ_MIN`echo "$i " | awk '{print "<item>"$1"</item>"}'`"
+done
+
+
+setGovernor()
+{
+
+  scalingGovernor=${scalingGovernor%%" "*} 
+  echo $scalingGovernor
+  
+  modprobe $CPU_DRIVER > /dev/null 2>&1 #101027
+  modprobe cpufreq-$scalingGovernor > /dev/null 2>&1
+  
+  [ ! -d /sys/devices/system/cpu ] && exit 1 #130208 precaution.
+  cd /sys/devices/system/cpu
+  
+  for i in `ls -d1 cpu[0-9]*`; do
+  
+    echo $scalingGovernor > $i/cpufreq/scaling_governor
+    
+    echo $MIN > $i/cpufreq/scaling_min_freq #101027 if prior max was below new min, must repeat
+    echo $MAX > $i/cpufreq/scaling_max_freq #101027 if prior min was above new max, must repeat
+    echo $MIN > $i/cpufreq/scaling_min_freq
+    echo $MAX > $i/cpufreq/scaling_max_freq
+     
+    case $? in
+    
+      1)
+        return 1
+        ;;
+        
+    esac
+    
+  done
+  
+  echo -e "#!/bin/busybox ash
+
+[ \"\$1\" = \"stop\" ] && exit
+
+modprobe `cat /etc/wcpufreqdriver`
+modprobe cpufreq-$scalingGovernor
+
+cd /sys/devices/system/cpu
+for i in \`ls -d1 cpu[0-9]*\`; do
+
+  echo $scalingGovernor > \$i/cpufreq/scaling_governor
+  echo $MIN > \$i/cpufreq/scaling_min_freq
+  echo $MAX > \$i/cpufreq/scaling_max_freq
+
+done" > "$START_SCALING_FILE" #110507
+  
+  chmod 755 "$START_SCALING_FILE" #110507
+
+  [ $? -eq 0 ] && DisableOtherScalingFunc #110507
+  
+  return 0
+
+}
+
+export -f setGovernor
+
+tmpFile=`mktemp`
+
+for i in `cat $AVAIL_GOV_FILE`; do
+
+  echo $i >> $tmpFile
+
+done
+
+#130208
+#cd /lib/modules/$kernelVersion/kernel/drivers/cpufreq
+if [ "$CPU_DRIVER" != "intel_pstate" ];then
+	CPUFREQPATH="$(find /lib/modules/${kernelVersion}/kernel -type d -name cpufreq | head -n 1)"
+	[ "$CPUFREQPATH" = "" ] && exit 1 #precaution.
+	cd $CPUFREQPATH
+
+	for i in `ls -1`; do
+
+	  temp=`basename $i .ko`
+	  echo ${temp#cpufreq_} >> $tmpFile
+	  
+	done
+fi
+
+
+tmpFileTwo=`mktemp`
+cat $tmpFile | sort | uniq > $tmpFileTwo
+rm $tmpFile
+
+export scalingGovernors="" #101023 make ondemand default
+#export scalingGovernors="<item>ondemand</item>"
+
+for i in `cat $tmpFileTwo`; do
+
+  [ "$i" = "ondemand" ] && continue #101023
+  scalingGovernors="$scalingGovernors<item>$i</item>"
+  
+done
+
+rm $tmpFileTwo
+
+currentStatus="`cat $CURRENT_GOV_FILE`"
+
+case "$currentStatus" in
+
+  "")
+    currentStatus="Currently, CPU frequency scaling is <b>disabled</b>"
+    ;;
+    
+  *)
+    currentStatus="The current CPU frequency scaling scheme is <b>$currentStatus</b>"
+    ;;
+    
+esac
+
+export currentStatus
+
+GovHelpFunc()
+{
+
+ STATUS="`echo $currentStatus | sed s'%<b>%"%' | sed s'%<\/b>%"%'`"
+ Xdialog --title "CPU Scaling - Governor Help" --wmclass $APPNAME \
+         --left  --msgbox "\n
+ $STATUS \n\n
+ The 'conservative' governor is similar to 'ondemand', but more \n conservative (clock speed changes are more graceful), while \n 'powersave' runs at minimum frequency for maximum battery life. \n\n The 'performance' governor is sometimes used for desktop \n computers--if maintaining maximum CPU frequency at all \n times is desired. \n\n 'userspace' is a fixed frequency governor, where the user manually \n sets the desired frequency for each core for the current session: \n\necho 1800000 >/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed \n\n To see the acceptable frequencies for this governor: \n\ncat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies \n" 0 0
+
+}
+
+export -f GovHelpFunc
+export scalingGovernor=""
+
+export governorWindow="	
+<window title=\"$APPTITLE $APPVERSION\">
+
+ <vbox>
+  <frame  Select Governor >
+
+   <vbox>
+
+    <text use-markup=\"true\" wrap=\"false\">
+     <label>\"$currentStatus. ${nl}${nl}The 'ondemand' governor is advised for general use. It scales the frequency ${nl}as processor usage rises and falls, saving energy and running cool and quiet.  ${nl}${nl}After choosing 'ondemand' you will be able to adjust the 'up_threshold' ${nl}as desired for powersave or performance modes.\"
+     </label>
+    </text>
+       
+   <hbox>
+    <combobox> 
+      <variable>scalingGovernor</variable>
+      $scalingGovernors
+    </combobox>
+   </hbox>
+    
+   </vbox>
+  </frame>
+
+  <frame  Select Frequency Range >
+
+   <hbox>
+    <text><label>Minimum</label></text>
+     <combobox>
+      <variable>MIN</variable>
+      $FREQ_MIN   
+     </combobox>
+    <text><label>Maximum</label></text>
+     <combobox>
+      <variable>MAX</variable>
+      $FREQ_MAX   
+     </combobox>
+
+   </hbox>
+  </frame>
+       
+  <frame  Activate CPU Frequency Scaling >
+   <hbox>
+   
+    <button>
+     <input file icon=\"gtk-apply\"></input>
+      <label>Apply </label>
+	   <action>setGovernor</action>
+	   <action>EXIT:EXIT</action>
+    </button>
+  
+    <button>
+     <input file icon=\"gtk-cancel\"></input>
+      <label>Cancel </label>
+    </button>
+  
+    <button>
+     <input file icon=\"gtk-help\"></input>
+      <label>Help </label>
+	   <action>GovHelpFunc &</action>
+    </button>
+
+    </hbox>
+  </frame>
+ </vbox>
+
+</window>"
+  
+exitMode=`gtkdialog3 -c -p governorWindow | grep EXIT`
+
+  #101027
+  case "$exitMode" in
+  
+      "EXIT=\"Cancel \""|"EXIT=\"abort\"")
+      exit # End script 
+      ;;
+      
+  esac
+
+#101027 If ondemand governor, display current up threshold and selection panel
+scalingGovernor="`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor`"
+if [ "$scalingGovernor" = "ondemand" ]; then
+
+tmpFileUp=`mktemp`
+
+[ -n "$FIRST_RUN" ] && CURRENT_UP="80" #101201 
+[ -z "$CURRENT_UP" ] && CURRENT_UP="`cat "$UP_THRESHOLD_FILE"`" #110507
+
+STATUS_95="OFF"; STATUS_80="OFF"; STATUS_50="OFF"; STATUS_30="OFF"
+case $CURRENT_UP in
+
+95) STATUS_95="ON"
+   ;;
+80) STATUS_80="ON"
+   ;;
+50) STATUS_50="ON"
+   ;;
+30) STATUS_30="ON"
+   ;;
+*)  STATUS_80="ON"
+   ;;
+   
+esac
+
+ TOPMSG="\n Select 'up_threshold': this setting controls when the 'ondemand' governor switches \n to a higher frequency. So for 80%, the governor increases the frequency if a core \n reaches 80% usage, and decreases it when the usage drops well below that. \n"
+ 
+ MSG="\n Some CPUs may suffer from poor performance with the default \n settings of the 'ondemand' governor, (e.g., flash videos not \n playing smoothly or stuttering window animations). Instead of \n changing the governor to 'performance' to resolve these issues, \n the aggressiveness of frequency scaling can be increased \n by lowering the up threshold to 50%. \n"
+ Xdialog --title "$APPTITLE $APPVERSION" --wmclass $APPNAME \
+         --icon "$SWF_ICON" --ok-label " Next " --left \
+         --backtitle "$TOPMSG" --radiolist "$MSG" 0 0 5 \
+         '95%' ' Powersave, less responsive' $STATUS_95 \
+         '80%' ' Default                   ' $STATUS_80  \
+         '50%' ' Balanced, more responsive                          ' $STATUS_50 \
+         '30%' ' Performance, very responsive' $STATUS_30 2> $tmpFileUp
+
+ retval=$?
+ r=`tail -n 1 $tmpFileUp | grep -v 'Generic Event Extension'`
+ rm -f $tmpFileUp
+ [ -z "$r" ] && r='80%'
+ UP_THRESHOLD="`echo $r | cut -f 1 -d '%'`"
+ 
+ case $retval in
+  0) # Pressed OK or Enter
+ echo $UP_THRESHOLD > "$UP_THRESHOLD_FILE"
+ echo -e "echo $UP_THRESHOLD > cpufreq/ondemand/up_threshold" >> "$START_SCALING_FILE" #110507
+    ;;
+  1)
+    exit 0 # Pressed cancel, end script 
+    ;;
+  255)
+    exit 0 # Box closed, end script 
+    ;;
+ esac
+
+fi    
+
+sleep .2
+CpuSpeedFunc #101027 function call
+
+#101023 display min and max freqs for ondemand governor
+if [ "$exitMode" = "EXIT=\"EXIT\"" -a "$scalingGovernor" != "" ]; then
+ MIN="$(expr $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq) \/ 1000) MHz"
+ MAX="$(expr $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq) \/ 1000) MHz"
+ 
+ if [ "$scalingGovernor" = "ondemand" ]; then #101027 
+  FREQ_RANGE="minimum: $MIN   maximum: $MAX  up_threshold: $r \n\n" #101027 
+ elif [ "$scalingGovernor" = "conservative" ]; then #101027 
+  FREQ_RANGE="minimum: $MIN   maximum: $MAX\n\n"
+ elif [ "$scalingGovernor" = "performance" ]; then
+  FREQ_RANGE="frequency is fixed: $MAX\n\n"
+ elif [ "$scalingGovernor" = "powersave" ]; then
+  FREQ_RANGE="frequency is fixed: $MIN\n\n"
+ else
+  FREQ_RANGE=""
+ fi
+
+ #101023 Final status
+ Xdialog --title "$APPTITLE $APPVERSION" --wmclass $APPNAME \
+         --icon "$ICON" --ok-label " Done " --left \
+         --msgbox "\n CPU Frequency Scaling is activated!\n\n
+ Current speed$CORE_PLURAL (MHz): $CPU_SPEED\n\n
+ driver: '$CPU_DRIVER'   governor: '$scalingGovernor'\n\n
+ $FREQ_RANGE
+ and is re-activated for all users at bootup \n from '$START_SCALING_FILE'.\n" 0 0 #110507
+
+fi
+exit 0
