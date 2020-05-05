@@ -362,7 +362,7 @@ static int soc_tplg_add_kcontrol(struct soc_tplg *tplg,
 	struct snd_soc_component *comp = tplg->comp;
 
 	return soc_tplg_add_dcontrol(comp->card->snd_card,
-				comp->dev, k, NULL, comp, kcontrol);
+				comp->dev, k, comp->name_prefix, comp, kcontrol);
 }
 
 /* remove a mixer kcontrol */
@@ -549,7 +549,8 @@ static void remove_link(struct snd_soc_component *comp,
 		dobj->ops->link_unload(comp, dobj);
 
 	list_del(&dobj->list);
-	snd_soc_remove_dai_link(comp->card, link);
+	snd_soc_remove_pcm_runtime(comp->card,
+			snd_soc_get_pcm_runtime(comp->card, link));
 
 	kfree(link->name);
 	kfree(link->stream_name);
@@ -1942,7 +1943,7 @@ static int soc_tplg_fe_link_create(struct soc_tplg *tplg,
 		goto err;
 	}
 
-	ret = snd_soc_add_dai_link(tplg->comp->card, link);
+	ret = snd_soc_add_pcm_runtime(tplg->comp->card, link);
 	if (ret < 0) {
 		dev_err(tplg->comp->dev, "ASoC: adding FE link failed\n");
 		goto err;
@@ -2223,6 +2224,47 @@ static int link_new_ver(struct soc_tplg *tplg,
 	return 0;
 }
 
+/**
+ * snd_soc_find_dai_link - Find a DAI link
+ *
+ * @card: soc card
+ * @id: DAI link ID to match
+ * @name: DAI link name to match, optional
+ * @stream_name: DAI link stream name to match, optional
+ *
+ * This function will search all existing DAI links of the soc card to
+ * find the link of the same ID. Since DAI links may not have their
+ * unique ID, so name and stream name should also match if being
+ * specified.
+ *
+ * Return: pointer of DAI link, or NULL if not found.
+ */
+static struct snd_soc_dai_link *snd_soc_find_dai_link(struct snd_soc_card *card,
+						      int id, const char *name,
+						      const char *stream_name)
+{
+	struct snd_soc_pcm_runtime *rtd;
+	struct snd_soc_dai_link *link;
+
+	for_each_card_rtds(card, rtd) {
+		link = rtd->dai_link;
+
+		if (link->id != id)
+			continue;
+
+		if (name && (!link->name || strcmp(name, link->name)))
+			continue;
+
+		if (stream_name && (!link->stream_name
+				    || strcmp(stream_name, link->stream_name)))
+			continue;
+
+		return link;
+	}
+
+	return NULL;
+}
+
 /* Find and configure an existing physical DAI link */
 static int soc_tplg_link_config(struct soc_tplg *tplg,
 	struct snd_soc_tplg_link_config *cfg)
@@ -2335,8 +2377,11 @@ static int soc_tplg_link_elems_load(struct soc_tplg *tplg,
 		}
 
 		ret = soc_tplg_link_config(tplg, _link);
-		if (ret < 0)
+		if (ret < 0) {
+			if (!abi_match)
+				kfree(_link);
 			return ret;
+		}
 
 		/* offset by version-specific struct size and
 		 * real priv data size
@@ -2500,7 +2545,7 @@ static int soc_tplg_manifest_load(struct soc_tplg *tplg,
 {
 	struct snd_soc_tplg_manifest *manifest, *_manifest;
 	bool abi_match;
-	int err;
+	int ret = 0;
 
 	if (tplg->pass != SOC_TPLG_PASS_MANIFEST)
 		return 0;
@@ -2513,19 +2558,19 @@ static int soc_tplg_manifest_load(struct soc_tplg *tplg,
 		_manifest = manifest;
 	} else {
 		abi_match = false;
-		err = manifest_new_ver(tplg, manifest, &_manifest);
-		if (err < 0)
-			return err;
+		ret = manifest_new_ver(tplg, manifest, &_manifest);
+		if (ret < 0)
+			return ret;
 	}
 
 	/* pass control to component driver for optional further init */
 	if (tplg->comp && tplg->ops && tplg->ops->manifest)
-		return tplg->ops->manifest(tplg->comp, tplg->index, _manifest);
+		ret = tplg->ops->manifest(tplg->comp, tplg->index, _manifest);
 
 	if (!abi_match)	/* free the duplicated one */
 		kfree(_manifest);
 
-	return 0;
+	return ret;
 }
 
 /* validate header magic, size and type */

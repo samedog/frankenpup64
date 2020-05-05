@@ -15,6 +15,9 @@
 #include "libbpf_internal.h"
 #include "nlattr.h"
 
+/* make sure libbpf doesn't use kernel-only integer typedefs */
+#pragma GCC poison u8 u16 u32 u64 s8 s16 s32 s64
+
 #ifndef SOL_NETLINK
 #define SOL_NETLINK 270
 #endif
@@ -286,7 +289,9 @@ int bpf_get_link_xdp_info(int ifindex, struct xdp_link_info *info,
 
 static __u32 get_xdp_id(struct xdp_link_info *info, __u32 flags)
 {
-	if (info->attach_mode != XDP_ATTACHED_MULTI)
+	flags &= XDP_FLAGS_MODES;
+
+	if (info->attach_mode != XDP_ATTACHED_MULTI && !flags)
 		return info->prog_id;
 	if (flags & XDP_FLAGS_DRV_MODE)
 		return info->drv_prog_id;

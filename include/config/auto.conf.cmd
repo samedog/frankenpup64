@@ -62,6 +62,7 @@ deps_config := \
 	fs/nfsd/Kconfig \
 	fs/nfs/Kconfig \
 	fs/aufs/Kconfig \
+	fs/vboxsf/Kconfig \
 	fs/erofs/Kconfig \
 	fs/ufs/Kconfig \
 	fs/sysv/Kconfig \
@@ -107,6 +108,7 @@ deps_config := \
 	fs/notify/Kconfig \
 	fs/verity/Kconfig \
 	fs/crypto/Kconfig \
+	fs/zonefs/Kconfig \
 	fs/f2fs/Kconfig \
 	fs/nilfs2/Kconfig \
 	fs/btrfs/Kconfig \
@@ -127,6 +129,7 @@ deps_config := \
 	drivers/visorbus/Kconfig \
 	drivers/opp/Kconfig \
 	drivers/mux/Kconfig \
+	drivers/tee/amdtee/Kconfig \
 	drivers/tee/optee/Kconfig \
 	drivers/tee/Kconfig \
 	drivers/fsi/Kconfig \
@@ -144,6 +147,7 @@ deps_config := \
 	drivers/perf/Kconfig \
 	drivers/mcb/Kconfig \
 	drivers/powercap/Kconfig \
+	drivers/phy/intel/Kconfig \
 	drivers/phy/ti/Kconfig \
 	drivers/phy/tegra/Kconfig \
 	drivers/phy/st/Kconfig \
@@ -297,10 +301,6 @@ deps_config := \
 	drivers/staging/uwb/Kconfig \
 	drivers/staging/wusbcore/host/Kconfig \
 	drivers/staging/wusbcore/Kconfig \
-	drivers/staging/isdn/hysdn/Kconfig \
-	drivers/staging/isdn/gigaset/Kconfig \
-	drivers/staging/isdn/avm/Kconfig \
-	drivers/staging/isdn/Kconfig \
 	drivers/staging/kpc2000/Kconfig \
 	drivers/staging/fieldbus/anybuss/Kconfig \
 	drivers/staging/fieldbus/Kconfig \
@@ -342,6 +342,8 @@ deps_config := \
 	drivers/staging/board/Kconfig \
 	drivers/staging/android/ion/Kconfig \
 	drivers/staging/android/Kconfig \
+	drivers/staging/media/rkisp1/Kconfig \
+	drivers/staging/media/phy-rockchip-dphy-rx0/Kconfig \
 	drivers/staging/media/soc_camera/Kconfig \
 	drivers/staging/media/ipu3/Kconfig \
 	drivers/staging/media/tegra-vde/Kconfig \
@@ -368,8 +370,6 @@ deps_config := \
 	drivers/staging/iio/Kconfig \
 	drivers/staging/vt6656/Kconfig \
 	drivers/staging/vt6655/Kconfig \
-	drivers/staging/octeon-usb/Kconfig \
-	drivers/staging/octeon/Kconfig \
 	drivers/staging/rts5208/Kconfig \
 	drivers/staging/rtl8188eu/Kconfig \
 	drivers/staging/rtl8712/Kconfig \
@@ -397,6 +397,7 @@ deps_config := \
 	drivers/uio/Kconfig \
 	drivers/auxdisplay/Kconfig \
 	drivers/dca/Kconfig \
+	drivers/dma-buf/heaps/Kconfig \
 	drivers/dma-buf/Kconfig \
 	drivers/dma/fsl-dpaa2-qdma/Kconfig \
 	drivers/dma/ti/Kconfig \
@@ -894,6 +895,7 @@ deps_config := \
 	drivers/net/wireless/broadcom/b43/Kconfig \
 	drivers/net/wireless/broadcom/Kconfig \
 	drivers/net/wireless/atmel/Kconfig \
+	drivers/net/wireless/ath/ath11k/Kconfig \
 	drivers/net/wireless/ath/wcn36xx/Kconfig \
 	drivers/net/wireless/ath/ath10k/Kconfig \
 	drivers/net/wireless/ath/wil6210/Kconfig \
@@ -1021,6 +1023,7 @@ deps_config := \
 	drivers/net/ethernet/3com/Kconfig \
 	drivers/net/ethernet/Kconfig \
 	drivers/net/dsa/sja1105/Kconfig \
+	drivers/net/dsa/qca/Kconfig \
 	drivers/net/dsa/ocelot/Kconfig \
 	drivers/net/dsa/mv88e6xxx/Kconfig \
 	drivers/net/dsa/microchip/Kconfig \
@@ -1234,6 +1237,7 @@ deps_config := \
 	net/netfilter/ipvs/Kconfig \
 	net/netfilter/ipset/Kconfig \
 	net/netfilter/Kconfig \
+	net/mptcp/Kconfig \
 	net/netlabel/Kconfig \
 	net/ipv6/Kconfig \
 	net/ipv4/Kconfig \
@@ -1286,6 +1290,7 @@ deps_config := \
 	kernel/livepatch/Kconfig \
 	kernel/Kconfig.hz \
 	arch/x86/events/Kconfig \
+	kernel/Kconfig.MuQSS \
 	arch/x86/Kconfig.cpu \
 	arch/x86/xen/Kconfig \
 	arch/x86/Kconfig \
@@ -1305,10 +1310,10 @@ include/config/auto.conf: \
 ifneq "$(ARCH)" "x86"
 include/config/auto.conf: FORCE
 endif
-ifneq "$(KERNELVERSION)" "5.5.6"
+ifneq "$(KERNELVERSION)" "5.6.8-aufs-fsync-gccopt-ck1"
 include/config/auto.conf: FORCE
 endif
-ifneq "$(CC_VERSION_TEXT)" "gcc (GCC) 5.5.0"
+ifneq "$(CC_VERSION_TEXT)" "gcc (GCC) 9.3.0"
 include/config/auto.conf: FORCE
 endif
 ifneq "$(CC)" "gcc"

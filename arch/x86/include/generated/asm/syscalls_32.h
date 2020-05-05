@@ -2033,3 +2033,13 @@ __SYSCALL_I386(435, sys_clone3, )
 #else
 __SYSCALL_I386(435, __ia32_sys_clone3, )
 #endif
+#ifdef CONFIG_X86_32
+__SYSCALL_I386(437, sys_openat2, )
+#else
+__SYSCALL_I386(437, __ia32_sys_openat2, )
+#endif
+#ifdef CONFIG_X86_32
+__SYSCALL_I386(438, sys_pidfd_getfd, )
+#else
+__SYSCALL_I386(438, __ia32_sys_pidfd_getfd, )
+#endif

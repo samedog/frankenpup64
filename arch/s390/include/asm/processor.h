@@ -84,7 +84,6 @@ void s390_update_cpu_mhz(void);
 void cpu_detect_mhz_feature(void);
 
 extern const struct seq_operations cpuinfo_op;
-extern int sysctl_ieee_emulation_warnings;
 extern void execve_tail(void);
 extern void __bpon(void);
 
@@ -162,6 +161,7 @@ typedef struct thread_struct thread_struct;
 #define INIT_THREAD {							\
 	.ksp = sizeof(init_stack) + (unsigned long) &init_stack,	\
 	.fpu.regs = (void *) init_task.thread.fpu.fprs,			\
+	.last_break = 1,						\
 }
 
 /*

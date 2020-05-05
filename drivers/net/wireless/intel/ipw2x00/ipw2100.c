@@ -816,7 +816,7 @@ static int ipw2100_hw_send_command(struct ipw2100_priv *priv,
 	 * doesn't seem to have as many firmware restart cycles...
 	 *
 	 * As a test, we're sticking in a 1/100s delay here */
-	schedule_timeout_uninterruptible(msecs_to_jiffies(10));
+	schedule_msec_hrtimeout_uninterruptible((10));
 
 	return 0;
 
@@ -1267,7 +1267,7 @@ static int ipw2100_start_adapter(struct ipw2100_priv *priv)
 	IPW_DEBUG_FW("Waiting for f/w initialization to complete...\n");
 	i = 5000;
 	do {
-		schedule_timeout_uninterruptible(msecs_to_jiffies(40));
+		schedule_msec_hrtimeout_uninterruptible((40));
 		/* Todo... wait for sync command ... */
 
 		read_register(priv->net_dev, IPW_REG_INTA, &inta);
@@ -5834,7 +5834,7 @@ static int ipw2100_close(struct net_device *dev)
 /*
  * TODO:  Fix this function... its just wrong
  */
-static void ipw2100_tx_timeout(struct net_device *dev)
+static void ipw2100_tx_timeout(struct net_device *dev, unsigned int txqueue)
 {
 	struct ipw2100_priv *priv = libipw_priv(dev);
 
@@ -6168,7 +6168,7 @@ static int ipw2100_pci_init_one(struct pci_dev *pci_dev,
 	ioaddr = pci_iomap(pci_dev, 0, 0);
 	if (!ioaddr) {
 		printk(KERN_WARNING DRV_NAME
-		       "Error calling ioremap_nocache.\n");
+		       "Error calling ioremap.\n");
 		err = -EIO;
 		goto fail;
 	}

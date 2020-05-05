@@ -36,6 +36,12 @@
 /* Flags for the clone3() syscall. */
 #define CLONE_CLEAR_SIGHAND 0x100000000ULL /* Clear any signal handler and reset to SIG_DFL. */
 
+/*
+ * cloning flags intersect with CSIGNAL so can be used with unshare and clone3
+ * syscalls only:
+ */
+#define CLONE_NEWTIME	0x00000080	/* New time namespace */
+
 #ifndef __ASSEMBLY__
 /**
  * struct clone_args - arguments for the clone3 syscall
@@ -104,9 +110,16 @@ struct clone_args {
 #define SCHED_FIFO		1
 #define SCHED_RR		2
 #define SCHED_BATCH		3
-/* SCHED_ISO: reserved but not implemented yet */
+/* SCHED_ISO: Implemented on MuQSS only */
 #define SCHED_IDLE		5
+#ifdef CONFIG_SCHED_MUQSS
+#define SCHED_ISO		4
+#define SCHED_IDLEPRIO		SCHED_IDLE
+#define SCHED_MAX		(SCHED_IDLEPRIO)
+#define SCHED_RANGE(policy)	((policy) <= SCHED_MAX)
+#else /* CONFIG_SCHED_MUQSS */
 #define SCHED_DEADLINE		6
+#endif /* CONFIG_SCHED_MUQSS */
 
 /* Can be ORed in to make sure the process is reverted back to SCHED_NORMAL on fork */
 #define SCHED_RESET_ON_FORK     0x40000000

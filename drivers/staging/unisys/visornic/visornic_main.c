@@ -549,7 +549,7 @@ static int visornic_disable_with_timeout(struct net_device *netdev,
 		}
 		set_current_state(TASK_INTERRUPTIBLE);
 		spin_unlock_irqrestore(&devdata->priv_lock, flags);
-		wait += schedule_timeout(msecs_to_jiffies(10));
+		wait += schedule_msec_hrtimeout((10));
 		spin_lock_irqsave(&devdata->priv_lock, flags);
 	}
 
@@ -560,7 +560,7 @@ static int visornic_disable_with_timeout(struct net_device *netdev,
 		while (1) {
 			set_current_state(TASK_INTERRUPTIBLE);
 			spin_unlock_irqrestore(&devdata->priv_lock, flags);
-			schedule_timeout(msecs_to_jiffies(10));
+			schedule_msec_hrtimeout((10));
 			spin_lock_irqsave(&devdata->priv_lock, flags);
 			if (atomic_read(&devdata->usage))
 				break;
@@ -714,7 +714,7 @@ static int visornic_enable_with_timeout(struct net_device *netdev,
 		}
 		set_current_state(TASK_INTERRUPTIBLE);
 		spin_unlock_irqrestore(&devdata->priv_lock, flags);
-		wait += schedule_timeout(msecs_to_jiffies(10));
+		wait += schedule_msec_hrtimeout((10));
 		spin_lock_irqsave(&devdata->priv_lock, flags);
 	}
 
@@ -1078,7 +1078,7 @@ out_save_flags:
  * Queue the work and return. Make sure we have not already been informed that
  * the IO Partition is gone; if so, we will have already timed-out the xmits.
  */
-static void visornic_xmit_timeout(struct net_device *netdev)
+static void visornic_xmit_timeout(struct net_device *netdev, unsigned int txqueue)
 {
 	struct visornic_devdata *devdata = netdev_priv(netdev);
 	unsigned long flags;

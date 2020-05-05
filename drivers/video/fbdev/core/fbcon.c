@@ -536,6 +536,13 @@ static int __init fb_console_setup(char *this_opt)
 				fb_center_logo = true;
 			continue;
 		}
+
+		if (!strncmp(options, "logo-count:", 11)) {
+			options += 11;
+			if (*options)
+				fb_logo_count = simple_strtol(options, &options, 0);
+			continue;
+		}
 	}
 	return 1;
 }
@@ -1275,6 +1282,9 @@ finished:
 
 	if (!con_is_bound(&fb_con))
 		fbcon_exit();
+
+	if (vc->vc_num == logo_shown)
+		logo_shown = FBCON_LOGO_CANSHOW;
 
 	return;
 }

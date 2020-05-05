@@ -2553,6 +2553,22 @@ __SYSCALL_64(435, sys_clone3, ptregs)
 #ifdef CONFIG_X86_X32_ABI
 __SYSCALL_X32(435, __x64_sys_clone3, ptregs)
 #endif
+#ifdef CONFIG_X86
+__SYSCALL_64(437, __x64_sys_openat2, )
+#else /* CONFIG_UML */
+__SYSCALL_64(437, sys_openat2, )
+#endif
+#ifdef CONFIG_X86_X32_ABI
+__SYSCALL_X32(437, __x64_sys_openat2, )
+#endif
+#ifdef CONFIG_X86
+__SYSCALL_64(438, __x64_sys_pidfd_getfd, )
+#else /* CONFIG_UML */
+__SYSCALL_64(438, sys_pidfd_getfd, )
+#endif
+#ifdef CONFIG_X86_X32_ABI
+__SYSCALL_X32(438, __x64_sys_pidfd_getfd, )
+#endif
 #ifdef CONFIG_X86_X32_ABI
 __SYSCALL_X32(512, __x32_compat_sys_rt_sigaction, )
 #endif
