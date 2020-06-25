@@ -425,7 +425,7 @@ case "$1" in
         echo "updating package list..."
         db_download
     ;;
-    uninstall)
+    ui)
         uninstall "$2"
     ;;
     u)
@@ -468,7 +468,7 @@ i:          Install a package.
                ex: finstall i gimp or finstall i gimp.txz for a local package
 ri:        Reinstalls a package.
 us:         Install system updates.
-u:        Uninstalls a package.
+ui:        Uninstalls a package.
 s:         Search a package.
                ex: finstall search gimp
 dbu:       Updates the package database.
