@@ -57,7 +57,7 @@
 #             - Version bumped to 0.6
 # 24-11-2019  - Options changed to letters instead of full words to make it easier to use.
 # 25-11-2019  - fixed reinstall function
-#
+# 01-12-2019  - Added locale support for Spanish
 ################################# Code begins here #######################################
 
 
@@ -65,10 +65,39 @@
 
 URL="www.dropbox.com"                                                                                # back to dropbox
 URL2="www.google.com"                                                                                # most reliable ping
-DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages.txt"      # package database url
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages-1.4.txt"  # package database url
 DB_FOLDER="/var/fpackages"                                                                           # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                                                                # databse location on disk
 VERSION="0.6.1"
+
+#### strings
+LOCALE=$(locale | grep LANG | cut -d'=' -f2 | cut -d'_' -f1)
+
+if [ $LOCALE == "es" ];then
+    LOCAL_INSTALL_STR="Instalación de paquete local..."
+    PACKAGE_STR="Paquete"
+    FOUND_STR="Encontrado"
+    DEPENDS_STR="Depende de"
+    ERROR_CODE_1_STR="Algo salió mal, código de error; 1"
+    ERROR_CODE_2_STR="Algo salió mal, código de error; 2"
+    ERROR_CODE_3_STR="Algo salió mal, código de error; 3"
+    ERROR_CODE_4_STR="Algo salió mal, código de error; 4"
+    PKG_DB_UPDATED="Package database upgraded successfully"
+    NO_INTERNET_STR="No hay conexión a internet o 100% pérdida de apquetes"
+    ALRD_INSTALLED_STR="El paquete ya está instalado"
+else
+    LOCAL_INSTALL_STR="Local package install..."
+    PACKAGE_STR="Package"
+    FOUND_STR="Found"
+    DEPENDS_STR="Depends on"
+    ERROR_CODE_1_STR="Something went wrong, error code: 1"
+    ERROR_CODE_2_STR="Something went wrong, error code: 2"
+    ERROR_CODE_3_STR="Something went wrong, error code: 3"
+    ERROR_CODE_4_STR="Something went wrong, error code: 4"
+    PKG_DB_UPDATED="Package database upgraded successfully"
+    NO_INTERNET_STR="No internet connection or 100% package loss"
+    ALRD_INSTALLED_STR="Package already installed"
+fi
 
 ### function to ping google.com to check if we are (or not) connected to the internet
 
@@ -89,7 +118,7 @@ search_package(){
     SEARCH="$1"
     if [ -f "$SEARCH" ];then
         echo "-----------------------------------------"
-        echo "Local package install..."
+        echo "$LOCAL_INSTALL_STR"
         echo "-----------------------------------------"
         return 3
     elif [ ! -f "DB_LOCATION" ]; then
@@ -97,15 +126,15 @@ search_package(){
     fi
     RESULT=$(cat $DB_LOCATION | grep -i $SEARCH)
     if [ ! -z "$RESULT" ]; then
-        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1,3 | grep -i $SEARCH | cut -d'/' -f2 )
+        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $SEARCH | cut -d'/' -f2)
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $SEARCH | cut -d' ' -f1 | cut -d'/' -f2)
-        DEPS=$(cat "$DB_LOCATION" | grep -i $NAME | cut -d'>' -f4)
-        echo "Found:"
+        DEPS=$(cat "$DB_LOCATION" | grep -i $NAME -s | cut -d'>' -f4 )
+        echo "$FOUND_STR:"
         echo "$RESULT"
         if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
             echo "==========================================="
-            echo "Package: $NAME"
-            echo "Depends on:"
+            echo "$PACKAGE_STR: $NAME"
+            echo "$DEPENDS_STR:"
             echo "$DEPS"
             echo "==========================================="
         fi
@@ -123,18 +152,18 @@ db_download(){
         if [ ! -z "$SILENT" ];then
             curl -H 'Cache-Control: no-cache' -s -o "$DB_LOCATION" "$DB_URL"
             if [ $? != 0 ]; then
-                echo 'Something went wrong, error code: 1'
+                echo "$ERROR_CODE_1_STR"
             fi
         else
             curl -H 'Cache-Control: no-cache' --progress-bar -o "$DB_LOCATION" "$DB_URL"
             if [ $? -eq 0 ]; then
-                echo 'Package "database" upgraded successfully'
+                echo "$PKG_DB_UPDATED"
             else
-                echo 'Something went wrong, error code: 1'
+                echo "$ERROR_CODE_1_STR"
             fi
         fi
     else
-        echo "no internet connection or 100% package loss"
+        echo "$NO_INTRNET_STR"
         exit
     fi
 }
@@ -148,9 +177,14 @@ install(){
     if [ $? -eq 3 ]; then
         CHNAME=$(echo $PACK | cut -d'-' -f1 2>/dev/null)
         CNAME=$(echo $PACK | sed "s/.fxz//" 2>/dev/null)
-
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
+            echo "$ALRD_INSTALLED_STR"
+            echo "WARNING: Package was installed using and older version of finstall"
+            echo "i suggest to run finstall ri $CNAME"
+            exit
+        fi
+        if [ -d "$DB_FOLDER/$CNAME" ]; then
             echo "Package already installed"
             exit
         fi
@@ -184,7 +218,7 @@ install(){
                         rm -rf /install
                     fi
                 else
-                    echo 'Something went wrong, error code: 4'
+                    echo "$ERROR_CODE_4_STR"
                 fi
             else
                 echo "" > "$DB_FOLDER/$CNAME"
@@ -196,7 +230,7 @@ install(){
                 echo "Done"
             fi
         else
-            echo 'Something went wrong, error code: 2'
+            echo "$ERROR_CODE_2_STR"
         fi
 
     elif [ $? -eq 0 ]; then
@@ -210,6 +244,13 @@ install(){
 
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
+            echo "$ALRD_INSTALLED_STR"
+            echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
+            echo -e "WARNING: Package was installed using and older version of finstall\nplease run finstall ri $CNAME"
+            echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
+            exit
+        fi
+        if [ -d "$DB_FOLDER/$CNAME" ]; then
             echo "Package already installed"
             exit
         fi
@@ -274,7 +315,7 @@ install(){
                                 rm -rf /install
                             fi
                         else
-                            echo 'Something went wrong, error code: 4'
+                            echo "$ERROR_CODE_4_STR"
                         fi
                     else
                         echo "" > "$DB_FOLDER/$CNAME"
@@ -286,10 +327,10 @@ install(){
                         echo "Done"
                     fi
                 else
-                    echo 'Something went wrong, error code: 2'
+                    echo "$ERROR_CODE_2_STR"
                 fi
             else
-                echo 'Something went wrong, error code: 3'
+                echo "$ERROR_CODE_3_STR"
             fi
         else
             echo "Nothing was done."
@@ -411,6 +452,9 @@ case "$1" in
         fi
         echo "$(cat "$DB_LOCATION" | cut -d'>' -f 1,3)"
     ;;
+    li)
+        ls /var/fpackages
+    ;;
     v)
     echo "$VERSION"
     ;;
@@ -429,6 +473,7 @@ s:         Search a package.
 dbu:       Updates the package database.
 su:        Updates frankenpup scripts.
 l:         List all packages in database.
+li:        List all installed packages.
 v:         Prints script version
 "
 
