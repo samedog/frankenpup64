@@ -428,7 +428,7 @@ case "$1" in
     ui)
         uninstall "$2"
     ;;
-    u)
+    su)
         cp -rf /root/my-applications/bin/finstall /tmp/finstall-tmp
         chmod 1777 /tmp/finstall-tmp
         exec /tmp/finstall-tmp supdate-tmp
