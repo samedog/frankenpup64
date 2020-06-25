@@ -358,6 +358,7 @@ uninstall(){
                 "$DB_FOLDER/$CNAME/uninstall"
                 echo "removing from installed database"
 				rm -rf "$DB_FOLDER/$CNAME"
+				cd /root
             else
                 echo "No script found, skipping"
             fi
