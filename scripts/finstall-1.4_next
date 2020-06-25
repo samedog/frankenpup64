@@ -353,8 +353,9 @@ uninstall(){
         if [ $CHECK == "y" ];then
             echo "Looking for uninstall script"
             if [ -f "$DB_FOLDER/$CNAME/uninstall" ]; then
+				cd "$DB_FOLDER/$CNAME/"
                 echo "Uninstall script found, running..."
-                "$DB_FOLDER"/"$CNAME"/uninstall
+                "$DB_FOLDER/$CNAME/uninstall"
                 echo "removing from installed database"
 				rm -rf "$DB_FOLDER/$CNAME"
             else
