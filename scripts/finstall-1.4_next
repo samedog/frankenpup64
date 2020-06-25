@@ -170,6 +170,7 @@ db_download(){
 
 ### function to install a package or local pakage ##################################################################
 install(){
+	cd /root ##
     PACK="$1"
     NOASK="$2"
     LOCAL_INSTALL=0
@@ -180,8 +181,9 @@ install(){
         ## is package installed?
         if [ -f "$DB_FOLDER/$CNAME" ]; then
             echo "$ALRD_INSTALLED_STR"
-            echo "WARNING: Package was installed using and older version of finstall"
-            echo "i suggest to run finstall ri $CNAME"
+            echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
+            echo -e "WARNING: Package was installed using and older version of finstall\nplease update your system"
+            echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
             exit
         fi
         if [ -d "$DB_FOLDER/$CNAME" ]; then
@@ -246,7 +248,7 @@ install(){
         if [ -f "$DB_FOLDER/$CNAME" ]; then
             echo "$ALRD_INSTALLED_STR"
             echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
-            echo -e "WARNING: Package was installed using and older version of finstall\nplease run finstall ri $CNAME"
+            echo -e "WARNING: Package was installed using and older version of finstall\nplease update your system"
             echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
             exit
         fi
@@ -369,6 +371,7 @@ uninstall(){
         fi
     else
         echo "No package \"$PACK\" found, are you sure it's installed?"
+        exit 
     fi
 
 
