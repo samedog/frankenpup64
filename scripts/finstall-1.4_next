@@ -343,7 +343,7 @@ install(){
 uninstall(){
     PACK="$1"
     PACK_NAME=$(echo $PACK | sed "s/.fxz//" 2>/dev/null)
-    SEARCH=$(ls $DB_FOLDER | grep -i $PACK_NAME)
+    SEARCH=$(ls $DB_FOLDER | grep -m 1 -i $PACK_NAME | head -1)
     if [ ! -z "$SEARCH" ]; then
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2)
         CNAME=$(echo $NAME | sed "s/.fxz//")
