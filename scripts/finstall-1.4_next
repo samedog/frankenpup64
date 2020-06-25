@@ -63,12 +63,12 @@
 
 ## some variables and shit
 
-URL="www.dropbox.com"                                                                                        # back to dropbox
-URL2="www.google.com"                                                                                        # most reliable ping
-DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages-1.4_next.txt"     # package database url
-DB_FOLDER="/var/fpackages"                                                                                   # installed packages folder
-DB_LOCATION="$DB_FOLDER/packages.txt"                                                                        # databse location on disk
-VERSION="0.6.2"
+URL="www.dropbox.com"                                                                                	  # back to dropbox
+URL2="www.google.com"                                                                               	  # most reliable ping
+DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages-1.4_next.txt"  # package database url
+DB_FOLDER="/var/fpackages"                                                                           	  # installed packages folder
+DB_LOCATION="$DB_FOLDER/packages.txt"                                                               	  # databse location on disk
+VERSION="0.6.1"
 
 #### strings
 LOCALE=$(locale | grep LANG | cut -d'=' -f2 | cut -d'_' -f1)
@@ -78,12 +78,12 @@ if [ $LOCALE == "es" ];then
     PACKAGE_STR="Paquete"
     FOUND_STR="Encontrado"
     DEPENDS_STR="Depende de"
-    ERROR_CODE_1_STR="Algo salió mal, código de error: 1"
-    ERROR_CODE_2_STR="Algo salió mal, código de error: 2"
-    ERROR_CODE_3_STR="Algo salió mal, código de error: 3"
-    ERROR_CODE_4_STR="Algo salió mal, código de error: 4"
+    ERROR_CODE_1_STR="Algo salió mal, código de error; 1"
+    ERROR_CODE_2_STR="Algo salió mal, código de error; 2"
+    ERROR_CODE_3_STR="Algo salió mal, código de error; 3"
+    ERROR_CODE_4_STR="Algo salió mal, código de error; 4"
     PKG_DB_UPDATED="Package database upgraded successfully"
-    NO_INTERNET_STR="No hay conexión a internet o 100% de pérdida de paquetes"
+    NO_INTERNET_STR="No hay conexión a internet o 100% pérdida de apquetes"
     ALRD_INSTALLED_STR="El paquete ya está instalado"
 else
     LOCAL_INSTALL_STR="Local package install..."
@@ -306,10 +306,9 @@ install(){
                             rm -rf /tmp/$CNAME/install
                             rm -rf /tmp/$CNAME
                             echo "-----------------------------------------"
-                            ## this is for legacy fallback since we use xfce4 now, just in case...
-                            fixmenus
                             if [ ! -z "$flag" ]; then
-                                jwm --reload
+                                fixmenus
+                                jwm -reload
                             fi
                             echo "Done"
                             if [ -f /install ]; then
@@ -353,14 +352,15 @@ uninstall(){
         read -p "Is this ok? (y/n)" CHECK
         if [ $CHECK == "y" ];then
             echo "Looking for uninstall script"
-            if [ -f "$DB_FOLDER/$CNAME/uninstall" ]; then
+            if [ -f "$DB_FOLDER/$CNAME" ]; then
                 echo "Uninstall script found, running..."
-                $DB_FOLDER/$CNAME/uninstall
+                $DB_FOLDER/$CNAME
                 echo "removing from installed database"
 				rm -rf $DB_FOLDER/$CNAME
             else
                 echo "No script found, skipping"
             fi
+
             echo "Done"
         else
             echo "Nothing was done."
@@ -462,7 +462,7 @@ case "$1" in
     *)
     echo "This small script was created to handle software compiled and tested for frankenpup64
 
-Usage: finstall {i|ri|u|ui|s|dbu|su|l|li|v}
+Usage: finstall {i|ri|u|ui|s|dbu|su|l|v}
 
 i:          Install a package.
                ex: finstall i gimp or finstall i gimp.txz for a local package
