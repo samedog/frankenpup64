@@ -439,8 +439,10 @@ case "$1" in
         exec /tmp/finstall-tmp supdate-tmp
     ;;
     supdate-tmp)
-        if [ ! -d /tmp/scripts ];then
-            mkdir /tmp/scripts
+        if [ -d /tmp/scripts ];then
+			rm -rf /tmp/scripts/*
+        else
+			mkdir /tmp/scripts
         fi
         killall kill finstall 2>/dev/null
         supdate
