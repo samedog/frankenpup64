@@ -418,7 +418,7 @@ case "$1" in
             exit
         fi
     ;;
-    u)
+    us)
         rolling_release
     ;;
     dbu)
@@ -428,7 +428,7 @@ case "$1" in
     uninstall)
         uninstall "$2"
     ;;
-    su)
+    u)
         cp -rf /root/my-applications/bin/finstall /tmp/finstall-tmp
         chmod 1777 /tmp/finstall-tmp
         exec /tmp/finstall-tmp supdate-tmp
@@ -467,8 +467,8 @@ Usage: finstall {i|ri|u|ui|s|dbu|su|l|v}
 i:          Install a package.
                ex: finstall i gimp or finstall i gimp.txz for a local package
 ri:        Reinstalls a package.
-u:         Install system updates.
-ui:        Uninstalls a package.
+us:         Install system updates.
+u:        Uninstalls a package.
 s:         Search a package.
                ex: finstall search gimp
 dbu:       Updates the package database.
