@@ -352,7 +352,7 @@ uninstall(){
         read -p "Is this ok? (y/n)" CHECK
         if [ $CHECK == "y" ];then
             echo "Looking for uninstall script"
-            if [ -f "$DB_FOLDER/$CNAME" ]; then
+            if [ -f "$DB_FOLDER/$CNAME/unistall" ]; then
                 echo "Uninstall script found, running..."
                 $DB_FOLDER/$CNAME
                 echo "removing from installed database"
