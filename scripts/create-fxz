@@ -1,9 +1,49 @@
 #!/bin/sh
-# THANKS SUPERUSER.COM
+# v0.1
 size=$(du -sk $1 | cut -f 1)
 estimated=$(echo $size/50 | bc)
-echo "Creating package $1"
-echo "Estimated: [==================================================]"
-echo -n "Progess:   ["
-tar -c --record-size=1K --checkpoint="$estimated" --checkpoint-action="ttyout=>" -f - "$1" | xz -z - > "$1".fxz
-echo "]"
+NAME="$1"
+LAST_CHR="${NAME: -1}" 
+
+if [[ $LAST_CHR == "/" ]]; then
+	NAME=${NAME::-1}
+fi
+echo "I'll create the package $NAME.txz"
+read -p "Is this ok? (y/n)" CHECK
+if [ $CHECK == "y"  ] ;then
+	FILE_LIST=$(find ./$NAME -type f \( ! -iname "install"  \) | sed "s+$NAME/++g" | sed 's+\./+/+g')
+	#####install script creation
+echo '#!/bin/sh
+
+### CUSTOM INSTALL SCRIPT FOR FRANKENPUP64
+pack="'"$NAME"'"
+mkdir "/var/fpackages/$pack"
+cd "/tmp/$pack"
+cp -rf  ./* /
+
+echo "'"$FILE_LIST"'" > "/var/fpackages/$pack/files.txt"
+
+echo '"'"'#!/bin/sh
+### CUSTOM UNINSTALL SCRIPT FOR FRANKENPUP64
+while IFS="" read -r p || [ -n "$p" ]
+do
+  rm -rf "$p"
+done < files.txt
+'"'"' > "/var/fpackages/$pack/uninstall"
+
+#make script executable
+chmod 4750 "/var/fpackages/$pack/uninstall"
+' > $NAME/install
+chmod 4750 $NAME/install
+	
+
+	echo "Create package $NAME.txz"
+	echo "Estimated: [==================================================]"
+	echo -n "Progess:   ["
+	tar -c --record-size=1K --checkpoint="$estimated" --checkpoint-action="ttyout=>" -f - "$1" | xz -z - > "$1".fxz
+	echo "]"
+else
+	echo "Nothing was done"
+fi
+
+
