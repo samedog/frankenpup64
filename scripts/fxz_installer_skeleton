@@ -1,0 +1,23 @@
+#!/bin/sh
+
+### CUSTOM INSTALL SCRIPT FOR FRANKENPUP64
+pack=""
+mkdir /var/fpackages/$pack
+cd "/tmp/$pack"
+cp -rf  ./* /
+
+echo "
+" > "/var/fpackages/$pack/files.txt"
+
+echo "#!/bin/sh
+### CUSTOM UNINSTALL SCRIPT FOR FRANKENPUP64
+
+while IFS="" read -r p || [ -n $p ]
+do
+  rm -rf $p
+done < files.txt
+" > "/var/fpackages/$pack/uninstall"
+
+
+#make script executable
+chmod 4750 "/var/fpackages/$pack/uninstall"
