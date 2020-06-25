@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node name="/">
+	<interface name="org.ayatana.indicator.service">
+<!-- Properties -->
+		<!-- None currently -->
+
+<!-- Methods -->
+		<method name="Watch">
+			<annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+			<arg type="u" name="version" direction="out" />
+			<arg type="u" name="service_version" direction="out" />
+		</method>
+		<method name="UnWatch">
+			<annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+		</method>
+		<method name="Shutdown" />
+
+<!-- Signals -->
+		<!-- None currently -->
+
+	</interface>
+</node>

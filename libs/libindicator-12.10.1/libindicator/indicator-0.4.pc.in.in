@@ -1,0 +1,17 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+bindir=@bindir@
+includedir=@includedir@
+
+indicatordir=${libdir}/indicators/@indicator_abi_version@
+iconsdir=@datarootdir@/@PACKAGE@/icons/
+
+Cflags: -I${includedir}/libindicator-0.@indicator_api_version@
+Requires: gtk+-2.0
+Libs: -lindicator
+
+Name: libindicator
+Description: libindicator.
+Version: @VERSION@
+

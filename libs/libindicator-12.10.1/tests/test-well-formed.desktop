@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=My Application
+Exec=ls
+NotShowIn=Germany
+Actions=bob;alvin;jim;touch
+
+[Desktop Action bob]
+Name=bob's shortcut
+Exec=ls bob
+
+[Desktop Action alvin]
+Name=alvin's shortcut
+Exec=ls alvin
+OnlyShowIn=France
+
+[Desktop Action jim]
+Name=Jim's shortcut
+Exec=ls jim
+NotShowIn=France
+
+[Desktop Action touch]
+Name=Touch Test
+Exec=touch test-desktop-shortcuts-touch-test
+OnlyShowIn=TouchTest
