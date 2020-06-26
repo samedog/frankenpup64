@@ -1,1 +1,14 @@
 Dev/apr-1.5.2-x86_64-1.fxz > s/wfj7q6i9mn525fv/apr-1.5.2-x86_64-1.fxz > "The Apache Portable Runtime" >
+Dev/apr-util-1.5.4-x86_64-2.fxz > s/lr9swhszl6kcdds/apr-util-1.5.4-x86_64-2.fxz > "The Apache Portable Runtime utils" > openssl
+Dev/autoconf-2.69-noarch-1.fxz > s/snafzrhttoz57d9/autoconf-2.69-noarch-1.fxz > "A GNU tool for automatically configuring source code" > perl m4 diffutils
+Dev/xorg-proto-2020.1.fxz > s/uecqi7cfjt0vrmk/xorgproto-2020.1.fxz > "Combined X.Org X11 Protocol headers" > git xorg-util-macros
+Dev/bin-11.1-x86_64-1.fxz > s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz > "Collection of miscellaneous command-line utilities." > 
+Dev/binutils-2.26-x86_64-3.fxz > s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz > "A set of programs to assemble and manipulate binary and object files." > elfutils glibc zlib git
+Dev/bison-3.0.4-x86_64-1.fxz > s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz > "The GNU general-purpose parser generator." > glibc m4 bash
+Dev/boost-1.59.0-x86_64-1.fxz > s/cmb6tx8o2lx70tw/boost-1.59.0-x86_64-1.fxz > "Free peer-reviewed portable C++ source libraries and development headers." >
+Dev/cmake-3.16.2-x86_64.fxz > s/x2ok2t5bvxb59eu/cmake-3.16.2-x86_64.fxz > "A cross-platform open-source make system." > libarchive
+Dev/cvs-1.11.23-x86_64-2.fxz > s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz > "Concurrent Versions System - a source control system." > zlib openssh
+Dev/db48-4.8.30-x86_64-2.fxz > s/kdnk0puz7eih4a7/db48-4.8.30-x86_64-2.fxz > "The Berkeley DB embedded database system 4.8." > gcc
+Dev/elfutils-0.163-x86_64-1.fxz > s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz > "Utilities to handle ELF object files and DWARF debugging information." > bzip2 curl gcc libarchive libelf xz zlib
+Dev/elfutils-0.163-compat32.fxz > s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz > "Utilities to handle ELF object files and DWARF debugging information." > bzip2 curl gcc libarchive libelf xz zlib
+Dev/flex-2.6.0-x86_64-1.fxz > s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz > "A tool for generating text-scanning programs." > glibc m4 bash
