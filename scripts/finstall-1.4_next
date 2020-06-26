@@ -58,6 +58,7 @@
 # 24-11-2019  - Options changed to letters instead of full words to make it easier to use.
 # 25-11-2019  - fixed reinstall function
 # 01-12-2019  - Added locale support for Spanish
+# 25-06-2020  - Multiple fixes and changes for frankenpup 1.4
 ################################# Code begins here #######################################
 
 
