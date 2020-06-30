@@ -275,7 +275,7 @@ install(){
                 #echo "$count deps on database"
                 for (( c=2; c<=$count+1; c++)) ##we skip the blank field and count from that on
                     do
-                        EACH=$(echo "$DEPS" | cut -d' ' -f$c)
+                        EACH=$(echo "$DEPS" | cut -d" " -f"$c")
                         if [ ! -z "$EACH" ]; then
                             echo "\"$EACH\""
                             if [ -f "$DB_FOLDER/$EACH" ]; then

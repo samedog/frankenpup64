@@ -1,0 +1,130 @@
+#!/bin/bash
+### THIS IS A WORK IN PROGRESS, I'M SURE THERE'S MILLIONS OF WAYS TO MAKE THIS PROCESS
+### BETTER, BUT IF IT WORKS, IT WORKS
+##########################################################################################
+# By Diego Cardenas "The Samedog" under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+# (www.gnu.org/licenses/old-licenses/gpl-2.0.html) e-mail: the.samedog[]gmail.com.
+# https://github.com/samedog/wine-builder
+##########################################################################################
+
+
+
+function detect_disks(){
+	MKMOUNT=0
+	DISKS=$(lsblk -i | grep -i "-" | cut -d'-' -f'2' | cut -d' ' -f'1')
+	PARTITION=""
+	for PARTITION in $DISKS
+	do
+		PART=$(blkid -s TYPE -s LABEL | grep $PARTITION)
+		ROOT=$(cat /etc/mtab | grep " / " | cut -d' ' -f'1' | cut -d'/' -f'3')
+		if [[ "$PART" != *"$ROOT"* ]];then
+			if [[ "$PART" == *"ext"* || "$PART" == *"NTFS"* || "$PART" == *"vfat"* && "$PART" != *"EFI"* ]];then
+				TYPE=$(blkid -s TYPE | grep $PARTITION | cut -d' ' -f'2' | sed 's/TYPE=//g' | sed 's/"//g')
+				LIST+="$PARTITION:$TYPE "
+			fi
+		fi
+	done
+	RESULT=$(zenity --list \
+	--title="Frankenpup Installer" \
+	--text='Select the desired partition' \
+	--width=600 \
+	--height=300 \
+	 --column="Available artitions" $LIST | sed 's/|//g')
+	if [ ! -z $RESULT ];then
+		DRIVE_L=$(echo $RESULT | cut -d':' -f'1')
+		DRIVE="/dev/$DRIVE_L"
+		PARTITION_TYPE=$(echo $RESULT | cut -d':' -f'2' )
+		zenity --question \
+		--title="Frankenpup Installer" \
+		--text="You have chosen $PARTITION_TYPE filesystem at $DRIVE , is this OK?"
+		if [ "$?" -eq 0 ];then
+			MOUNT_POINT=$(drive_probing $DRIVE)
+			if [ -z "$MOUNT_POINT" ];then
+				MKMOUNT=1
+				mkdir "/mnt/$DRIVE_L"
+				mount $DRIVE "/mnt/$DRIVE_L"
+				CHECK=$(install_check /mnt/$DRIVE_L)
+				
+			else
+				CHECK=$(install_check $MOUNT_POINT)
+			fi
+			
+			if [[ "$CHECK" == *":"*  ]];then
+				OS=$(echo $CHECK | cut -d':' -f'2')
+				zenity --alert --text="A previous $OS installation was found, exiting"
+				if [ "$MKMOUNT" == "1" ];then
+					umount "/mnt/$DRIVE_L"
+					if [ $? == 0 ];then
+						rm -rf "/mnt/$DRIVE_L"
+					fi
+				fi
+			fi
+		else
+			zenity --alert --text="Installation canceled"
+		fi
+	else
+		zenity --alert --text="Installation canceled"
+	fi
+}
+
+
+install_check(){
+	MOUNT_POINT="$1"
+	if [ ! -z $MOUNT_POINT ];then
+		if [ -f "$MOUNT_POINT/etc/DISTRO_SPECS" ];then
+			OSI="PUPPY"
+		elif [[ -d "$MOUNT_POINT/bin" || -d "$MOUNT_POINT/boot" || -d "$MOUNT_POINT/etc" || -d "$MOUNT_POINT/dev" || -d "$MOUNT_POINT/var" || -d "$MOUNT_POINT/usr" || -d "$MOUNT_POINT/opt" ]];then
+			OSI="LINUX"
+		elif [[ -d "$MOUNT_POINT/WINDOWS" || -d "$MOUNT_POINT/users" || -d "$MOUNT_POINT/Program\ Files" ]];then
+			OSI="WINDOWS"
+		fi
+	fi
+	if [ ! -z $OSI ];then
+		MOUNT_POINT="$MOUNT_POINT:$OSI"
+	fi
+	echo $MOUNT_POINT
+}
+
+drive_probing(){
+	DRIVE="$1"
+	i=0
+	while [ $i -lt 100 ]
+	do
+	echo "# Probing drive $DRIVE..."
+	## first check if the drive is mounted
+	IS_MOUNTED_MTAB=$(cat /etc/mtab | grep -i "$DRIVE")
+	IS_MOUNTED_DF=$(df | grep -i "$DRIVE")
+	if [ ! -z "$IS_MOUNTED_MTAB" ];then
+		echo 30
+		echo "# Mountpoint $MOUNT_POINT found in mtab..."
+		MOUNT_POINT=$(echo $IS_MOUNTED_MTAB | cut -d' ' -f'2')
+		sleep 1
+	elif [ ! -z "$IS_MOUNTED_DF" ];then
+		echo 30
+		echo "# Mountpoint $MOUNT_POINT found in df..."
+		MOUNT_POINT=$(echo $IS_MOUNTED_DF | rev | cut -d' ' -f'1' | rev)
+		sleep 1
+	fi
+	
+	
+  echo 100
+  echo "# Done!"
+  i=100
+	done > >(zenity --progress --title="test" --text="test" --width=600 --auto-close)
+
+
+	echo "$MOUNT_POINT"
+}
+
+
+run_installer(){
+	zenity --question \
+	--title="Frankenpup Installer" \
+	--no-wrap \
+	--text="This will run the frankenpup installer, is this OK?"
+	if [ $? -eq 0 ];then
+		detect_disks
+	fi
+}
+
+run_installer
