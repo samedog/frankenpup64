@@ -171,7 +171,7 @@ db_download(){
 
 ### function to install a package or local pakage ##################################################################
 install(){
-	cd /root ##
+	cd /tmp ##
     PACK="$1"
     NOASK="$2"
     LOCAL_INSTALL=0
@@ -240,8 +240,8 @@ install(){
         echo "No package \"$PACK\" found"
     else
         NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
-        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep -i $PACK | cut -d' ' -f2 2>/dev/null)
         CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
+        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep -i $CHNAME | cut -d' ' -f2 2>/dev/null)
         CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
         DEPS=$(cat $DB_LOCATION | grep -i $PURL | cut -d'>' -f4 2>/dev/null)
 
@@ -389,7 +389,8 @@ supdate(){
         curl -H 'Cache-Control: no-cache' -L --progress-bar -o "finstall" "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/finstall-1.4_next"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/create-fxz"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/pcurl"
-        curl -H 'Cache-Control: no-cache' -L --progress-bar -o "rreleases" "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/rreleases-1.4_next"
+        # rreleases need to be reworked to actually work
+        #curl -H 'Cache-Control: no-cache' -L --progress-bar -o "rreleases" "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/rreleases-1.4_next"
         curl -H 'Cache-Control: no-cache' -L --progress-bar -O "https://raw.githubusercontent.com/samedog/frankenpup64/master/scripts/night-mode-switch"
         if [ $? -eq 0 ]; then
             echo "making executable..."
