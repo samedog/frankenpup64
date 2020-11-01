@@ -1,51 +1,51 @@
-Dev/apr-1.5.2-x86_64-1.fxz > s/wfj7q6i9mn525fv/apr-1.5.2-x86_64-1.fxz > "The Apache Portable Runtime" >
-Dev/apr-util-1.5.4-x86_64-2.fxz > s/lr9swhszl6kcdds/apr-util-1.5.4-x86_64-2.fxz > "The Apache Portable Runtime utils" > openssl-1.0.2r-x86_64-1_slack14.2
-Dev/autoconf-2.69-noarch-1.fxz > s/snafzrhttoz57d9/autoconf-2.69-noarch-1.fxz > "A GNU tool for automatically configuring source code" > perl-5.22.2-x86_64-1.txz m4-1.4.17-x86_64-1 diffutils-3.3-x86_64-1
-Dev/bin-11.1-x86_64-1.fxz > s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz > "Collection of miscellaneous command-line utilities." > 
-Dev/binutils-2.26-x86_64-3.fxz > s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz > "A set of programs to assemble and manipulate binary and object files." > elfutils-0.163-x86_64-1.txz glibc-2.31-multilib zlib-1.2.11-x86_64-1_slack14.2 git-2.14.5-x86_64-1_slack14.2
-Dev/bison-3.0.4-x86_64-1.fxz > s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz > "The GNU general-purpose parser generator." > glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
-Dev/boost-1.59.0-x86_64-1.fxz > s/cmb6tx8o2lx70tw/boost-1.59.0-x86_64-1.fxz > "Free peer-reviewed portable C++ source libraries and development headers." >
-Dev/cmake-3.16.2-x86_64.fxz > s/x2ok2t5bvxb59eu/cmake-3.16.2-x86_64.fxz > "A cross-platform open-source make system." > libarchive-3.2.1-x86_64-1
-Dev/cvs-1.11.23-x86_64-2.fxz > s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz > "Concurrent Versions System - a source control system." > zlib-1.2.11-x86_64-1_slack14.2 openssh-7.4p1-x86_64-2_slack14.2
-Dev/db48-4.8.30-x86_64-2.fxz > s/kdnk0puz7eih4a7/db48-4.8.30-x86_64-2.fxz > "The Berkeley DB embedded database system 4.8." > gcc-g++-9.3.0-multilib
-Dev/elfutils-0.163-x86_64-1.fxz > s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz > "Utilities to handle ELF object files and DWARF debugging information." > bzip2-1.0.6-x86_64-1 curl-7.64.1-x86_64-1_slack14.2 gcc-g++-9.3.0-multilib libarchive-3.2.1-x86_64-1 libelf xz-5.2.2-x86_64-1 zlib-1.2.11-x86_64-1_slack14.2
-Dev/elfutils-0.163-compat32.fxz > s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz > "Utilities to handle ELF object files and DWARF debugging information." > bzip2-compat32-1.0.6-x86_64-1compat32 curl-compat32-7.64.0-x86_64-2_slack14.2 gcc-g++-9.3.0-multilib libarchive-compat32-3.2.1-x86_64-1 libelf xz-compat32-5.2.2-x86_64-1 zlib-compat32-1.2.11-x86_64-1_slack14.2
-Dev/flex-2.6.0-x86_64-1.fxz > s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz > "A tool for generating text-scanning programs." > glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
-Dev/fltk_DEV-1.3.0-x86_64_s700.fxz > s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.fxz > "Graphical user interface toolkit for X" > 
-Dev/gcc-g++-9.3.0-multilib.fxz > s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz > "The GNU Compiler Collection - C and C++ frontends" > binutils-2.26-x86_64-3 glibc-2.31-multilib libmpc-1.0.3-x86_64-1
-Dev/gdb-9.1-x86_64.fxz > s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz > "The GNU Debugger" > expat-2.2.2-x86_64-1_slack14.2 mpfr-3.1.4-x86_64-1 ncurses-5.9-x86_64-4 xz-5.2.2-x86_64-1
-Dev/gettext-tools-0.19.8.1-x86_64-1.fxz > s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz > "Gettext tools" >
-Dev/git-2.14.5-x86_64-1_slack14.2.fxz > s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz > "the fast distributed version control system" > curl-7.64.1-x86_64-1_slack14.2 expat-2.2.2-x86_64-1_slack14.2 grep-2.25-x86_64-1 openssl-1.0.2r-x86_64-1_slack14.2 pcre-8.39-x86_64-1 perl-5.22.2-x86_64-1.txz
-Dev/gmp-6.1.1-compat32-1.fxz > s/7dzdd9q067nvwxb/gmp-6.1.1-compat32-1.fxz > "A free library for arbitrary precision arithmetic" > bash-4.3.048-x86_64-1_slack14.2
-Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz > s/u978z57di912zmc/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz > "Gnome icon theme header files." > 
-Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz > s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz > "Gnome icon theme." > 
-Dev/groff-1.22.3-x86_64-2.fxz > s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz > "GNU troff text-formatting system." > gcc-g++-9.3.0-multilib perl-5.22.2-x86_64-1.txz
-Dev/imake-1.0.7-x86_64-2.fxz > s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz > "X.Org imake program and related utilities." > glibc-2.31-multilib
-Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz > s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz > "The internationalization tool collection." > perl-5.22.2-x86_64-1.txz
-Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz > s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz > "The internationalization tool collection." > linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
-Dev/libmpc-1.0.3-x86_64-1.fxz > s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz > "Library for the arithmetic of complex numbers with arbitrarily high precision." > mpfr-3.1.4-x86_64-1
-Dev/libmpc-1.0.3-compat32-1.fxz > s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz > "Library for the arithmetic of complex numbers with arbitrarily high precision." > mpfr-3.1.4-compat32-1
-Dev/libpthread-stubs-0.3-noarch-1.fxz > s/75q56d2oy0v2i3t/libpthread-stubs-0.3-noarch-1.fxz > "Weak aliases for pthread functions not provided in libc." > 
-Dev/libtool-2.4.6-x86_64-5_slack14.2.fxz > s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5_slack14.2.fxz > "A generic library support script." > glibc-2.31-multilib bash-4.3.048-x86_64-1_slack14.2 tar-1.29-x86_64-1
-Dev/m4-1.4.17-x86_64-1.fxz > s/9w4zoropktw040a/m4-1.4.17-x86_64-1.fxz > "The GNU macro processor." > glibc-2.31-multilib bash-4.3.048-x86_64-1_slack14.2
-Dev/make-4.1-x86_64-2.fxz > s/6kl0o38ucqg3107/make-4.1-x86_64-2.fxz > "GNU make utility to maintain groups of programs." > glibc-2.31-multilib guile-2.0.11-x86_6
-Dev/man-1.6g-x86_64-3.fxz > s/7qna8nu6m7yzfru/man-1.6g-x86_64-3.fxz > "A utility for reading man pages." > bash-4.3.048-x86_64-1_slack14.2 gdbm-1.12-x86_64-1 groff-1.22.3-x86_64-2 zlib-1.2.11-x86_64-1_slack14.2
-Dev/nasm-2.13.01-x86_64-1_slack14.2.fxz > s/1nqqz743bmnyep5/nasm-2.13.01-x86_64-1_slack14.2.fxz > "80x86 assembler designed for portability and modularity." > glibc-2.31-multilib
-Dev/neon-0.30.1-x86_64-2.fxz > s/g5pazw6i14pehz3/neon-0.30.1-x86_64-2.fxz > "HTTP and WebDAV client library with a C interface." > ca-certificates-20190308-noarch-1_slack14.2 expat-2.2.2-x86_64-1_slack14.2 krb5 zlib-1.2.11-x86_64-1_slack14.2
-Dev/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz > s/t0ttkce5jqzoyqw/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz > "Netscape Plugin API (NPAPI) header files." > 
-Dev/patch-2.7.6-x86_64-1_slack14.2.fxz > s/381wm5i2hgotwpo/patch-2.7.6-x86_64-1_slack14.2.fxz > "A utility to apply patch files to original sources." > attr-2.4.47-x86_64-1 glibc-2.31-multilib
-Dev/pjproject_DEV-2.6-x86_64_s700.fxz > s/ybig1uh43ble36x/pjproject_DEV-2.6-x86_64_s700.fxz > "Multimedia communication library header files." > 
-Dev/pkg-config-0.29.2-x86_64-1_slack14.2.fxz > s/6pvhfaydt4vfuwv/pkg-config-0.29.2-x86_64-1_slack14.2.fxz > "Package compiler and linker metadata toolkit." > glibc-2.31-multilib
-Dev/pulseaudio-12.2_DEV-x86_64.fxz > s/164lwbwqmq698e8/pulseaudio-12.2_DEV-x86_64.fxz > "A featureful, general-purpose sound server header files." > pulseaudio-x86_64-12.2 pulseaudio-compat32-12.2
-Dev/sbc-1.4-x86_64.fxz > s/2hmwveptdcxsfsi/sbc-1.4-x86_64.fxz > "Bluetooth Subband Codec (SBC) library." > glibc-2.31-multilib
-Dev/sbc-1.4_DEV-x86_64.fxz > s/d6oe9lenrn0jyrf/sbc-1.4_DEV-x86_64.fxz > "Bluetooth Subband Codec (SBC) library header files." > sbc-1.4-x86_64
-Dev/serf-1.3.8-x86_64-1.fxz > s/c0urp383kql9naa/serf-1.3.8-x86_64-1.fxz > "High-performance asynchronous HTTP client library." > apr-util-1.5.4-x86_64-2
-Dev/strace-4.11-x86_64-1.fxz > s/ldot19p4016hkpw/strace-4.11-x86_64-1.fxz > "A diagnostic, debugging and instructional userspace tracer." > perl-5.22.2-x86_64-1.txz
-Dev/subversion-1.9.7-x86_64-1_slack14.2.fxz > s/sry34h0bwz8c3dv/subversion-1.9.7-x86_64-1_slack14.2.fxz > "A Modern Concurrent Version Control System." > serf
-Dev/tcl-8.6.5-x86_64-2.fxz > s/m8nj8y5hh2v5ih8/tcl-8.6.5-x86_64-2.fxz > "The tcl-8.6.5-x86_64-2 scripting language." > zlib-1.2.11-x86_64-1_slack14.2.txz
-Dev/texinfo-6.1-x86_64-1.fxz > s/tecd56wpx3jakrf/texinfo-6.1-x86_64-1.fxz > "GNU documentation system for on-line information and printed output." > gzip-1.8-x86_64-1 ncurses-5.9-x86_64-4 perl-5.22.2-x86_64-1.txz bash-4.3.048-x86_64-1_slack14.2
-Dev/tk-8.6.5-x86_64-2.fxz > s/ekzao6rpgic67je/tk-8.6.5-x86_64-2.fxz > "A windowing toolkit for use with tcl." > libXft-x86_64-2.3.3 tcl
-Dev/xcb-proto-noarch-1.14-1.fxz > s/qey4rebvwytczko/xcb-proto-noarch-1.14-1.fxz > "XML-XCB protocol descriptions." >
-Dev/xorg-util-macros-noarch-1.19.2.fxz > s/esw07q9gph9ydra/xorg-util-macros-noarch-1.19.2.fxz > "X.Org Autotools macros." > 
-Dev/xorg-proto-2020.1.fxz > s/uecqi7cfjt0vrmk/xorgproto-2020.1.fxz > "Combined X.Org X11 Protocol headers" > git-2.14.5-x86_64-1_slack14.2
-Dev/xorg-libs-_DEV-noarch-1.20.8.fxz > s/ngzjga01c0pg7na/xorg-libs-_DEV-noarch-1.20.8.fxz > "Combined X.Org Library headers" > 
+Dev/apr-1.5.2-x86_64-1.fxz>s/wfj7q6i9mn525fv/apr-1.5.2-x86_64-1.fxz>"The Apache Portable Runtime">
+Dev/apr-util-1.5.4-x86_64-2.fxz>s/lr9swhszl6kcdds/apr-util-1.5.4-x86_64-2.fxz>"The Apache Portable Runtime utils">openssl-1.0.2r-x86_64-1_slack14.2
+Dev/autoconf-2.69-noarch-1.fxz>s/snafzrhttoz57d9/autoconf-2.69-noarch-1.fxz>"A GNU tool for automatically configuring source code">perl-5.22.2-x86_64-1.txz,m4-1.4.17-x86_64-1,diffutils-3.3-x86_64-1
+Dev/bin-11.1-x86_64-1.fxz>s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz>"Collection of miscellaneous command-line utilities.">
+Dev/binutils-2.26-x86_64-3.fxz>s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz>"A set of programs to assemble and manipulate binary and object files.">elfutils-0.163-x86_64-1.txz,glibc-2.31-multilib,zlib-1.2.11-x86_64-1_slack14.2,git-2.14.5-x86_64-1_slack14.2
+Dev/bison-3.0.4-x86_64-1.fxz>s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz>"The GNU general-purpose parser generator.">glibc-2.31-multilib m4-1.4.17-x86_64-1,bash-4.3.048-x86_64-1_slack14.2
+Dev/boost-1.59.0-x86_64-1.fxz>s/cmb6tx8o2lx70tw/boost-1.59.0-x86_64-1.fxz>"Free peer-reviewed portable C++ source libraries and development headers.">
+Dev/cmake-3.16.2-x86_64.fxz>s/x2ok2t5bvxb59eu/cmake-3.16.2-x86_64.fxz>"A cross-platform open-source make system.">libarchive-3.2.1-x86_64-1
+Dev/cvs-1.11.23-x86_64-2.fxz>s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz>"Concurrent Versions System - a source control system.">zlib-1.2.11-x86_64-1_slack14.2,openssh-7.4p1-x86_64-2_slack14.2
+Dev/db48-4.8.30-x86_64-2.fxz>s/kdnk0puz7eih4a7/db48-4.8.30-x86_64-2.fxz>"The Berkeley DB embedded database system 4.8.">gcc-g++-9.3.0-multilib
+Dev/elfutils-0.163-x86_64-1.fxz>s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz>"Utilities to handle ELF object files and DWARF debugging information.">bzip2-1.0.6-x86_64-1,curl-7.64.1-x86_64-1_slack14.2,gcc-g++-9.3.0-multilib,libarchive-3.2.1-x86_64-1,libelf,xz-5.2.2-x86_64-1,zlib-1.2.11-x86_64-1_slack14.2
+Dev/elfutils-0.163-compat32.fxz>s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz>"Utilities to handle ELF object files and DWARF debugging information.">bzip2-compat32-1.0.6-x86_64-1compat32,curl-compat32-7.64.0-x86_64-2_slack14.2,gcc-g++-9.3.0-multilib,libarchive-compat32-3.2.1-x86_64-1,libelf,xz-compat32-5.2.2-x86_64-1,zlib-compat32-1.2.11-x86_64-1_slack14.2
+Dev/flex-2.6.0-x86_64-1.fxz>s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz>"A tool for generating text-scanning programs.">glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
+Dev/fltk_DEV-1.3.0-x86_64_s700.fxz>s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.fxz>"Graphical user interface toolkit for X">
+Dev/gcc-g++-9.3.0-multilib.fxz>s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz>"The GNU Compiler Collection - C and C++ frontends">binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1
+Dev/gdb-9.1-x86_64.fxz>s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz>"The GNU Debugger">expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
+Dev/gettext-tools-0.19.8.1-x86_64-1.fxz>s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz>"Gettext tools">
+Dev/git-2.14.5-x86_64-1_slack14.2.fxz>s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz>"the fast distributed version control system">curl-7.64.1-x86_64-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1_slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
+Dev/gmp-6.1.1-compat32-1.fxz>s/7dzdd9q067nvwxb/gmp-6.1.1-compat32-1.fxz>"A free library for arbitrary precision arithmetic">bash-4.3.048-x86_64-1_slack14.2
+Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz>s/u978z57di912zmc/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz>"Gnome icon theme header files.">
+Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz>s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz>"Gnome icon theme.">
+Dev/groff-1.22.3-x86_64-2.fxz>s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz>"GNU troff text-formatting system.">gcc-g++-9.3.0-multilib perl-5.22.2-x86_64-1.txz
+Dev/imake-1.0.7-x86_64-2.fxz>s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz>"X.Org imake program and related utilities.">glibc-2.31-multilib
+Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz>s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz>"The internationalization tool collection.">perl-5.22.2-x86_64-1.txz
+Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz>s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz>"The internationalization tool collection.">linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
+Dev/libmpc-1.0.3-x86_64-1.fxz>s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz>"Library for the arithmetic of complex numbers with arbitrarily high precision.">mpfr-3.1.4-x86_64-1
+Dev/libmpc-1.0.3-compat32-1.fxz>s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz>"Library for the arithmetic of complex numbers with arbitrarily high precision.">mpfr-3.1.4-compat32-1
+Dev/libpthread-stubs-0.3-noarch-1.fxz>s/75q56d2oy0v2i3t/libpthread-stubs-0.3-noarch-1.fxz>"Weak aliases for pthread functions not provided in libc.">
+Dev/libtool-2.4.6-x86_64-5_slack14.2.fxz>s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5_slack14.2.fxz>"A generic library support script.">glibc-2.31-multilib,bash-4.3.048-x86_64-1_slack14.2,tar-1.29-x86_64-1
+Dev/m4-1.4.17-x86_64-1.fxz>s/9w4zoropktw040a/m4-1.4.17-x86_64-1.fxz>"The GNU macro processor.">glibc-2.31-multilib,bash-4.3.048-x86_64-1_slack14.2
+Dev/make-4.1-x86_64-2.fxz>s/6kl0o38ucqg3107/make-4.1-x86_64-2.fxz>"GNU make utility to maintain groups of programs.">glibc-2.31-multilib,guile-2.0.11-x86_6
+Dev/man-1.6g-x86_64-3.fxz>s/7qna8nu6m7yzfru/man-1.6g-x86_64-3.fxz>"A utility for reading man pages.">bash-4.3.048-x86_64-1_slack14.2,gdbm-1.12-x86_64-1,groff-1.22.3-x86_64-2,zlib-1.2.11-x86_64-1_slack14.2
+Dev/nasm-2.13.01-x86_64-1_slack14.2.fxz>s/1nqqz743bmnyep5/nasm-2.13.01-x86_64-1_slack14.2.fxz>"80x86 assembler designed for portability and modularity.">glibc-2.31-multilib
+Dev/neon-0.30.1-x86_64-2.fxz>s/g5pazw6i14pehz3/neon-0.30.1-x86_64-2.fxz>"HTTP and WebDAV client library with a C interface.">ca-certificates-20190308-noarch-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,krb5,zlib-1.2.11-x86_64-1_slack14.2
+Dev/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz>s/t0ttkce5jqzoyqw/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz>"Netscape Plugin API (NPAPI) header files.">
+Dev/patch-2.7.6-x86_64-1_slack14.2.fxz>s/381wm5i2hgotwpo/patch-2.7.6-x86_64-1_slack14.2.fxz>"A utility to apply patch files to original sources.">attr-2.4.47-x86_64-1,glibc-2.31-multilib
+Dev/pjproject_DEV-2.6-x86_64_s700.fxz>s/ybig1uh43ble36x/pjproject_DEV-2.6-x86_64_s700.fxz>"Multimedia communication library header files.">
+Dev/pkg-config-0.29.2-x86_64-1_slack14.2.fxz>s/6pvhfaydt4vfuwv/pkg-config-0.29.2-x86_64-1_slack14.2.fxz>"Package compiler and linker metadata toolkit.">glibc-2.31-multilib
+Dev/pulseaudio-12.2_DEV-x86_64.fxz>s/164lwbwqmq698e8/pulseaudio-12.2_DEV-x86_64.fxz>"A featureful, general-purpose sound server header files.">pulseaudio-x86_64-12.2,pulseaudio-compat32-12.2
+Dev/sbc-1.4-x86_64.fxz>s/2hmwveptdcxsfsi/sbc-1.4-x86_64.fxz>"Bluetooth Subband Codec (SBC) library.">glibc-2.31-multilib
+Dev/sbc-1.4_DEV-x86_64.fxz>s/d6oe9lenrn0jyrf/sbc-1.4_DEV-x86_64.fxz>"Bluetooth Subband Codec (SBC) library header files.">sbc-1.4-x86_64
+Dev/serf-1.3.8-x86_64-1.fxz>s/c0urp383kql9naa/serf-1.3.8-x86_64-1.fxz>"High-performance asynchronous HTTP client library.">apr-util-1.5.4-x86_64-2
+Dev/strace-4.11-x86_64-1.fxz>s/ldot19p4016hkpw/strace-4.11-x86_64-1.fxz>"A diagnostic, debugging and instructional userspace tracer.">perl-5.22.2-x86_64-1.txz
+Dev/subversion-1.9.7-x86_64-1_slack14.2.fxz>s/sry34h0bwz8c3dv/subversion-1.9.7-x86_64-1_slack14.2.fxz>"A Modern Concurrent Version Control System.">serf
+Dev/tcl-8.6.5-x86_64-2.fxz>s/m8nj8y5hh2v5ih8/tcl-8.6.5-x86_64-2.fxz>"The tcl-8.6.5-x86_64-2 scripting language.">zlib-1.2.11-x86_64-1_slack14.2.txz
+Dev/texinfo-6.1-x86_64-1.fxz>s/tecd56wpx3jakrf/texinfo-6.1-x86_64-1.fxz>"GNU documentation system for on-line information and printed output.">gzip-1.8-x86_64-1,ncurses-5.9-x86_64-4,perl-5.22.2-x86_64-1.txz,bash-4.3.048-x86_64-1_slack14.2
+Dev/tk-8.6.5-x86_64-2.fxz>s/ekzao6rpgic67je/tk-8.6.5-x86_64-2.fxz>"A windowing toolkit for use with tcl.">libXft-x86_64-2.3.3 tcl
+Dev/xcb-proto-noarch-1.14-1.fxz>s/qey4rebvwytczko/xcb-proto-noarch-1.14-1.fxz>"XML-XCB protocol descriptions.">
+Dev/xorg-util-macros-noarch-1.19.2.fxz>s/esw07q9gph9ydra/xorg-util-macros-noarch-1.19.2.fxz>"X.Org Autotools macros.">
+Dev/xorg-proto-2020.1.fxz>s/uecqi7cfjt0vrmk/xorgproto-2020.1.fxz>"Combined X.Org X11 Protocol headers">git-2.14.5-x86_64-1_slack14.2
+Dev/xorg-libs-_DEV-noarch-1.20.8.fxz>s/ngzjga01c0pg7na/xorg-libs-_DEV-noarch-1.20.8.fxz>"Combined X.Org Library headers">
