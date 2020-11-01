@@ -11,54 +11,6 @@
 #
 ##########################################################################################
 
-#Changelog:
-# 24-06-2015: - Moved scripts from bitbucket to dropbox, i don't feel like packing
-#               git on the main sfs for a fucking couple of less than 50kb scripts because bitbucket raw
-#               view changes the url of the file on each commit.
-# 26-06-2015: - Added package descriptions.
-# 26-06-2015: - Changed from dropbox to github, since it has better way to handle files without
-#               compromising the raw file url.
-# 30-06-2015: - Added prompts on install and uninstall to avoid PEBKAC.
-# 03-07-2015: - Added package database URL variable, fixed the placement of the "y/n" prompt for package
-#               uninstall.
-#             - Removed *some* irony from code comments so they don't hurt feelings anymore ;^).
-# 13-07-2015: - Renamed to fpackages.
-#             - Version number changed to 0.2.
-# 20-07-2015: - Added basic dep resolving.
-#             - "install" option will not try to install a package if it's already installed, that's "reinstall"'s job.
-#             - Version bumped to to 0.3 (dep resolving).
-# 11-02-2016: - Renamed to kinstall.
-#             - Version bumped to 0.3.1 (for me to track some minor shit).
-# 16-10-2017: - switched to curl.
-#             - fixed some bad conditions.
-#             - Version bumped to 0.4.
-# 05-05-2019: - Repurposed for frankenpup64, since frankenpup (32) script was older.
-#             - Some code cleanup and variable fixing for better package handling.
-#             - Version bumped to 0.5 for obvious reasons.
-# 07-05-2019: - Added a condition for jwm to update menus.
-#             - Grep -i for searching packages (REALLY).
-# 09-05-2019  - Changed package database to frankenpuplinux.com.
-#             - Package database back to github (easier to maintain).
-#             - package repo will remain at frankenpuplinux.com instad of dropbox.
-# 15-05-2019  - Changes to functions names.
-#             - Now the script uses pcurl, a wrapper for multiple curl threads.
-#             - Some code cleanup.
-#             - Removed "if [ ! -d $DB_FOLDER ]" since it's not needed anymore (since a while really)
-#             - Added "if [ -f /install ]" to remove it if needed
-#             - Added "if [ ! -f /tmp/scripts ]" not a mandatory update but the "mkdir: cannot create directory â€˜/tmp/scriptsâ€™: File exists"
-#               was getting on my nerves.
-#             - ping_server is now silent (it should have been silent since the beginning)
-# 20-05-2019  - Added -H 'Cache-Control: no-cache' to curl.
-# 17-06-2019  - Fixed a stupid typo causing an infinite loop on some packages.
-#             - btw i started frankenpup on 17-06-2007 :D
-# 15-11-2019  - Back to dropbox, becuse i forgot to pay for the hosting and got deleted (yes, i'm THAT stupid)
-# 17-11-2019  - Now you can install local downloaded packages.
-# 18-11-2019  - Added rolling release capabilities by the rrelease script (experimental)
-#             - Version bumped to 0.6
-# 24-11-2019  - Options changed to letters instead of full words to make it easier to use.
-# 25-11-2019  - fixed reinstall function
-# 01-12-2019  - Added locale support for Spanish
-# 25-06-2020  - Multiple fixes and changes for frankenpup 1.4
 ################################# Code begins here #######################################
 
 
@@ -123,26 +75,20 @@ search_package(){
         echo "-----------------------------------------"
         return 3
     elif [ ! -f "DB_LOCATION" ]; then
-        db_download 1
+        true
+        #db_download 1
     fi
-    RESULT=$(cat $DB_LOCATION | grep -i $SEARCH)
-    if [ ! -z "$RESULT" ]; then
-        RESULT=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $SEARCH | cut -d'/' -f2)
-        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $SEARCH | cut -d' ' -f1 | cut -d'/' -f2)
-        DEPS=$(cat "$DB_LOCATION" | grep -i $NAME -s | cut -d'>' -f4 )
-        echo "$FOUND_STR:"
-        echo "$RESULT"
-        if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
-            echo "==========================================="
-            echo "$PACKAGE_STR: $NAME"
-            echo "$DEPENDS_STR:"
-            echo "$DEPS"
-            echo "==========================================="
-        fi
-        return 1
-    else
-        return 0
-    fi
+    
+    #RESULT=$(cat $DB_LOCATION | grep -i $SEARCH)
+    RESULT=()
+    while IFS= read -r line
+	do
+		#echo $line
+		name=$(echo $line | cut -d'>' -f 1 | cut -d'/' -f 2)
+		if [[ "$name" == *"$SEARCH"*  ]];then
+			RESULT+=( "$line" )
+		fi
+	done < "$DB_LOCATION"
 }
 
 ### function to download and update the package list "database" ######################################
@@ -174,7 +120,7 @@ install(){
 	cd /tmp ##
     PACK="$1"
     NOASK="$2"
-    LOCAL_INSTALL=0
+    #LOCAL_INSTALL=0
     search_package "$PACK"
     if [ $? -eq 3 ]; then
         CHNAME=$(echo $PACK | cut -d'-' -f1 2>/dev/null)
@@ -239,102 +185,188 @@ install(){
     elif [ $? -eq 0 ]; then
         echo "No package \"$PACK\" found"
     else
-        NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
-        CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
-        PURL=$(cat $DB_LOCATION | cut -d'>' -f2 | grep -i $CHNAME | cut -d' ' -f2 2>/dev/null)
-        CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
-        DEPS=$(cat $DB_LOCATION | grep -i $PURL | cut -d'>' -f4 2>/dev/null)
-
-        ## is package installed?
-        if [ -f "$DB_FOLDER/$CNAME" ]; then
-            echo "$ALRD_INSTALLED_STR"
-            echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
-            echo -e "WARNING: Package was installed using and older version of finstall\nplease update your system"
-            echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
-            exit
-        fi
-        if [ -d "$DB_FOLDER/$CNAME" ]; then
-            echo "Package already installed"
-            exit
-        fi
-
-        ## NOASK is the default dep resolver option
-        if [ ! -z "$NOASK" ]; then
-            CHECK="y"
-        else
-            ## if we are installing from the CLI this should be asked
-            read -p "Is this ok? (y/n)" CHECK
-        fi
-        if [ $CHECK == "y"  ] ;then
-            ## DEPS FIRST ===========================================
-            if [ ! -z "$DEPS" ]; then
-                count="${DEPS//[^ ]}"
+		MULTIPLE=0
+		PACKAGESTOINSTALL=()
+		if [ ! -z "$RESULT" ]; then
+			if [ ${#RESULT[@]} -gt 1 ];then
+				MULTIPLE=1
+				echo  "${#RESULT[@]} packages found containing \"$SEARCH\""
+				for ((i=1; i<=${#RESULT[@]};i++))
+				do
+					echo "[$i] ${RESULT[($i-1)]}" | cut -d'>' -f'1'
+				done
+				echo "which one do you wanna install? (Type number or numbers separated by a comma or type \"a\" for all)"
+				read which_one
+			else
+				echo "found $RESULT" | cut -d'>' -f'1'
+			fi
+			echo "i'm gonna install: "
+			if [[ "$which_one" == *","* ]];then
+				count="${which_one//[^,]}"
                 count="${#count}"
-                echo "============================================================="
-                echo "Trying to resolve deps:"
-                #echo "$count deps on database"
-                for (( c=2; c<=$count+1; c++)) ##we skip the blank field and count from that on
-                    do
-                        EACH=$(echo "$DEPS" | cut -d" " -f"$c")
-                        if [ ! -z "$EACH" ]; then
-                            echo "\"$EACH\""
-                            if [ -f "$DB_FOLDER/$EACH" ]; then
-                                echo "Package already installed"
-                            else
-                                finstall i "$EACH" "yes"
-                            fi
-                        fi
-                    done
-                echo "============================================================="
-            fi
-            ## end deps resolving ====================================
-            LOCATION="/tmp/$NAME"
-            echo "-----------------------------------------"
-            echo "Downloading package..."
-            echo "-----------------------------------------"
-            pcurl "$LOCATION" "http://$URL/$PURL"
-            if [ $? -eq 0 ]; then
-            flag=$(pgrep -x "jwm")
-                cd /tmp
-                tar xf "$NAME"
-                if [ $? -eq 0 ]; then
-                    rm -rf "$NAME"
-                    echo "-----------------------------------------"
-                    echo "Looking for custom install script..."
-                    if [ -f /tmp/$CNAME/install ]; then
-                        echo "-----------------------------------------"
-                        echo "executing custom install script..."
-                        /tmp/$CNAME/install
-                        if [ $? -eq 0 ]; then
-                            rm -rf /tmp/$CNAME/install
-                            rm -rf /tmp/$CNAME
-                            echo "-----------------------------------------"
-                            if [ ! -z "$flag" ]; then
-                                fixmenus
-                                jwm -reload
-                            fi
-                            echo "Done"
-                            if [ -f /install ]; then
-                                rm -rf /install
-                            fi
-                        else
-                            echo "$ERROR_CODE_4_STR"
-                        fi
-                    else
-                        echo "" > "$DB_FOLDER/$CNAME"
-                        rm -rf /tmp/$CNAME
-                        if [ ! -z "$flag" ]; then
-                            fixmenus
-                            jwm -reload
-                        fi
-                        echo "Done"
-                    fi
-                else
-                    echo "$ERROR_CODE_2_STR"
-                fi
-            else
-                echo "$ERROR_CODE_3_STR"
-            fi
+                while [ -z $CHECK ]
+				do
+					for ((i=1; i<=($count+1);i++))
+					do
+						package=$(echo $which_one | cut -d',' -f $i)
+						echo "${RESULT[($package-1)]}" | cut -d'>' -f'1' | cut -d'/' -f 2
+						PACKAGESTOINSTALL+=( "${RESULT[($package-1)]}" )
+					done
+					read -p "Is this ok? (y/n)" CHECK
+				done
+            elif [[ "$which_one" == "a" ]];then
+				while [ -z $CHECK ]
+				do
+					for ((i=0; i<${#RESULT[@]};i++))
+					do
+						echo "${RESULT[($i-1)]}" | cut -d'>' -f'1' | cut -d'/' -f 2
+						PACKAGESTOINSTALL+=( "${RESULT[($i-1)]}" )
+					done
+					read -p "Is this ok? (y/n)" CHECK
+				done
+			else
+				PACKAGESTOINSTALL+=( "$RESULT" )
+				echo "$RESULT" | cut -d'>' -f'1' | cut -d'/' -f 2
+			fi
+			
+			
+			
+				count=${#PACKAGESTOINSTALL[@]}
+				for ((i=0;i<"$count";i++))
+				do
+					NAME=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'>' -f'1' | cut -d'/' -f 2)
+					echo "Processing: $NAME"
+					DEPS=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'>' -f4 )
+					#echo "$FOUND_STR:"
+					echo "$NAME"
+					if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
+						echo "==========================================="
+						echo "$PACKAGE_STR: $NAME"
+						echo "$DEPENDS_STR:"
+						echo "$DEPS"
+						echo "==========================================="
+					fi
+				
+			########## begin package processing
+				CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
+				PURL=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'>' -f2 )
+				#echo $PURL
+				CNAME=$(echo $NAME | sed "s/.fxz//" 2>/dev/null)
+					
+				## is package installed?
+				if [ -f "$DB_FOLDER/$CNAME" ]; then
+					echo "$ALRD_INSTALLED_STR"
+					echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
+					echo -e "WARNING: Package was installed using and older version of finstall\nplease update your system"
+					echo "/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\/!\\"
+					exit
+				fi
+				
+				if [ -d "$DB_FOLDER/$CNAME" ]; then
+					echo "Package already installed"
+					exit
+				fi
+
+				## NOASK is the default dep resolver option
+				if [ ! -z "$NOASK" ]; then
+					CHECK="y"
+				else
+					## if we are installing from the CLI this should be asked
+					read -p "Is this ok? (y/n)" CHECK
+				fi
+					
+					
+				###dependency check
+				if [ $CHECK == "y"  ] ;then
+					## DEPS FIRST ===========================================
+					if [ ! -z "$DEPS" ]; then
+						count="${DEPS//[^,]}"
+						count=$(( ${#count} + 1 ))
+						#echo "dep count: $count"
+						echo "============================================================="
+						echo "Trying to resolve deps:"
+						#echo "$count deps on database"
+						for (( c=1; c<=$count; c++)) ##we skip the blank field and count from that on
+							do
+								##we try to fix single deps
+								#echo "loop count: $c"
+								if [[ $count -eq 1 ]];then
+									EACH=$(echo "$DEPS")
+								else
+									EACH=$(echo "$DEPS" | cut -d"," -f"$c")
+								fi
+								###
+								if [ ! -z "$EACH" ]; then
+									#echo "\"$EACH\""
+									#echo "dbfolder to search: $DB_FOLDER/$EACH"
+									if [ -d "$DB_FOLDER/$EACH" ]; then
+										echo "Package $EACH already installed"
+									else
+										finstall i "$EACH" "yes"
+									fi
+								fi
+							done
+						echo "============================================================="
+						
+						#exit 1
+					fi
+					## end deps resolving ====================================
+					LOCATION="/tmp/$NAME"
+					echo "-----------------------------------------"
+					echo "Downloading package..."
+					echo "-----------------------------------------"
+					pcurl "$LOCATION" "http://$URL/$PURL"
+					#echo "https://$URL/$PURL"
+					
+					#exit 1
+					
+					if [ $? -eq 0 ]; then
+					flag=$(pgrep -x "jwm")
+						cd /tmp
+						tar xf "$NAME"
+						if [ $? -eq 0 ]; then
+							rm -rf "$NAME"
+							echo "-----------------------------------------"
+							echo "Looking for custom install script..."
+							if [ -f /tmp/$CNAME/install ]; then
+								echo "-----------------------------------------"
+								echo "executing custom install script..."
+								/tmp/$CNAME/install
+								if [ $? -eq 0 ]; then
+									rm -rf /tmp/$CNAME/install
+									rm -rf /tmp/$CNAME
+									echo "-----------------------------------------"
+									if [ ! -z "$flag" ]; then
+										fixmenus
+										jwm -reload
+									fi
+									echo "Done"
+									if [ -f /install ]; then
+										rm -rf /install
+									fi
+								else
+									echo "$ERROR_CODE_4_STR"
+								fi
+							else
+								echo "" > "$DB_FOLDER/$CNAME"
+								rm -rf /tmp/$CNAME
+								if [ ! -z "$flag" ]; then
+									fixmenus
+									jwm -reload
+								fi
+								echo "Done"
+							fi
+						else
+							echo "$ERROR_CODE_2_STR"
+						fi
+					else
+						echo "$ERROR_CODE_3_STR"
+					fi
+				fi
+			done
+			exit 1
+		
+        #NAME=$(cat $DB_LOCATION | cut -d'>' -f1 | grep -i $PACK | cut -d' ' -f1 | cut -d'/' -f2 2>/dev/null)
         else
             echo "Nothing was done."
         fi
