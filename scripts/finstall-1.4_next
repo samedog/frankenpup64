@@ -120,6 +120,14 @@ install(){
 	cd /tmp ##
     PACK="$1"
     NOASK="$2"
+    
+	if [ ! -z "$NOASK" ]; then
+		CHECK="y"
+	#else
+		## if we are installing from the CLI this should be asked
+		#read -p "Is this ok? (y/n)" CHECK
+	fi
+	
     #LOCAL_INSTALL=0
     search_package "$PACK"
     if [ $? -eq 3 ]; then
@@ -209,8 +217,8 @@ install(){
 					for ((i=1; i<=($count+1);i++))
 					do
 						package=$(echo $which_one | cut -d',' -f $i)
-						echo "${RESULT[($package-1)]}" | cut -d'>' -f'1' | cut -d'/' -f 2
-						PACKAGESTOINSTALL+=( "${RESULT[($package-1)]}" )
+						echo "${RESULT[$(( $package - 1 ))]}" | cut -d'>' -f'1' | cut -d'/' -f 2
+						PACKAGESTOINSTALL+=( "${RESULT[$(( $package - 1 ))]}" )
 					done
 					read -p "Is this ok? (y/n)" CHECK
 				done
@@ -219,18 +227,27 @@ install(){
 				do
 					for ((i=0; i<${#RESULT[@]};i++))
 					do
-						echo "${RESULT[($i-1)]}" | cut -d'>' -f'1' | cut -d'/' -f 2
-						PACKAGESTOINSTALL+=( "${RESULT[($i-1)]}" )
+						echo "${RESULT[$(( $i - 1 ))]}" | cut -d'>' -f'1' | cut -d'/' -f 2
+						PACKAGESTOINSTALL+=( "${RESULT[$(( $i - 1 ))]}" )
 					done
 					read -p "Is this ok? (y/n)" CHECK
 				done
 			else
-				PACKAGESTOINSTALL+=( "$RESULT" )
+				PACKAGESTOINSTALL+=( "${RESULT[$(( $which_one - 1 ))]}" )
 				echo "$RESULT" | cut -d'>' -f'1' | cut -d'/' -f 2
+				if [ -z $CHECK ];then
+					read -p "Is this ok? (y/n)" CHECK
+				fi
 			fi
 			
 			
 			
+			### lasdt check before actual ihnstall
+			
+			if [[ $CHECK == "n" ]];then
+				exit 1
+			fi
+					
 				count=${#PACKAGESTOINSTALL[@]}
 				for ((i=0;i<"$count";i++))
 				do
@@ -268,12 +285,7 @@ install(){
 				fi
 
 				## NOASK is the default dep resolver option
-				if [ ! -z "$NOASK" ]; then
-					CHECK="y"
-				else
-					## if we are installing from the CLI this should be asked
-					read -p "Is this ok? (y/n)" CHECK
-				fi
+				
 					
 					
 				###dependency check
