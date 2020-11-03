@@ -11,7 +11,7 @@ fi
 echo "I'll create the package $NAME.txz"
 read -p "Is this ok? (y/n)" CHECK
 if [ $CHECK == "y"  ] ;then
-	FILE_LIST=$(find ./$NAME -type f \( ! -iname "install"  \) | sed "s+$NAME/++g" | sed 's+\./+/+g')
+	FILE_LIST=$(find ./$NAME -type f \( ! -iname "install"  \) | sed "s|$NAME/||g" | sed 's|\./|/|g')
 	#####install script creation
 echo '#!/bin/sh
 
