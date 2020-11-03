@@ -214,7 +214,7 @@ install(){
                 count="${#count}"
                 while [ -z $CHECK ]
 				do
-					for ((i=1; i<=$(( $count + 1 ));i++))
+					for ((i=1; i <= $(( $count + 1 ));i++))
 					do
 						package=$(echo $which_one | cut -d',' -f $i)
 						echo "${RESULT[$(( $package - 1 ))]}" | cut -d'|' -f'1' | cut -d'/' -f 2
@@ -234,7 +234,7 @@ install(){
 				done
 			else
 				PACKAGESTOINSTALL+=( "${RESULT[$(( $which_one - 1 ))]}" )
-				echo "$RESULT" | cut -d'|' -f'1' | cut -d'/' -f 2
+				echo "${RESULT[$(( $which_one - 1 ))]}" | cut -d'|' -f'1' | cut -d'/' -f 2
 				if [ -z $CHECK ];then
 					read -p "Is this ok? (y/n)" CHECK
 				fi
