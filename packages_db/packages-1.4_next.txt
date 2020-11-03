@@ -17,9 +17,10 @@ Dev/elfutils-0.163-x86_64-1.fxz|s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz|"U
 Dev/elfutils-0.163-compat32.fxz|s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz|"Utilities to handle ELF object files and DWARF debugging information."|bzip2-compat32-1.0.6-x86_64-1compat32,curl-compat32-7.64.0-x86_64-2_slack14.2,gcc-g++-9.3.0-multilib,libarchive-compat32-3.2.1-x86_64-1,libelf,xz-compat32-5.2.2-x86_64-1,zlib-compat32-1.2.11-x86_64-1_slack14.2
 Dev/flex-2.6.0-x86_64-1.fxz|s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz|"A tool for generating text-scanning programs."|glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
 Dev/fltk_DEV-1.3.0-x86_64_s700.fxz|s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.fxz|"Graphical user interface toolkit for X"|
-Dev/fontconfig-2.13.1_DEV.fxz|s/n3razmqjx6dwjtc/fontconfig-2.13.1_DEV.fxz|""|fontconfig-2.13.1-x86_64,fontconfig-2.13.1-compat32
+Dev/fontconfig-2.13.1_DEV.fxz|s/n3razmqjx6dwjtc/fontconfig-2.13.1_DEV.fxz|""|fontconfig-2.13.1-x86_64,fontconfig-2.13.1-compat32,freetype-2.10.0_DEV
+Dev/freetype-2.10.0_DEV.fxz|s/30a7i14ki3zxy2r/freetype-2.10.0_DEV.fxz|""|freetype-2.10.0-x86_64,freetype-2.10.0-compat32,zlib-1.2.11_DEV
 Dev/fribidi-1.0.5_DEV.fxz|s/qamq2nsi8meot8o/fribidi-1.0.5_DEV.fxz|""|fribidi-1.0.5-1-compat32,fribidi-1.0.5-x86_64-1,pango-1.42.3_DEV
-Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1
+Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1,pkg-config-0.29.2-x86_64.fxz
 Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
 Dev/gettext-tools-0.19.8.1-x86_64-1.fxz|s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz|"Gettext tools"|
 Dev/git-2.14.5-x86_64-1_slack14.2.fxz|s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz|"the fast distributed version control system"|curl-7.64.1-x86_64-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1_slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
@@ -49,7 +50,7 @@ Dev/pcre2-10.30_DEV.fxz|s/zuyyr7cj16kpf5m/pcre2-10.30_DEV.fxz|""|glib2-2.59.0_DE
 Dev/pcre-8.39_DEV.fxz|s/1f8d82s2o7xx0gw/pcre-8.39_DEV.fxz?dl=0|""|glib2-2.59.0_DEV,glib2-2.59.0-compat32,glib2-2.59.0-x86_64,pcre-8.39-x86_64,pcre-8.39-compat32
 Dev/pixman-0.34.0_DEV.fxz|s/xpqmsk994quae28/pixman-0.34.0_DEV.fxz|""|pixman-0.34.0-1-compat32,pixman-0.34.0-x86_64-1
 Dev/pjproject_DEV-2.6-x86_64_s700.fxz|s/ybig1uh43ble36x/pjproject_DEV-2.6-x86_64_s700.fxz|"Multimedia communication library header files."|
-Dev/pkg-config-0.29.2-x86_64-1_slack14.2.fxz|s/6pvhfaydt4vfuwv/pkg-config-0.29.2-x86_64-1_slack14.2.fxz|"Package compiler and linker metadata toolkit."|glibc-2.31-multilib
+Dev/pkg-config-0.29.2-x86_64.fxz|s/kfyx85p9txsl1wu/pkg-config-0.29.2-x86_64.fxz|"Package compiler and linker metadata toolkit."|glibc-2.31-multilib
 Dev/pulseaudio-12.2_DEV-x86_64.fxz|s/164lwbwqmq698e8/pulseaudio-12.2_DEV-x86_64.fxz|"A featureful, general-purpose sound server header files."|pulseaudio-x86_64-12.2,pulseaudio-compat32-12.2
 Dev/sbc-1.4-x86_64.fxz|s/2hmwveptdcxsfsi/sbc-1.4-x86_64.fxz|"Bluetooth Subband Codec (SBC) library."|glibc-2.31-multilib
 Dev/sbc-1.4_DEV-x86_64.fxz|s/d6oe9lenrn0jyrf/sbc-1.4_DEV-x86_64.fxz|"Bluetooth Subband Codec (SBC) library header files."|sbc-1.4-x86_64
@@ -63,3 +64,4 @@ Dev/xcb-proto-noarch-1.14-1.fxz|s/qey4rebvwytczko/xcb-proto-noarch-1.14-1.fxz|"X
 Dev/xorg-util-macros-noarch-1.19.2.fxz|s/esw07q9gph9ydra/xorg-util-macros-noarch-1.19.2.fxz|"X.Org Autotools macros."|
 Dev/xorg-proto-2020.1.fxz|s/uecqi7cfjt0vrmk/xorgproto-2020.1.fxz|"Combined X.Org X11 Protocol headers"|git-2.14.5-x86_64-1_slack14.2
 Dev/xorg-libs_DEV-noarch-1.20.8.fxz|s/1ckkbe2gprfjjtf/xorg-libs_DEV-noarch-1.20.8.fxz|"Combined X.Org Library headers"|
+Dev/zlib-1.2.11_DEV.fxz|s/mjfy1sjmvzkcp3h/zlib-1.2.11_DEV.fxz|""|zlib-1.2.11-compat32-1-slack14.2,zlib-1.2.11-x86_64-1-slack14.2
