@@ -21,6 +21,7 @@ Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|
 Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
 Dev/gettext-tools-0.19.8.1-x86_64-1.fxz|s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz|"Gettext tools"|
 Dev/git-2.14.5-x86_64-1_slack14.2.fxz|s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz|"the fast distributed version control system"|curl-7.64.1-x86_64-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1_slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
+Dev/glibc-2.31_DEV.fxz|s/vqf3ih5uxnbf6aq/glibc-2.31_DEV.fxz|"Dev files for the GNU C library"|glibc-2.31-multilib
 Dev/gmp-6.1.1-compat32-1.fxz|s/7dzdd9q067nvwxb/gmp-6.1.1-compat32-1.fxz|"A free library for arbitrary precision arithmetic"|bash-4.3.048-x86_64-1_slack14.2
 Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|s/u978z57di912zmc/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|"Gnome icon theme header files."|
 Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz|s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz|"Gnome icon theme."|
