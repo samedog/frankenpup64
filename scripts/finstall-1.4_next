@@ -21,7 +21,7 @@ URL2="www.google.com"                                                           
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages-1.4_next.txt"  # package database url
 DB_FOLDER="/var/fpackages"                                                                           	  # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                                                               	  # databse location on disk
-VERSION="0.6.1"
+VERSION="0.7"
 
 #### strings
 LOCALE=$(locale | grep LANG | cut -d'=' -f2 | cut -d'_' -f1)
@@ -201,7 +201,7 @@ install(){
 				echo  "${#RESULT[@]} packages found containing \"$SEARCH\""
 				for ((i=1; i<=${#RESULT[@]};i++))
 				do
-					echo "[$i] ${RESULT[($i-1)]}" | cut -d'>' -f'1'
+					echo "[$i] ${RESULT[$(( $i - 1 ))]}" | cut -d'>' -f'1'
 				done
 				echo "which one do you wanna install? (Type number or numbers separated by a comma or type \"a\" for all)"
 				read which_one
@@ -214,7 +214,7 @@ install(){
                 count="${#count}"
                 while [ -z $CHECK ]
 				do
-					for ((i=1; i<=($count+1);i++))
+					for ((i=1; i<=$(( $count + 1 ));i++))
 					do
 						package=$(echo $which_one | cut -d',' -f $i)
 						echo "${RESULT[$(( $package - 1 ))]}" | cut -d'>' -f'1' | cut -d'/' -f 2
