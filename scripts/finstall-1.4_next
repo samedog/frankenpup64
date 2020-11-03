@@ -21,7 +21,7 @@ URL2="www.google.com"                                                           
 DB_URL="https://raw.githubusercontent.com/samedog/frankenpup64/master/packages_db/packages-1.4_next.txt"  # package database url
 DB_FOLDER="/var/fpackages"                                                                           	  # installed packages folder
 DB_LOCATION="$DB_FOLDER/packages.txt"                                                               	  # databse location on disk
-VERSION="0.7"
+VERSION="0.7.1"
 
 #### strings
 LOCALE=$(locale | grep LANG | cut -d'=' -f2 | cut -d'_' -f1)
@@ -248,21 +248,25 @@ install(){
 				exit 1
 			fi
 					
-				count=${#PACKAGESTOINSTALL[@]}
-				for ((i=0;i<"$count";i++))
-				do
-					NAME=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'|' -f'1' | cut -d'/' -f 2)
-					echo "Processing: $NAME"
-					DEPS=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'|' -f4 )
-					#echo "$FOUND_STR:"
-					echo "$NAME"
-					if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
-						echo "==========================================="
-						echo "$PACKAGE_STR: $NAME"
-						echo "$DEPENDS_STR:"
-						echo "$DEPS"
-						echo "==========================================="
-					fi
+			for (( i=0; i<${#PACKAGESTOINSTALL[@]}; i++ ))
+			do
+				NAME=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'|' -f'1' | cut -d'/' -f 2)
+				## failsafe for high level dep resolving loops
+				#if [[ -z $NAME ]] || [[ $NAME == "" ]];then 
+				#	break
+				#fi
+				echo "Processing: $NAME"
+				
+				DEPS=$(echo "${PACKAGESTOINSTALL[($i)]}" | cut -d'|' -f4 )
+				#echo "$FOUND_STR:"
+				#echo "$NAME"
+				if [ ! -z "$DEPS" ] && [ ! "$DEPS" == " " ]; then
+					echo "==========================================="
+					echo "$PACKAGE_STR: $NAME"
+					echo "$DEPENDS_STR:"
+					echo "$DEPS"
+					echo "==========================================="
+				fi
 				
 			########## begin package processing
 				CHNAME=$(echo $NAME | cut -d'-' -f1 2>/dev/null)
@@ -325,8 +329,8 @@ install(){
 					## end deps resolving ====================================
 					LOCATION="/tmp/$NAME"
 					echo "-----------------------------------------"
-					echo "Downloading package..."
-					echo "-----------------------------------------"
+					#echo "Downloading package..."
+					#echo "-----------------------------------------"
 					pcurl "$LOCATION" "http://$URL/$PURL"
 					#echo "https://$URL/$PURL"
 					
