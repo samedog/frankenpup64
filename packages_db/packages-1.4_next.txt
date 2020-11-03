@@ -16,7 +16,7 @@ Dev/elfutils-0.163-x86_64-1.fxz>s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz>"U
 Dev/elfutils-0.163-compat32.fxz>s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz>"Utilities to handle ELF object files and DWARF debugging information.">bzip2-compat32-1.0.6-x86_64-1compat32,curl-compat32-7.64.0-x86_64-2_slack14.2,gcc-g++-9.3.0-multilib,libarchive-compat32-3.2.1-x86_64-1,libelf,xz-compat32-5.2.2-x86_64-1,zlib-compat32-1.2.11-x86_64-1_slack14.2
 Dev/flex-2.6.0-x86_64-1.fxz>s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz>"A tool for generating text-scanning programs.">glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
 Dev/fltk_DEV-1.3.0-x86_64_s700.fxz>s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.fxz>"Graphical user interface toolkit for X">
-Dev/gcc-g++-9.3.0-multilib.fxz>s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz>"The GNU Compiler Collection - C and C++ frontends">binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch
+Dev/gcc-g++-9.3.0-multilib.fxz>s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz>"The GNU Compiler Collection - C and C++ frontends">binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8
 Dev/gdb-9.1-x86_64.fxz>s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz>"The GNU Debugger">expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
 Dev/gettext-tools-0.19.8.1-x86_64-1.fxz>s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz>"Gettext tools">
 Dev/git-2.14.5-x86_64-1_slack14.2.fxz>s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz>"the fast distributed version control system">curl-7.64.1-x86_64-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1_slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
@@ -52,4 +52,4 @@ Dev/tk-8.6.5-x86_64-2.fxz>s/ekzao6rpgic67je/tk-8.6.5-x86_64-2.fxz>"A windowing t
 Dev/xcb-proto-noarch-1.14-1.fxz>s/qey4rebvwytczko/xcb-proto-noarch-1.14-1.fxz>"XML-XCB protocol descriptions.">
 Dev/xorg-util-macros-noarch-1.19.2.fxz>s/esw07q9gph9ydra/xorg-util-macros-noarch-1.19.2.fxz>"X.Org Autotools macros.">
 Dev/xorg-proto-2020.1.fxz>s/uecqi7cfjt0vrmk/xorgproto-2020.1.fxz>"Combined X.Org X11 Protocol headers">git-2.14.5-x86_64-1_slack14.2
-Dev/xorg-libs-_DEV-noarch-1.20.8.fxz>s/ngzjga01c0pg7na/xorg-libs-_DEV-noarch-1.20.8.fxz>"Combined X.Org Library headers">
+Dev/xorg-libs_DEV-noarch-1.20.8.fxz>s/1ckkbe2gprfjjtf/xorg-libs_DEV-noarch-1.20.8.fxz>"Combined X.Org Library headers">
