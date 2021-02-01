@@ -8,7 +8,7 @@ Dev/bin-11.1-x86_64-1.fxz|s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz|"Collection of
 Dev/binutils-2.26-x86_64-3.fxz|s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz|"A set of programs to assemble and manipulate binary and object files."|elfutils-0.163-x86_64-1.txz,glibc-2.31-multilib,zlib-1.2.11-x86_64-1_slack14.2,git-2.14.5-x86_64-1_slack14.2
 Dev/bison-3.0.4-x86_64-1.fxz|s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz|"The GNU general-purpose parser generator."|glibc-2.31-multilib m4-1.4.17-x86_64-1,bash-4.3.048-x86_64-1_slack14.2
 Dev/boost-1.59.0-x86_64-1.fxz|s/cmb6tx8o2lx70tw/boost-1.59.0-x86_64-1.fxz|"Free peer-reviewed portable C++ source libraries and development headers."|
-Dev/cairo-DEV-1.16.0-noarch.fxz|s/or1kak5bpay63gb/cairo-DEV-1.16.0-noarch.fxz|"Dev files for carito, a 2D graphics library with support for multiple output devices"|cairo-1.16.0-x86_64,cairo-1.16.0-compat32,pixman-0.34.0_DEV,fontconfig-2.13.1_DEV
+Dev/cairo-DEV-1.16.0-noarch.fxz|s/or1kak5bpay63gb/cairo-DEV-1.16.0-noarch.fxz|"Dev files for carito, a 2D graphics library with support for multiple output devices"|cairo-1.16.0-x86_64,cairo-1.16.0-compat32,pixman-0.34.0_DEV,fontconfig-2.13.1_DEV,libxcb-1.11.1_DEV
 Dev/cmake-3.16.2-x86_64.fxz|s/x2ok2t5bvxb59eu/cmake-3.16.2-x86_64.fxz|"A cross-platform open-source make system."|libarchive-3.2.1-x86_64-1
 Dev/cvs-1.11.23-x86_64-2.fxz|s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz|"Concurrent Versions System - a source control system."|zlib-1.2.11-x86_64-1_slack14.2,openssh-7.4p1-x86_64-2_slack14.2
 Dev/db48-4.8.30-x86_64-2.fxz|s/kdnk0puz7eih4a7/db48-4.8.30-x86_64-2.fxz|"The Berkeley DB embedded database system 4.8."|gcc-g++-9.3.0-multilib
@@ -19,7 +19,7 @@ Dev/expat-2.2.2-1_DEV.fxz|s/h4hhf2dzid9zz8u/expat-2.2.2-1_DEV.fxz|""|expat-2.2.2
 Dev/flex-2.6.0-x86_64-1.fxz|s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz|"A tool for generating text-scanning programs."|glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
 Dev/fltk_DEV-1.3.0-x86_64_s700.fxz|s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.fxz|"Graphical user interface toolkit for X"|
 Dev/fontconfig-2.13.1_DEV.fxz|s/n3razmqjx6dwjtc/fontconfig-2.13.1_DEV.fxz|""|fontconfig-2.13.1-x86_64,fontconfig-2.13.1-compat32,freetype-2.10.0_DEV,util-linux-2.27.1-1_DEV,expat-2.2.2-1_DEV.fxz
-Dev/freetype-2.10.0_DEV.fxz|s/30a7i14ki3zxy2r/freetype-2.10.0_DEV.fxz|""|freetype-2.10.0-x86_64,freetype-2.10.0-compat32,zlib-1.2.11_DEV
+Dev/freetype-2.10.0_DEV.fxz|s/30a7i14ki3zxy2r/freetype-2.10.0_DEV.fxz|""|freetype-2.10.0-x86_64,freetype-2.10.0-compat32,zlib-1.2.11_DEV,libpng-1.6.37_DEV,harfbuzz-2.5.0_DEV
 Dev/fribidi-1.0.5_DEV.fxz|s/qamq2nsi8meot8o/fribidi-1.0.5_DEV.fxz|""|fribidi-1.0.5-1-compat32,fribidi-1.0.5-x86_64-1
 Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1,pkg-config-0.29.2-x86_64.fxz
 Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
@@ -42,7 +42,7 @@ Dev/libpng-1.6.37_DEV.fxz|s/6ggl19t5u7zsz32/libpng-1.6.37_DEV.fxz|""|libpng-1.6.
 Dev/libpthread-stubs-0.3-noarch-1.fxz|s/75q56d2oy0v2i3t/libpthread-stubs-0.3-noarch-1.fxz|"Weak aliases for pthread functions not provided in libc."|
 Dev/libtool-2.4.6-x86_64-5_slack14.2.fxz|s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5_slack14.2.fxz|"A generic library support script."|glibc-2.31-multilib,bash-4.3.048-x86_64-1_slack14.2,tar-1.29-x86_64-1
 Dev/libxau-1.0.8_DEV.fxz|s/jvadxtm0yzluu45/libxau-1.0.8_DEV.fxz|"Header files for the X11 authorisation library."|libXau-1.0.8-x86_64-2,libXau-1.0.8-compat32-2
-Dev/libxcb-1.11.1_DEV.fxz|s/q5d763gzu1cw0jb/libxcb-1.11.1_DEV.fxz|"Header files for the X11 client-side library."|libxcb-1.11.1-86_64-1.fxz,libxcb-1.11.1-compat32-1.fxz
+Dev/libxcb-1.11.1_DEV.fxz|s/q5d763gzu1cw0jb/libxcb-1.11.1_DEV.fxz|"Header files for the X11 client-side library."|libxcb-1.11.1-86_64-1.fxz,libxcb-1.11.1-compat32-1,libxau-1.0.8_DEV
 Dev/m4-1.4.17-x86_64-1.fxz|s/9w4zoropktw040a/m4-1.4.17-x86_64-1.fxz|"The GNU macro processor."|glibc-2.31-multilib,bash-4.3.048-x86_64-1_slack14.2
 Dev/make-4.1-x86_64-2.fxz|s/6kl0o38ucqg3107/make-4.1-x86_64-2.fxz|"GNU make utility to maintain groups of programs."|glibc-2.31-multilib,guile-2.0.11-x86_6
 Dev/man-1.6g-x86_64-3.fxz|s/7qna8nu6m7yzfru/man-1.6g-x86_64-3.fxz|"A utility for reading man pages."|bash-4.3.048-x86_64-1_slack14.2,gdbm-1.12-x86_64-1,groff-1.22.3-x86_64-2,zlib-1.2.11-x86_64-1_slack14.2
