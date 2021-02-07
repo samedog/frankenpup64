@@ -34,12 +34,13 @@ Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|s/u978z57di912zmc/gnome-icon-th
 Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz|s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz|"Gnome icon theme."|
 Dev/groff-1.22.3-x86_64-2.fxz|s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz|"GNU troff text-formatting system."|gcc-g++-9.3.0-multilib,perl-5.22.2-x86_64-1
 Dev/gtk+2-2.24.32_DEV.fxz|s/ngvkvnetm9epedt/gtk%2B2-2.24.32_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit (legacy)"|gtk+2-2.24.32-x86_64,gtk+2-2.24.32-compat32,pango-1.42.3_DEV
-Dev/gtk+-3.24.9_DEV.fxz|s/jlp4ifhvpsaxgfd/gtk%2B-3.24.9_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit 3"|gtk+-3.24.9-x86_64,gtk+-3.24.9-compat32
+Dev/gtk+-3.24.9_DEV.fxz|s/jlp4ifhvpsaxgfd/gtk%2B-3.24.9_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit 3"|gtk+-3.24.9-x86_64,gtk+-3.24.9-compat32,pango-1.42.3_DEV,libepoxy-1.5.3_DEV
 Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.59.0-x86_64,glib2-2.59.0-compat32,glib2-2.59.0_DEV
 Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool to create man files"|texinfo-6.1-x86_64-1
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
 Dev/intltool-0.51.0-x86_64-3-slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3-slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
 Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|"The internationalization tool collection."|linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
+Dev/libepoxy-1.5.3_DEV.fxz|s/0rrqb6xrrotjkkw/libepoxy-1.5.3_DEV.fxz||libepoxy-1.5.3-x86_64,libepoxy-1.5.3-compat32
 Dev/libffi-3.2.1-1_DEV.fxz|s/enygn57ymqf88st/libffi-3.2.1-1_DEV.fxz|"Header files for the Portable foreign function interface library"|libffi-3.2.1-x86_64-1,libffi-3.2.1-compat32-1
 Dev/libmpc-1.0.3-x86_64-1.fxz|s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-x86_64-1
 Dev/libmpc-1.0.3-compat32-1.fxz|s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-compat32-1
