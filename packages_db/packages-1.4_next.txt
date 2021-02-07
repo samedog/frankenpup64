@@ -1,61 +1,62 @@
 Dev/apr-1.5.2-x86_64-1.fxz|s/wfj7q6i9mn525fv/apr-1.5.2-x86_64-1.fxz|"The Apache Portable Runtime"|
-Dev/apr-util-1.5.4-x86_64-2.fxz|s/lr9swhszl6kcdds/apr-util-1.5.4-x86_64-2.fxz|"The Apache Portable Runtime utils"|openssl-1.0.2r-x86_64-1_slack14.2
+Dev/apr-util-1.5.4-x86_64-2.fxz|s/lr9swhszl6kcdds/apr-util-1.5.4-x86_64-2.fxz|"The Apache Portable Runtime utils"|openssl-1.0.2r-x86_64-1-slack14.2
 Dev/at-spi2-atk-DEV-2.32.0-noarch.fxz|s/9p6xp93jmndaqy6/at-spi2-atk-DEV-2.32.0-noarch.fxz|"Dev package for the GTK+ module that bridges ATK to D-Bus at-spi"|
 Dev/at-spi2-core-DEV-2.32.1-noarch.fxz|s/u1fn4xk9b5p4wav/at-spi2-core-DEV-2.32.1-noarch.fxz|"Dev packages for the atk-sp2-core, a protocol definitions and daemon for D-Bus at-spi"|at-spi2-core-2.32.1-x86_64
 Dev/atk-DEV-2.32.0-noarch.fxz|s/gddzntffjweae56/atk-DEV-2.32.0-noarch.fxz|"Dev files for the ATK accessibility interface."|atk-2.32.0-x86_64
 Dev/autoconf-2.71.fxz|s/ehb02e4hmpmgv77/autoconf-2.71.fxz|"A GNU tool for automatically configuring source code"|perl-5.22.2-x86_64-1,m4-1.4.17-x86_64-1,diffutils-3.3-x86_64-1,help2man-1.48.1
 Dev/automake-1.16.3.fxz|s/1k455qhy8c6xm0s/automake-1.16.3.fxz|"A GNU tool for automatically creating Makefiles"|help2man-1.48.1
 Dev/bin-11.1-x86_64-1.fxz|s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz|"Collection of miscellaneous command-line utilities."|
-Dev/binutils-2.26-x86_64-3.fxz|s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz|"A set of programs to assemble and manipulate binary and object files."|elfutils-0.163-x86_64-1.txz,glibc-2.31-multilib,zlib-1.2.11-x86_64-1_slack14.2,git-2.14.5-x86_64-1_slack14.2
-Dev/bison-3.0.4-x86_64-1.fxz|s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz|"The GNU general-purpose parser generator."|glibc-2.31-multilib m4-1.4.17-x86_64-1,bash-4.3.048-x86_64-1_slack14.2
+Dev/binutils-2.26-x86_64-3.fxz|s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz|"A set of programs to assemble and manipulate binary and object files."|elfutils-0.163-x86_64-1.txz,glibc-2.31-multilib,zlib-1.2.11-x86_64-1-slack14.2,git-2.14.5-x86_64-1-slack14.2
+Dev/bison-3.0.4-x86_64-1.fxz|s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz|"The GNU general-purpose parser generator."|glibc-2.31-multilib m4-1.4.17-x86_64-1,bash-4.3.048-x86_64-1-slack14.2
 Dev/boost-1.59.0-x86_64-1.fxz|s/cmb6tx8o2lx70tw/boost-1.59.0-x86_64-1.fxz|"Free peer-reviewed portable C++ source libraries and development headers."|
 Dev/cairo-DEV-1.16.0-noarch.fxz|s/or1kak5bpay63gb/cairo-DEV-1.16.0-noarch.fxz|"Dev files for carito, a 2D graphics library with support for multiple output devices"|cairo-1.16.0-x86_64,cairo-1.16.0-compat32,pixman-0.34.0_DEV,fontconfig-2.13.1_DEV,libxcb-1.11.1_DEV
 Dev/cmake-3.16.2-x86_64.fxz|s/x2ok2t5bvxb59eu/cmake-3.16.2-x86_64.fxz|"A cross-platform open-source make system."|libarchive-3.2.1-x86_64-1
-Dev/cvs-1.11.23-x86_64-2.fxz|s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz|"Concurrent Versions System - a source control system."|zlib-1.2.11-x86_64-1_slack14.2,openssh-7.4p1-x86_64-2_slack14.2
+Dev/cvs-1.11.23-x86_64-2.fxz|s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz|"Concurrent Versions System - a source control system."|zlib-1.2.11-x86_64-1-slack14.2,openssh-7.4p1-x86_64-2-slack14.2
 Dev/db48-4.8.30-x86_64-2.fxz|s/kdnk0puz7eih4a7/db48-4.8.30-x86_64-2.fxz|"The Berkeley DB embedded database system 4.8."|gcc-g++-9.3.0-multilib
 Dev/dbus-glib-DEV-0.110-noarch.fxz|s/yahxrqdhllk5jtt/dbus-glib-DEV-0.110-noarch.fxz|"Dev files for the GLib bindings for DBUS"|dbus-glib-0.110-x86_64
-Dev/elfutils-0.163-x86_64-1.fxz|s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz|"Utilities to handle ELF object files and DWARF debugging information."|bzip2-1.0.6-x86_64-1,curl-7.64.1-x86_64-1_slack14.2,gcc-g++-9.3.0-multilib,libarchive-3.2.1-x86_64-1,libelf,xz-5.2.2-x86_64-1,zlib-1.2.11-x86_64-1_slack14.2
-Dev/elfutils-0.163-compat32.fxz|s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz|"Utilities to handle ELF object files and DWARF debugging information."|bzip2-compat32-1.0.6-x86_64-1compat32,curl-compat32-7.64.0-x86_64-2_slack14.2,gcc-g++-9.3.0-multilib,libarchive-compat32-3.2.1-x86_64-1,libelf,xz-compat32-5.2.2-x86_64-1,zlib-compat32-1.2.11-x86_64-1_slack14.2
+Dev/elfutils-0.163-x86_64-1.fxz|s/ru94fuxbvm6n7uh/elfutils-0.163-x86_64-1.fxz|"Utilities to handle ELF object files and DWARF debugging information."|bzip2-1.0.6-x86_64-1,curl-7.64.1-x86_64-1-slack14.2,gcc-g++-9.3.0-multilib,libarchive-3.2.1-x86_64-1,libelf,xz-5.2.2-x86_64-1,zlib-1.2.11-x86_64-1-slack14.2
+Dev/elfutils-0.163-compat32.fxz|s/kc11dr15orolcnq/elfutils-0.163-compat32.fxz|"Utilities to handle ELF object files and DWARF debugging information."|bzip2-compat32-1.0.6-x86_64-1compat32,curl-compat32-7.64.0-x86_64-2-slack14.2,gcc-g++-9.3.0-multilib,libarchive-compat32-3.2.1-x86_64-1,libelf,xz-compat32-5.2.2-x86_64-1,zlib-compat32-1.2.11-x86_64-1-slack14.2
 Dev/expat-2.2.2-1_DEV.fxz|s/h4hhf2dzid9zz8u/expat-2.2.2-1_DEV.fxz|""|expat-2.2.2-x86_64-1-slack14,expat-2.2.2-compat32-1-slack14
-Dev/flex-2.6.0-x86_64-1.fxz|s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz|"A tool for generating text-scanning programs."|glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1_slack14.2
+Dev/flex-2.6.0-x86_64-1.fxz|s/pvaxaf85fzpqz11/flex-2.6.0-x86_64-1.fxz|"A tool for generating text-scanning programs."|glibc-2.31-multilib m4-1.4.17-x86_64-1 bash-4.3.048-x86_64-1-slack14.2
 Dev/fltk_DEV-1.3.0-x86_64_s700.fxz|s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.fxz|"Graphical user interface toolkit for X"|
 Dev/fontconfig-2.13.1_DEV.fxz|s/n3razmqjx6dwjtc/fontconfig-2.13.1_DEV.fxz|""|fontconfig-2.13.1-x86_64,fontconfig-2.13.1-compat32,freetype-2.10.0_DEV,util-linux-2.27.1-1_DEV,expat-2.2.2-1_DEV.fxz
 Dev/freetype-2.10.0_DEV.fxz|s/30a7i14ki3zxy2r/freetype-2.10.0_DEV.fxz|""|freetype-2.10.0-x86_64,freetype-2.10.0-compat32,zlib-1.2.11_DEV,libpng-1.6.37_DEV,harfbuzz-2.5.0_DEV
 Dev/fribidi-1.0.5_DEV.fxz|s/qamq2nsi8meot8o/fribidi-1.0.5_DEV.fxz|""|fribidi-1.0.5-1-compat32,fribidi-1.0.5-x86_64-1
-Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1,pkg-config-0.29.2-x86_64,m4-1.4.17-x86_64-1,libtool-2.4.6-x86_64-5_slack14.2,
-Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1,autoconf-2.71,automake-1.16.3
+Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1,pkg-config-0.29.2-x86_64,m4-1.4.17-x86_64-1,libtool-2.4.6-x86_64-5-slack14.2,autoconf-2.71,automake-1.16.3
+Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1-slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
 Dev/gdk-pixbuf2-2.38.1-1_DEV.fxz|s/my9za6tlxarc651/gdk-pixbuf2-2.38.1-1_DEV.fxz|"Header files for the toolkit for image loading and pixel buffer manipulation. "|gdk-pixbuf2-2.38.1-x86_64-1,gdk-pixbuf2-2.38.1-compat32-1,shared-mime-info-1.2_DEV
 Dev/gettext-tools-0.19.8.1-x86_64-1.fxz|s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz|"Gettext tools"|
-Dev/git-2.14.5-x86_64-1_slack14.2.fxz|s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz|"the fast distributed version control system"|curl-7.64.1-x86_64-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1_slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
+Dev/git-2.14.5-x86_64-1-slack14.2.fxz|s/b75l6d1g20z3q96/git-2.14.5-x86_64-1-slack14.2.fxz|"the fast distributed version control system"|curl-7.64.1-x86_64-1-slack14.2,expat-2.2.2-x86_64-1-slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1-slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
 Dev/glib2-2.59.0_DEV.fxz|s/8srpajpxcivhy3e/pango-1.42.3_DEV.fxz|"Dev files for the low level core library for C"|glib2-2.59.0-compat32,glib2-2.59.0-x86_64,pcre-8.39_DEV,pcre2-10.30_DEV
 Dev/glibc-2.31_DEV.fxz|s/vqf3ih5uxnbf6aq/glibc-2.31_DEV.fxz|"Dev files for the GNU C library"|glibc-2.31-multilib
-Dev/gmp-6.1.1-compat32-1.fxz|s/7dzdd9q067nvwxb/gmp-6.1.1-compat32-1.fxz|"A free library for arbitrary precision arithmetic"|bash-4.3.048-x86_64-1_slack14.2
+Dev/gmp-6.1.1-compat32-1.fxz|s/7dzdd9q067nvwxb/gmp-6.1.1-compat32-1.fxz|"A free library for arbitrary precision arithmetic"|bash-4.3.048-x86_64-1-slack14.2
 Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|s/u978z57di912zmc/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|"Gnome icon theme header files."|
 Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz|s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz|"Gnome icon theme."|
 Dev/groff-1.22.3-x86_64-2.fxz|s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz|"GNU troff text-formatting system."|gcc-g++-9.3.0-multilib,perl-5.22.2-x86_64-1
 Dev/gtk+2-2.24.32_DEV.fxz|s/ngvkvnetm9epedt/gtk%2B2-2.24.32_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit (legacy)"|gtk+2-2.24.32-x86_64,gtk+2-2.24.32-compat32,pango-1.42.3_DEV
+Dev/gtk+-3.24.9_DEV|s/jlp4ifhvpsaxgfd/gtk%2B-3.24.9_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit 3"|gtk+-3.24.9-x86_64,gtk+-3.24.9-compat32
 Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.59.0-x86_64,glib2-2.59.0-compat32,glib2-2.59.0_DEV
 Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool to create man files"|texinfo-6.1-x86_64-1
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
-Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
+Dev/intltool-0.51.0-x86_64-3-slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3-slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
 Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|"The internationalization tool collection."|linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
 Dev/libffi-3.2.1-1_DEV.fxz|s/enygn57ymqf88st/libffi-3.2.1-1_DEV.fxz|"Header files for the Portable foreign function interface library"|libffi-3.2.1-x86_64-1,libffi-3.2.1-compat32-1
 Dev/libmpc-1.0.3-x86_64-1.fxz|s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-x86_64-1
 Dev/libmpc-1.0.3-compat32-1.fxz|s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-compat32-1
 Dev/libpng-1.6.37_DEV.fxz|s/6ggl19t5u7zsz32/libpng-1.6.37_DEV.fxz|""|libpng-1.6.37-x86_64-1-slack14.2,libpng-1.6.37-compat32-1-slack14.2,zlib-1.2.11_DEV
 Dev/libpthread-stubs-0.3-noarch-1.fxz|s/75q56d2oy0v2i3t/libpthread-stubs-0.3-noarch-1.fxz|"Weak aliases for pthread functions not provided in libc."|
-Dev/libtool-2.4.6-x86_64-5_slack14.2.fxz|s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5_slack14.2.fxz|"A generic library support script."|glibc-2.31-multilib,bash-4.3.048-x86_64-1_slack14.2,tar-1.29-x86_64-1
+Dev/libtool-2.4.6-x86_64-5-slack14.2.fxz|s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5-slack14.2.fxz|"A generic library support script."|glibc-2.31-multilib,bash-4.3.048-x86_64-1-slack14.2,tar-1.29-x86_64-1
 Dev/libxau-1.0.8_DEV.fxz|s/jvadxtm0yzluu45/libxau-1.0.8_DEV.fxz|"Header files for the X11 authorisation library."|libXau-1.0.8-x86_64-2,libXau-1.0.8-compat32-2
 Dev/libxcb-1.11.1_DEV.fxz|s/q5d763gzu1cw0jb/libxcb-1.11.1_DEV.fxz|"Header files for the X11 client-side library."|libxcb-1.11.1-86_64-1.fxz,libxcb-1.11.1-compat32-1,libxau-1.0.8_DEV,libXdmcp-1.1.2-2_DEV,libpthread-stubs-0.3-noarch-1
 Dev/libXdmcp-1.1.2-2_DEV.fxz|s/bsa7jwgc639az8v/libXdmcp-1.1.2-2_DEV.fxz|"Header files for the X11 Display Manager Control Protocol library"|libXdmcp-1.1.2-compat32-2,libXdmcp-1.1.2-x86_64-2
-Dev/m4-1.4.17-x86_64-1.fxz|s/9w4zoropktw040a/m4-1.4.17-x86_64-1.fxz|"The GNU macro processor."|glibc-2.31-multilib,bash-4.3.048-x86_64-1_slack14.2
+Dev/m4-1.4.17-x86_64-1.fxz|s/9w4zoropktw040a/m4-1.4.17-x86_64-1.fxz|"The GNU macro processor."|glibc-2.31-multilib,bash-4.3.048-x86_64-1-slack14.2
 Dev/make-4.1-x86_64-2.fxz|s/6kl0o38ucqg3107/make-4.1-x86_64-2.fxz|"GNU make utility to maintain groups of programs."|glibc-2.31-multilib,guile-2.0.11-x86_6
-Dev/man-1.6g-x86_64-3.fxz|s/7qna8nu6m7yzfru/man-1.6g-x86_64-3.fxz|"A utility for reading man pages."|bash-4.3.048-x86_64-1_slack14.2,gdbm-1.12-x86_64-1,groff-1.22.3-x86_64-2,zlib-1.2.11-x86_64-1_slack14.2
-Dev/nasm-2.13.01-x86_64-1_slack14.2.fxz|s/1nqqz743bmnyep5/nasm-2.13.01-x86_64-1_slack14.2.fxz|"80x86 assembler designed for portability and modularity."|glibc-2.31-multilib
-Dev/neon-0.30.1-x86_64-2.fxz|s/g5pazw6i14pehz3/neon-0.30.1-x86_64-2.fxz|"HTTP and WebDAV client library with a C interface."|ca-certificates-20190308-noarch-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,krb5,zlib-1.2.11-x86_64-1_slack14.2
+Dev/man-1.6g-x86_64-3.fxz|s/7qna8nu6m7yzfru/man-1.6g-x86_64-3.fxz|"A utility for reading man pages."|bash-4.3.048-x86_64-1-slack14.2,gdbm-1.12-x86_64-1,groff-1.22.3-x86_64-2,zlib-1.2.11-x86_64-1-slack14.2
+Dev/nasm-2.13.01-x86_64-1-slack14.2.fxz|s/1nqqz743bmnyep5/nasm-2.13.01-x86_64-1-slack14.2.fxz|"80x86 assembler designed for portability and modularity."|glibc-2.31-multilib
+Dev/neon-0.30.1-x86_64-2.fxz|s/g5pazw6i14pehz3/neon-0.30.1-x86_64-2.fxz|"HTTP and WebDAV client library with a C interface."|ca-certificates-20190308-noarch-1-slack14.2,expat-2.2.2-x86_64-1-slack14.2,krb5,zlib-1.2.11-x86_64-1-slack14.2
 Dev/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz|s/t0ttkce5jqzoyqw/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz|"Netscape Plugin API (NPAPI) header files."|
 Dev/pango-1.42.3_DEV.fxz|s/vkr34mun4xmawrb/pango-1.42.3_DEV.fxz|"Dev files for pango, a library for layout and rendering of text"|pango-1.42.3-compat32,pango-1.42.3-x86_64,glib2-2.59.0_DEV,fribidi-1.0.5_DEV
-Dev/patch-2.7.6-x86_64-1_slack14.2.fxz|s/381wm5i2hgotwpo/patch-2.7.6-x86_64-1_slack14.2.fxz|"A utility to apply patch files to original sources."|attr-2.4.47-x86_64-1,glibc-2.31-multilib
+Dev/patch-2.7.6-x86_64-1-slack14.2.fxz|s/381wm5i2hgotwpo/patch-2.7.6-x86_64-1-slack14.2.fxz|"A utility to apply patch files to original sources."|attr-2.4.47-x86_64-1,glibc-2.31-multilib
 Dev/pcre2-10.30_DEV.fxz|s/zuyyr7cj16kpf5m/pcre2-10.30_DEV.fxz|""|pcre2-10.30-x86_64,pcre2-10.30-compat32
 Dev/pcre-8.39_DEV.fxz|s/1f8d82s2o7xx0gw/pcre-8.39_DEV.fxz|""|pcre-8.39-x86_64,pcre-8.39-compat32
 Dev/pixman-0.34.0_DEV.fxz|s/xpqmsk994quae28/pixman-0.34.0_DEV.fxz|""|pixman-0.34.0-1-compat32,pixman-0.34.0-x86_64-1
@@ -67,13 +68,13 @@ Dev/sbc-1.4_DEV-x86_64.fxz|s/d6oe9lenrn0jyrf/sbc-1.4_DEV-x86_64.fxz|"Bluetooth S
 Dev/serf-1.3.8-x86_64-1.fxz|s/c0urp383kql9naa/serf-1.3.8-x86_64-1.fxz|"High-performance asynchronous HTTP client library."|apr-util-1.5.4-x86_64-2
 Dev/shared-mime-info-1.2_DEV.fxz|s/2tmt3a771s6xmxi/shared-mime-info-1.2_DEV.fxz|"Freedesktop.org Shared MIME Info system wide header file"|
 Dev/strace-4.11-x86_64-1.fxz|s/ldot19p4016hkpw/strace-4.11-x86_64-1.fxz|"A diagnostic, debugging and instructional userspace tracer."|perl-5.22.2-x86_64-1.txz
-Dev/subversion-1.9.7-x86_64-1_slack14.2.fxz|s/sry34h0bwz8c3dv/subversion-1.9.7-x86_64-1_slack14.2.fxz|"A Modern Concurrent Version Control System."|serf-1.3.8-x86_64-1
-Dev/tcl-8.6.5-x86_64-2.fxz|s/m8nj8y5hh2v5ih8/tcl-8.6.5-x86_64-2.fxz|"The tcl-8.6.5-x86_64-2 scripting language."|zlib-1.2.11-x86_64-1_slack14.2.txz
-Dev/texinfo-6.1-x86_64-1.fxz|s/tecd56wpx3jakrf/texinfo-6.1-x86_64-1.fxz|"GNU documentation system for on-line information and printed output."|gzip-1.8-x86_64-1,ncurses-5.9-x86_64-4,perl-5.22.2-x86_64-1.txz,bash-4.3.048-x86_64-1_slack14.2
+Dev/subversion-1.9.7-x86_64-1-slack14.2.fxz|s/sry34h0bwz8c3dv/subversion-1.9.7-x86_64-1-slack14.2.fxz|"A Modern Concurrent Version Control System."|serf-1.3.8-x86_64-1
+Dev/tcl-8.6.5-x86_64-2.fxz|s/m8nj8y5hh2v5ih8/tcl-8.6.5-x86_64-2.fxz|"The tcl-8.6.5-x86_64-2 scripting language."|zlib-1.2.11-x86_64-1-slack14.2.txz
+Dev/texinfo-6.1-x86_64-1.fxz|s/tecd56wpx3jakrf/texinfo-6.1-x86_64-1.fxz|"GNU documentation system for on-line information and printed output."|gzip-1.8-x86_64-1,ncurses-5.9-x86_64-4,perl-5.22.2-x86_64-1.txz,bash-4.3.048-x86_64-1-slack14.2
 Dev/tk-8.6.5-x86_64-2.fxz|s/ekzao6rpgic67je/tk-8.6.5-x86_64-2.fxz|"A windowing toolkit for use with tcl."|libXft-x86_64-2.3.3,tcl-8.6.5-x86_64-2
 Dev/util-linux-2.27.1-1_DEV.fxz|s/zc6gp02km8unuka/util-linux-2.27.1-1_DEV.fxz|""|util-linux-2.27.1-x86_64-1,util-linux-2.27.1-compat32-1
 Dev/xcb-proto-noarch-1.14-1.fxz|s/qey4rebvwytczko/xcb-proto-noarch-1.14-1.fxz|"XML-XCB protocol descriptions."|
 Dev/xorg-util-macros-noarch-1.19.2.fxz|s/esw07q9gph9ydra/xorg-util-macros-noarch-1.19.2.fxz|"X.Org Autotools macros."|
-Dev/xorg-proto-2020.1_DEV.fxz|s/4usmruvwpntzovx/xorg-proto-2020.1_DEV.fxz|"Combined X.Org X11 Protocol headers"|git-2.14.5-x86_64-1_slack14.2
+Dev/xorg-proto-2020.1_DEV.fxz|s/4usmruvwpntzovx/xorg-proto-2020.1_DEV.fxz|"Combined X.Org X11 Protocol headers"|git-2.14.5-x86_64-1-slack14.2
 Dev/xorg-libs_DEV-noarch-1.20.8.fxz|s/1ckkbe2gprfjjtf/xorg-libs_DEV-noarch-1.20.8.fxz|"Combined X.Org Library headers"|gdk-pixbuf2-2.38.1-1_DEV,xorg-proto-2020.1
 Dev/zlib-1.2.11_DEV.fxz|s/mjfy1sjmvzkcp3h/zlib-1.2.11_DEV.fxz|""|zlib-1.2.11-compat32-1-slack14.2,zlib-1.2.11-x86_64-1-slack14.2
