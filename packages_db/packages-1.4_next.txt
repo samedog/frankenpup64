@@ -53,6 +53,7 @@ Dev/libXdmcp-1.1.2-2_DEV.fxz|s/bsa7jwgc639az8v/libXdmcp-1.1.2-2_DEV.fxz|"Header 
 Dev/m4-1.4.17-x86_64-1.fxz|s/9w4zoropktw040a/m4-1.4.17-x86_64-1.fxz|"The GNU macro processor."|glibc-2.31-multilib,bash-4.3.048-x86_64-1-slack14.2
 Dev/make-4.1-x86_64-2.fxz|s/6kl0o38ucqg3107/make-4.1-x86_64-2.fxz|"GNU make utility to maintain groups of programs."|glibc-2.31-multilib,guile-2.0.11-x86_6
 Dev/man-1.6g-x86_64-3.fxz|s/7qna8nu6m7yzfru/man-1.6g-x86_64-3.fxz|"A utility for reading man pages."|bash-4.3.048-x86_64-1-slack14.2,gdbm-1.12-x86_64-1,groff-1.22.3-x86_64-2,zlib-1.2.11-x86_64-1-slack14.2
+Dev/mesa-20.2.0-devel_DEV.fxz|s/p1tza75n1yocupf/mesa-20.2.0-devel_DEV.fxz|"Headers files for the open-source implementation of the OpenGL specification"|mesa-20.2.0-devel-x86_64,mesa-20.2.0-devel-compat32
 Dev/nasm-2.13.01-x86_64-1-slack14.2.fxz|s/1nqqz743bmnyep5/nasm-2.13.01-x86_64-1-slack14.2.fxz|"80x86 assembler designed for portability and modularity."|glibc-2.31-multilib
 Dev/neon-0.30.1-x86_64-2.fxz|s/g5pazw6i14pehz3/neon-0.30.1-x86_64-2.fxz|"HTTP and WebDAV client library with a C interface."|ca-certificates-20190308-noarch-1-slack14.2,expat-2.2.2-x86_64-1-slack14.2,krb5,zlib-1.2.11-x86_64-1-slack14.2
 Dev/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz|s/t0ttkce5jqzoyqw/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz|"Netscape Plugin API (NPAPI) header files."|
