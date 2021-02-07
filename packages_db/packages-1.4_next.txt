@@ -34,7 +34,7 @@ Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|s/u978z57di912zmc/gnome-icon-th
 Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz|s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz|"Gnome icon theme."|
 Dev/groff-1.22.3-x86_64-2.fxz|s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz|"GNU troff text-formatting system."|gcc-g++-9.3.0-multilib,perl-5.22.2-x86_64-1
 Dev/gtk+2-2.24.32_DEV.fxz|s/ngvkvnetm9epedt/gtk%2B2-2.24.32_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit (legacy)"|gtk+2-2.24.32-x86_64,gtk+2-2.24.32-compat32,pango-1.42.3_DEV
-Dev/gtk+-3.24.9_DEV|s/jlp4ifhvpsaxgfd/gtk%2B-3.24.9_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit 3"|gtk+-3.24.9-x86_64,gtk+-3.24.9-compat32
+Dev/gtk+-3.24.9_DEV.fxz|s/jlp4ifhvpsaxgfd/gtk%2B-3.24.9_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit 3"|gtk+-3.24.9-x86_64,gtk+-3.24.9-compat32
 Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.59.0-x86_64,glib2-2.59.0-compat32,glib2-2.59.0_DEV
 Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool to create man files"|texinfo-6.1-x86_64-1
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
