@@ -40,7 +40,7 @@ Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool t
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
 Dev/intltool-0.51.0-x86_64-3-slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3-slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
 Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|"The internationalization tool collection."|linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
-Dev/libepoxy-1.5.3_DEV.fxz|s/0rrqb6xrrotjkkw/libepoxy-1.5.3_DEV.fxz||libepoxy-1.5.3-x86_64,libepoxy-1.5.3-compat32
+Dev/libepoxy-1.5.3_DEV.fxz|s/0rrqb6xrrotjkkw/libepoxy-1.5.3_DEV.fxz||libepoxy-1.5.3-x86_64,libepoxy-1.5.3-compat32,mesa-20.2.0-devel_DEV
 Dev/libffi-3.2.1-1_DEV.fxz|s/enygn57ymqf88st/libffi-3.2.1-1_DEV.fxz|"Header files for the Portable foreign function interface library"|libffi-3.2.1-x86_64-1,libffi-3.2.1-compat32-1
 Dev/libmpc-1.0.3-x86_64-1.fxz|s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-x86_64-1
 Dev/libmpc-1.0.3-compat32-1.fxz|s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-compat32-1
@@ -75,6 +75,7 @@ Dev/tcl-8.6.5-x86_64-2.fxz|s/m8nj8y5hh2v5ih8/tcl-8.6.5-x86_64-2.fxz|"The tcl-8.6
 Dev/texinfo-6.1-x86_64-1.fxz|s/tecd56wpx3jakrf/texinfo-6.1-x86_64-1.fxz|"GNU documentation system for on-line information and printed output."|gzip-1.8-x86_64-1,ncurses-5.9-x86_64-4,perl-5.22.2-x86_64-1.txz,bash-4.3.048-x86_64-1-slack14.2
 Dev/tk-8.6.5-x86_64-2.fxz|s/ekzao6rpgic67je/tk-8.6.5-x86_64-2.fxz|"A windowing toolkit for use with tcl."|libXft-x86_64-2.3.3,tcl-8.6.5-x86_64-2
 Dev/util-linux-2.27.1-1_DEV.fxz|s/zc6gp02km8unuka/util-linux-2.27.1-1_DEV.fxz|""|util-linux-2.27.1-x86_64-1,util-linux-2.27.1-compat32-1
+Dev/valgrind-3.15.0-x86_64.fxz|s/o2hov6i154ijxwf/valgrind-3.15.0-x86_64.fxz|"Tool to help find memory-management problems in programs"|
 Dev/xcb-proto-noarch-1.14-1.fxz|s/qey4rebvwytczko/xcb-proto-noarch-1.14-1.fxz|"XML-XCB protocol descriptions."|
 Dev/xorg-util-macros-noarch-1.19.2.fxz|s/esw07q9gph9ydra/xorg-util-macros-noarch-1.19.2.fxz|"X.Org Autotools macros."|
 Dev/xorg-proto-2020.1_DEV.fxz|s/4usmruvwpntzovx/xorg-proto-2020.1_DEV.fxz|"Combined X.Org X11 Protocol headers"|git-2.14.5-x86_64-1-slack14.2
