@@ -1,9 +1,10 @@
-}Dev/apr-1.5.2-x86_64-1.fxz|s/wfj7q6i9mn525fv/apr-1.5.2-x86_64-1.fxz|"The Apache Portable Runtime"|
+Dev/apr-1.5.2-x86_64-1.fxz|s/wfj7q6i9mn525fv/apr-1.5.2-x86_64-1.fxz|"The Apache Portable Runtime"|
 Dev/apr-util-1.5.4-x86_64-2.fxz|s/lr9swhszl6kcdds/apr-util-1.5.4-x86_64-2.fxz|"The Apache Portable Runtime utils"|openssl-1.0.2r-x86_64-1_slack14.2
 Dev/at-spi2-atk-DEV-2.32.0-noarch.fxz|s/9p6xp93jmndaqy6/at-spi2-atk-DEV-2.32.0-noarch.fxz|"Dev package for the GTK+ module that bridges ATK to D-Bus at-spi"|
 Dev/at-spi2-core-DEV-2.32.1-noarch.fxz|s/u1fn4xk9b5p4wav/at-spi2-core-DEV-2.32.1-noarch.fxz|"Dev packages for the atk-sp2-core, a protocol definitions and daemon for D-Bus at-spi"|at-spi2-core-2.32.1-x86_64
 Dev/atk-DEV-2.32.0-noarch.fxz|s/gddzntffjweae56/atk-DEV-2.32.0-noarch.fxz|"Dev files for the ATK accessibility interface."|atk-2.32.0-x86_64
-Dev/autoconf-2.69-noarch-1.fxz|s/snafzrhttoz57d9/autoconf-2.69-noarch-1.fxz|"A GNU tool for automatically configuring source code"|perl-5.22.2-x86_64-1.txz,m4-1.4.17-x86_64-1,diffutils-3.3-x86_64-1
+Dev/autoconf-2.71.fxz|s/ehb02e4hmpmgv77/autoconf-2.71.fxz|"A GNU tool for automatically configuring source code"|perl-5.22.2-x86_64-1,m4-1.4.17-x86_64-1,diffutils-3.3-x86_64-1,help2man-1.48.1
+Dev/automake-1.16.3.fxz|s/1k455qhy8c6xm0s/automake-1.16.3.fxz|"A GNU tool for automatically creating Makefiles"|help2man-1.48.1
 Dev/bin-11.1-x86_64-1.fxz|s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz|"Collection of miscellaneous command-line utilities."|
 Dev/binutils-2.26-x86_64-3.fxz|s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz|"A set of programs to assemble and manipulate binary and object files."|elfutils-0.163-x86_64-1.txz,glibc-2.31-multilib,zlib-1.2.11-x86_64-1_slack14.2,git-2.14.5-x86_64-1_slack14.2
 Dev/bison-3.0.4-x86_64-1.fxz|s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz|"The GNU general-purpose parser generator."|glibc-2.31-multilib m4-1.4.17-x86_64-1,bash-4.3.048-x86_64-1_slack14.2
@@ -21,8 +22,8 @@ Dev/fltk_DEV-1.3.0-x86_64_s700.fxz|s/of09fc4t2grxf3c/fltk_DEV-1.3.0-x86_64_s700.
 Dev/fontconfig-2.13.1_DEV.fxz|s/n3razmqjx6dwjtc/fontconfig-2.13.1_DEV.fxz|""|fontconfig-2.13.1-x86_64,fontconfig-2.13.1-compat32,freetype-2.10.0_DEV,util-linux-2.27.1-1_DEV,expat-2.2.2-1_DEV.fxz
 Dev/freetype-2.10.0_DEV.fxz|s/30a7i14ki3zxy2r/freetype-2.10.0_DEV.fxz|""|freetype-2.10.0-x86_64,freetype-2.10.0-compat32,zlib-1.2.11_DEV,libpng-1.6.37_DEV,harfbuzz-2.5.0_DEV
 Dev/fribidi-1.0.5_DEV.fxz|s/qamq2nsi8meot8o/fribidi-1.0.5_DEV.fxz|""|fribidi-1.0.5-1-compat32,fribidi-1.0.5-x86_64-1
-Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1,pkg-config-0.29.2-x86_64,m4-1.4.17-x86_64-1
-Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1
+Dev/gcc-g++-9.3.0-multilib.fxz|s/hmucv9za4bgdzke/gcc-g%2B%2B-9.3.0-multilib.fxz|"The GNU Compiler Collection - C and C++ frontends"|binutils-2.26-x86_64-3,glibc-2.31-multilib,libmpc-1.0.3-x86_64-1,at-spi2-atk-DEV-2.32.0-noarch,atk-DEV-2.32.0-noarch,cairo-DEV-1.16.0-noarch,at-spi2-core-DEV-2.32.1-noarch,xorg-libs_DEV-noarch-1.20.8,glibc-2.31_DEV,make-4.1-x86_64-2,kernel-headers-5.6.8-aufs-fsync-gccopt-ck1,pkg-config-0.29.2-x86_64,m4-1.4.17-x86_64-1,libtool-2.4.6-x86_64-5_slack14.2,
+Dev/gdb-9.1-x86_64.fxz|s/q4x4g9bxaaz02mq/gdb-9.1-x86_64.fxz|"The GNU Debugger"|expat-2.2.2-x86_64-1_slack14.2,mpfr-3.1.4-x86_64-1,ncurses-5.9-x86_64-4,xz-5.2.2-x86_64-1,autoconf-2.71,automake-1.16.3
 Dev/gdk-pixbuf2-2.38.1-1_DEV.fxz|s/my9za6tlxarc651/gdk-pixbuf2-2.38.1-1_DEV.fxz|"Header files for the toolkit for image loading and pixel buffer manipulation. "|gdk-pixbuf2-2.38.1-x86_64-1,gdk-pixbuf2-2.38.1-compat32-1,shared-mime-info-1.2_DEV
 Dev/gettext-tools-0.19.8.1-x86_64-1.fxz|s/31vlo72jqeoz564/gettext-tools-0.19.8.1-x86_64-1.fxz|"Gettext tools"|
 Dev/git-2.14.5-x86_64-1_slack14.2.fxz|s/b75l6d1g20z3q96/git-2.14.5-x86_64-1_slack14.2.fxz|"the fast distributed version control system"|curl-7.64.1-x86_64-1_slack14.2,expat-2.2.2-x86_64-1_slack14.2,grep-2.25-x86_64-1,openssl-1.0.2r-x86_64-1_slack14.2,pcre-8.39-x86_64-1,perl-5.22.2-x86_64-1.txz
@@ -31,12 +32,14 @@ Dev/glibc-2.31_DEV.fxz|s/vqf3ih5uxnbf6aq/glibc-2.31_DEV.fxz|"Dev files for the G
 Dev/gmp-6.1.1-compat32-1.fxz|s/7dzdd9q067nvwxb/gmp-6.1.1-compat32-1.fxz|"A free library for arbitrary precision arithmetic"|bash-4.3.048-x86_64-1_slack14.2
 Dev/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|s/u978z57di912zmc/gnome-icon-theme_DEV-2.25.92-x86_64_s700.fxz|"Gnome icon theme header files."|
 Dev/gnome-icon-theme-2.25.92-x86_64_s700.fxz|s/w3xi6rarv7dbtwi/gnome-icon-theme-2.25.92-x86_64_s700.fxz|"Gnome icon theme."|
-Dev/groff-1.22.3-x86_64-2.fxz|s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz|"GNU troff text-formatting system."|gcc-g++-9.3.0-multilib perl-5.22.2-x86_64-1.txz
+Dev/groff-1.22.3-x86_64-2.fxz|s/49co86yabfwtmga/groff-1.22.3-x86_64-2.fxz|"GNU troff text-formatting system."|gcc-g++-9.3.0-multilib,perl-5.22.2-x86_64-1
 Dev/gtk+2-2.24.32_DEV.fxz|s/ngvkvnetm9epedt/gtk%2B2-2.24.32_DEV.fxz|"Dev files for the GObject-based multi-platform GUI toolkit (legacy)"|gtk+2-2.24.32-x86_64,gtk+2-2.24.32-compat32,pango-1.42.3_DEV
-Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.59.0-x86_64,glib2-2.59.0-compat32,glib2-2.59.0_DEV.fxz
+Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.59.0-x86_64,glib2-2.59.0-compat32,glib2-2.59.0_DEV
+Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool to create man files"|texinfo-6.1-x86_64-1
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
-Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1.txz
+Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
 Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|"The internationalization tool collection."|linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
+Dev/libffi-3.2.1-1_DEV.fxz|s/enygn57ymqf88st/libffi-3.2.1-1_DEV.fxz|"Header files for the Portable foreign function interface library"|libffi-3.2.1-x86_64-1,libffi-3.2.1-compat32-1
 Dev/libmpc-1.0.3-x86_64-1.fxz|s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-x86_64-1
 Dev/libmpc-1.0.3-compat32-1.fxz|s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-compat32-1
 Dev/libpng-1.6.37_DEV.fxz|s/6ggl19t5u7zsz32/libpng-1.6.37_DEV.fxz|""|libpng-1.6.37-x86_64-1-slack14.2,libpng-1.6.37-compat32-1-slack14.2,zlib-1.2.11_DEV
