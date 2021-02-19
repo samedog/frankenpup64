@@ -47,7 +47,7 @@ Dev/libmpc-1.0.3-x86_64-1.fxz|s/88trzapny8nmxdu/libmpc-1.0.3-x86_64-1.fxz|"Libra
 Dev/libmpc-1.0.3-compat32-1.fxz|s/14rc3d0szhaaaxn/libmpc-1.0.3-compat32-1.fxz|"Library for the arithmetic of complex numbers with arbitrarily high precision."|mpfr-3.1.4-compat32-1
 Dev/libpng-1.6.37_DEV.fxz|s/6ggl19t5u7zsz32/libpng-1.6.37_DEV.fxz|""|libpng-1.6.37-x86_64-1-slack14.2,libpng-1.6.37-compat32-1-slack14.2,zlib-1.2.11_DEV
 Dev/libpthread-stubs-0.3-noarch-1.fxz|s/75q56d2oy0v2i3t/libpthread-stubs-0.3-noarch-1.fxz|"Weak aliases for pthread functions not provided in libc."|
-Dev/libtool-2.4.6-x86_64-5-slack14.2.fxz|s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5-slack14.2.fxz|"A generic library support script."|glibc-2.31-multilib,bash-4.3.048-x86_64-1-slack14.2,tar-1.29-x86_64-1
+Dev/libtool-2.4.6-x86_64-5_slack14.2.fxz|s/0q0zibwbddkb26d/libtool-2.4.6-x86_64-5_slack14.2.fxz|"A generic library support script."|glibc-2.31-multilib,bash-4.3.048-x86_64-1-slack14.2,tar-1.29-x86_64-1
 Dev/libxau-1.0.8_DEV.fxz|s/jvadxtm0yzluu45/libxau-1.0.8_DEV.fxz|"Header files for the X11 authorisation library."|libXau-1.0.8-x86_64-2,libXau-1.0.8-compat32-2
 Dev/libxcb-1.11.1_DEV.fxz|s/q5d763gzu1cw0jb/libxcb-1.11.1_DEV.fxz|"Header files for the X11 client-side library."|libxcb-1.11.1-86_64-1.fxz,libxcb-1.11.1-compat32-1,libxau-1.0.8_DEV,libXdmcp-1.1.2-2_DEV,libpthread-stubs-0.3-noarch-1
 Dev/libXdmcp-1.1.2-2_DEV.fxz|s/bsa7jwgc639az8v/libXdmcp-1.1.2-2_DEV.fxz|"Header files for the X11 Display Manager Control Protocol library"|libXdmcp-1.1.2-compat32-2,libXdmcp-1.1.2-x86_64-2
