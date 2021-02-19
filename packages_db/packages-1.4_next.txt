@@ -38,7 +38,7 @@ Dev/gtk+-3.24.9_DEV.fxz|s/jlp4ifhvpsaxgfd/gtk%2B-3.24.9_DEV.fxz|"Dev files for t
 Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.59.0-x86_64,glib2-2.59.0-compat32,glib2-2.59.0_DEV
 Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool to create man files"|texinfo-6.1-x86_64-1
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
-Dev/intltool-0.51.0-x86_64-3-slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3-slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
+Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
 Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|"The internationalization tool collection."|linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
 Dev/libdrm-2.4.100_DEV.fxz|s/4vjgecapa9f6pzi/libdrm-2.4.100_DEV.fxz|""|libdrm-2.4.100-x86_64,libdrm-2.4.100-compat32
 Dev/libepoxy-1.5.3_DEV.fxz|s/0rrqb6xrrotjkkw/libepoxy-1.5.3_DEV.fxz||libepoxy-1.5.3-x86_64,libepoxy-1.5.3-compat32,mesa-20.2.0-devel_DEV
