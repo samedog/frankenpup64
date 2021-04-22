@@ -16,24 +16,13 @@ fi
 BACKL_NAME=$(ls /sys/class/backlight/ | tr "\n" " ")
 arr_list=($BACKL_NAME)
 
-if [ ${#arr_list[@]} -gt 1 ];then
-	for ((i=0;i<${#arr_list[@]};i++))
-	do
-		if [[ ${arr_list[$i]} == *"intel"*  ]] || [[ ${arr_list[$i]} == *"nvidia"* ]];then
-			BACKL_NAME=${arr_list[$i]}
-		fi
-	done
-else
-	BACKL_NAME=${arr_list[0]}
-fi
 
+##simple percentage calcualtion for easy brightness handling
+function b_percentage(){
+	RET=$(expr $1 \* $2 / 100)
+}
 
-
-BACKL_DEVICE="/sys/class/backlight/$BACKL_NAME/brightness"
-MAX_B=$(cat /sys/class/backlight/$BACKL_NAME/max_brightness)
-SCREENS=$(xrandr | grep "$DISPLAY1 connected" | cut -d' ' -f1)
-
-
+##brightness/gamma switch function 
 function switch() {
 	DAY_L=$(head -1 /tmp/day.l)
 	for val in "$@"
@@ -57,11 +46,24 @@ function switch() {
 		done
 }
 
-function b_percentage(){
-	RET=$(expr $1 \* $2 / 100)
+## we call the switch function into the loop
+function call_switch(){
+		BACKL_DEVICE="/sys/class/backlight/$1/brightness"
+		MAX_B=$(cat /sys/class/backlight/$BACKL_NAME/max_brightness)
+		SCREENS=$(xrandr | grep "$DISPLAY1 connected" | cut -d' ' -f1)
+		switch "$SCREENS"
 }
 
 
-switch "$SCREENS"
-
-
+##we set ALL the found backlight controllers brightness,
+##this way we ensure even monitors attached on runtime will change too
+if [ ${#arr_list[@]} -gt 1 ];then
+	for ((i=0;i<${#arr_list[@]};i++))
+	do
+		BACKL_NAME=${arr_list[$i]}
+		call_switch $BACKL_NAME
+	done
+else
+	BACKL_NAME=${arr_list[0]}
+	call_switch $BACKL_NAME
+fi
