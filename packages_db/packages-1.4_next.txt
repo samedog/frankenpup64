@@ -39,8 +39,8 @@ Dev/harfbuzz-2.5.0_DEV.fxz|s/1rn01d3bib7opz8/harfbuzz-2.5.0_DEV.fxz|""|glib2-2.5
 Dev/help2man-1.48.1.fxz|s/v0wh3iihwa7nd9o/help2man-1.48.1.fxz|"Conversion tool to create man files"|texinfo-6.1-x86_64-1
 Dev/imake-1.0.7-x86_64-2.fxz|s/63q4ql7jgh8adow/imake-1.0.7-x86_64-2.fxz|"X.Org imake program and related utilities."|glibc-2.31-multilib
 Dev/intltool-0.51.0-x86_64-3_slack14.2.fxz|s/x1mayhsexhjh5la/intltool-0.51.0-x86_64-3_slack14.2.fxz|"The internationalization tool collection."|perl-5.22.2-x86_64-1
-Dev/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|s/wqzkj3p91wjn11f/kernel-headers-5.6.8-aufs-fsync-gccopt-ck1.fxz|"The internationalization tool collection."|linux-kernel-5.6.8-aufs-fsync-ggcopt-ck1
-Dev/kernel-sources-5.12.6.fxz|s/m9unorv5eimhpu2/kernel-sources-5.12.6.fxz|"Kernel sources for the linux kernel"|
+Dev/kernel-headers-5.12.6.fxz|s/v92xum2kifputeo/kernel-headers-5.12.6.fxz|"The internationalization tool collection."|linux-kernel-5.12.6
+Dev/kernel-sources-5.12.6.fxz|s/m9unorv5eimhpu2/kernel-sources-5.12.6.fxz|"Kernel sources for the linux kernel"|flex-2.6.0-x86_64-1,bison-3.0.4-x86_64-1,ncurses-6.2_multilib_DEV
 Dev/libdrm-2.4.100_DEV.fxz|s/4vjgecapa9f6pzi/libdrm-2.4.100_DEV.fxz|"Header files for the Direct Rendering Manager library"|libdrm-2.4.100-x86_64,libdrm-2.4.100-compat32
 Dev/libepoxy-1.5.3_DEV.fxz|s/0rrqb6xrrotjkkw/libepoxy-1.5.3_DEV.fxz|""|libepoxy-1.5.3-x86_64,libepoxy-1.5.3-compat32,mesa-20.2.0-devel_DEV
 Dev/libffi-3.2.1-1_DEV.fxz|s/enygn57ymqf88st/libffi-3.2.1-1_DEV.fxz|"Header files for the Portable foreign function interface library"|libffi-3.2.1-x86_64-1,libffi-3.2.1-compat32-1
