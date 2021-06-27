@@ -60,6 +60,7 @@ Dev/nasm-2.13.01-x86_64-1-slack14.2.fxz|s/1nqqz743bmnyep5/nasm-2.13.01-x86_64-1-
 Dev/ncurses-6.2_multilib_DEV.fxz|s/li0l1jrxohkltdw/ncurses-6.2_multilib_DEV.fxz|"Header files for ncurses"|ncurses-6.2_multilib
 Dev/neon-0.30.1-x86_64-2.fxz|s/g5pazw6i14pehz3/neon-0.30.1-x86_64-2.fxz|"HTTP and WebDAV client library with a C interface."|ca-certificates-20190308-noarch-1-slack14.2,expat-2.2.2-x86_64-1-slack14.2,krb5,zlib-1.2.11-x86_64-1-slack14.2
 Dev/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz|s/t0ttkce5jqzoyqw/npapi-sdk_DEV-0.27.2-x86_64_s700.fxz|"Netscape Plugin API (NPAPI) header files."|
+Dev/openssl-1.0.2r-x86_64-1_slack14.2_DEV.fxz|s/qnyq7jmwo7h2ruo/openssl-1.0.2r-x86_64-1_slack14.2_DEV.fxz|"Header files for the OpenSSL package"|/openssl-1.0.2r-x86_64-1_slack14.2
 Dev/pango-1.42.3_DEV.fxz|s/vkr34mun4xmawrb/pango-1.42.3_DEV.fxz|"Dev files for pango, a library for layout and rendering of text"|pango-1.42.3-compat32,pango-1.42.3-x86_64,glib2-2.59.0_DEV,fribidi-1.0.5_DEV
 Dev/patch-2.7.6-x86_64-1_slack14.2.fxz|s/381wm5i2hgotwpo/patch-2.7.6-x86_64-1_slack14.2.fxz|"A utility to apply patch files to original sources."|attr-2.4.47-x86_64-1,glibc-2.31-multilib
 Dev/pcre2-10.30_DEV.fxz|s/zuyyr7cj16kpf5m/pcre2-10.30_DEV.fxz|"Header files for pcre2"|pcre2-10.30-x86_64,pcre2-10.30-compat32
