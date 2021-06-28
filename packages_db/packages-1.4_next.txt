@@ -9,6 +9,7 @@ Dev/bin-11.1-x86_64-1.fxz|s/jl2i9u69kywz40x/bin-11.1-x86_64-1.fxz|"Collection of
 Dev/binutils-2.26-x86_64-3.fxz|s/qsvddnfs0n8k2rn/binutils-2.26-x86_64-3.fxz|"A set of programs to assemble and manipulate binary and object files."|elfutils-0.163-x86_64-1.txz,glibc-2.31-multilib,zlib-1.2.11-x86_64-1-slack14.2,git-2.14.5-x86_64-1-slack14.2
 Dev/bison-3.0.4-x86_64-1.fxz|s/7xlkevu9puvoxc6/bison-3.0.4-x86_64-1.fxz|"The GNU general-purpose parser generator."|glibc-2.31-multilib m4-1.4.17-x86_64-1,bash-4.3.048-x86_64-1-slack14.2
 Dev/boost-1.59.0-x86_64-1.fxz|s/cmb6tx8o2lx70tw/boost-1.59.0-x86_64-1.fxz|"Free peer-reviewed portable C++ source libraries and development headers."|
+Dev/bzip2-1.0.6_DEV.fxz|s/t1q5p95a3rctn0b/bzip2-1.0.6_DEV.fxz|"Bzip2 header files"|
 Dev/cairo-DEV-1.16.0-noarch.fxz|s/or1kak5bpay63gb/cairo-DEV-1.16.0-noarch.fxz|"Dev files for carito, a 2D graphics library with support for multiple output devices"|cairo-1.16.0-x86_64,cairo-1.16.0-compat32,pixman-0.34.0_DEV,fontconfig-2.13.1_DEV,libxcb-1.11.1_DEV
 Dev/cmake-3.16.2-x86_64.fxz|s/x2ok2t5bvxb59eu/cmake-3.16.2-x86_64.fxz|"A cross-platform open-source make system."|libarchive-3.2.1-x86_64-1
 Dev/cvs-1.11.23-x86_64-2.fxz|s/3r76yfi6ca4ozol/cvs-1.11.23-x86_64-2.fxz|"Concurrent Versions System - a source control system."|zlib-1.2.11-x86_64-1-slack14.2,openssh-7.4p1-x86_64-2-slack14.2
