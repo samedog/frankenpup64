@@ -75,6 +75,7 @@ Dev/sbc-1.4_DEV-x86_64.fxz|s/d6oe9lenrn0jyrf/sbc-1.4_DEV-x86_64.fxz|"Bluetooth S
 Dev/serf-1.3.8-x86_64-1.fxz|s/c0urp383kql9naa/serf-1.3.8-x86_64-1.fxz|"High-performance asynchronous HTTP client library."|apr-util-1.5.4-x86_64-2
 Dev/shared-mime-info-1.2_DEV.fxz|s/2tmt3a771s6xmxi/shared-mime-info-1.2_DEV.fxz|"Freedesktop.org Shared MIME Info system wide header file"|
 Dev/strace-4.11-x86_64-1.fxz|s/ldot19p4016hkpw/strace-4.11-x86_64-1.fxz|"A diagnostic, debugging and instructional userspace tracer."|perl-5.22.2-x86_64-1.txz
+Fun/Steam-client.fxz|s/egazbc9wlmsb67w/Steam-client.fxz|"Steam client tailored to frankenpup"|
 Dev/subversion-1.9.7-x86_64-1-slack14.2.fxz|s/sry34h0bwz8c3dv/subversion-1.9.7-x86_64-1-slack14.2.fxz|"A Modern Concurrent Version Control System."|serf-1.3.8-x86_64-1
 Dev/tcl-8.6.5-x86_64-2.fxz|s/m8nj8y5hh2v5ih8/tcl-8.6.5-x86_64-2.fxz|"The tcl-8.6.5-x86_64-2 scripting language."|zlib-1.2.11-x86_64-1-slack14.2.txz
 Dev/texinfo-6.1-x86_64-1.fxz|s/tecd56wpx3jakrf/texinfo-6.1-x86_64-1.fxz|"GNU documentation system for on-line information and printed output."|gzip-1.8-x86_64-1,/ncurses-6.2_multilib,perl-5.22.2-x86_64-1.txz,bash-4.3.048-x86_64-1-slack14.2
